@@ -3,7 +3,7 @@ import withAuth from './withAuth';
 
 const Home = props => (
 	<div>
-		<h1>Successful login</h1>
+		<h1>Welcome, {props.currentUser.firstname}</h1>
 		<button onClick={() => props.logOut(props.history)}>Log Out</button>
 	</div>
 );

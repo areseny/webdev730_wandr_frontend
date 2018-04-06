@@ -3,7 +3,14 @@ import { signUp } from '../actions/userActions';
 import { connect } from 'react-redux';
 
 class Signup extends React.Component {
-	state = { username: '', password: '', confirmation: '' };
+	state = {
+		firstname: '',
+		lastname: '',
+		hometown: '',
+		username: '',
+		password: '',
+		confirmation: ''
+	};
 
 	handleChange = e => {
 		this.setState({
@@ -14,11 +21,7 @@ class Signup extends React.Component {
 	handleSubmit = e => {
 		e.preventDefault();
 		if (this.state.password === this.state.confirmation) {
-			this.props.signUp(
-				this.state.username,
-				this.state.password,
-				this.props.history
-			);
+			this.props.signUp(this.state, this.props.history);
 		} else {
 			alert('Passwords do not match!');
 		}
@@ -29,6 +32,20 @@ class Signup extends React.Component {
 			<div>
 				<h1>Sign Up</h1>
 				<form onSubmit={this.handleSubmit}>
+					<input
+						type="text"
+						name="firstname"
+						placeholder="First Name"
+						value={this.state.firstname}
+						onChange={this.handleChange}
+					/>
+					<input
+						type="text"
+						name="lastname"
+						placeholder="Last Name"
+						value={this.state.lastname}
+						onChange={this.handleChange}
+					/>
 					<input
 						type="text"
 						name="username"

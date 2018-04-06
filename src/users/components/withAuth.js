@@ -35,7 +35,8 @@ const withAuth = Component => {
 	}
 
 	const mapStateToProps = state => ({
-		loggedIn: state.auth.loggedIn
+		loggedIn: state.auth.loggedIn,
+		currentUser: state.auth.currentUser
 	});
 
 	return connect(mapStateToProps, { fetchUser, logOut })(ComponentWithAuth);

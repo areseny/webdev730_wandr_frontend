@@ -1,11 +1,14 @@
-export const signUp = (username, password, history) => dispatch => {
+export const signUp = (
+	{ firstname, lastname, hometown, username, password },
+	history
+) => dispatch => {
 	fetch('http://localhost:3000/signup', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 			Accept: 'application/json'
 		},
-		body: JSON.stringify({ user: { username, password } })
+		body: JSON.stringify({ user: { firstname, lastname, username, password } })
 	})
 		.then(res => res.json())
 		.then(json => {
