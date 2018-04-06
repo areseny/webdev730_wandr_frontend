@@ -1,15 +1,44 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { fetchUser, logOut } from '../../actions/userActions';
 
-function withAuth(Component) {
-	return class extends React.Component {
-		render() {
-			return this.props.loggedIn ? (
-				<Component {...this.props} />
-			) : (
-				<h1>why is this always showing up</h1>
-			);
+const withAuth = Component => {
+	class ComponentWithAuth extends React.Component {
+		state = { authCompleted: this.props.loggedIn };
+
+		componentDidMount() {
+			if (localStorage.getItem('jwt')) {
+				this.props.fetchUser(localStorage.getItem('jwt'), this.props.history);
+			} else {
+				this.setState({ authCompleted: true });
+			}
 		}
-	};
-}
+
+		componentWillReceiveProps(nextProps) {
+			if (nextProps.loggedIn) {
+				this.setState({ authCompleted: true });
+			}
+		}
+
+		render() {
+			if (this.state.authCompleted) {
+				return this.props.loggedIn ? (
+					<Component {...this.props} />
+				) : (
+					<Redirect to="/login" />
+				);
+			} else {
+				return null;
+			}
+		}
+	}
+
+	const mapStateToProps = state => ({
+		loggedIn: state.auth.loggedIn
+	});
+
+	return connect(mapStateToProps, { fetchUser, logOut })(ComponentWithAuth);
+};
 
 export default withAuth;

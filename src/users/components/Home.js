@@ -1,24 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import withAuth from './withAuth';
 
-class Home extends React.Component {
-	componentDidMount() {
-		if (!this.props.currentUser) {
-			this.props.history.push('/login');
-		}
-	}
+const Home = props => (
+	<div>
+		<h1>Successful login</h1>
+		<button onClick={() => props.logOut(props.history)}>Log Out</button>
+	</div>
+);
 
-	render() {
-		return <h1>Home!</h1>;
-	}
-}
-
-function mapStateToProps(state) {
-	return {
-		currentUser: state.currentUser,
-		loggedIn: state.loggedIn
-	};
-}
-
-export default connect(mapStateToProps)(withAuth(Home));
+export default withAuth(Home);
