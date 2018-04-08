@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Landing from './app/Landing';
 import Login from './app/Login';
 import Signup from './app/Signup';
-import Home from './users/Home';
+import Home from './app/Home';
+import TripsContainer from './trips/TripsContainer';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchUser } from './actions/authActions';
@@ -13,7 +14,6 @@ class App extends Component {
 		if (jwt && !this.props.currentUser) {
 			this.props.fetchUser(jwt, this.props.history);
 		}
-		// this.props.fetchTrips()
 	}
 
 	render() {
@@ -32,6 +32,12 @@ class App extends Component {
 					<Route
 						path="/home"
 						render={renderProps => <Home history={renderProps.history} />}
+					/>
+					<Route
+						path="/trips"
+						render={renderProps => (
+							<TripsContainer history={renderProps.history} />
+						)}
 					/>
 				</Switch>
 			</div>

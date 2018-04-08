@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { logIn } from '../actions/authActions';
 import { connect } from 'react-redux';
 
-class Login extends React.Component {
+class Login extends Component {
 	state = { username: '', password: '' };
 
 	handleChange = e => {

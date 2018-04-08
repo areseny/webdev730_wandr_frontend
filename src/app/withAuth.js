@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { fetchUser, logOut } from './actions/authActions';
+import { fetchUser, logOut } from '../actions/authActions';
 
 const withAuth = Component => {
 	class ComponentWithAuth extends React.Component {
