@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Landing from './app/Landing';
-import Home from './users/components/Home';
 import Login from './app/Login';
 import Signup from './app/Signup';
-import { Route, withRouter } from 'react-router-dom';
+import Home from './users/Home';
+import { Route, withRouter, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchUser } from './actions/userActions';
+import { fetchUser } from './actions/authActions';
 
 class App extends Component {
 	componentDidMount() {
@@ -13,15 +13,27 @@ class App extends Component {
 		if (jwt && !this.props.currentUser) {
 			this.props.fetchUser(jwt, this.props.history);
 		}
+		// this.props.fetchTrips()
 	}
 
 	render() {
 		return (
 			<div className="App">
-				<Route exact path="/" component={Landing} />
-				<Route path="/home" component={Home} />
-				<Route path="/login" component={Login} />
-				<Route path="/signup" component={Signup} />
+				<Switch>
+					<Route exact path="/" component={Landing} />
+					<Route
+						path="/login"
+						render={renderProps => <Login history={renderProps.history} />}
+					/>
+					<Route
+						path="/signup"
+						render={renderProps => <Signup history={renderProps.history} />}
+					/>
+					<Route
+						path="/home"
+						render={renderProps => <Home history={renderProps.history} />}
+					/>
+				</Switch>
 			</div>
 		);
 	}
