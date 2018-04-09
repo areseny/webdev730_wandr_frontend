@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { fetchUserTrip } from '../actions/tripActions';
+import { withRouter, Link } from 'react-router-dom';
+import { fetchTrip, deleteTrip } from '../actions/tripActions';
 import withAuth from '../app/withAuth';
 import TripContent from './TripContent';
 import EditTripForm from './EditTripForm';
@@ -10,7 +10,7 @@ class TripPage extends Component {
 	state = { editing: false };
 
 	componentDidMount() {
-		this.props.fetchUserTrip(this.props.match.params.id);
+		this.props.fetchTrip(this.props.match.params.id);
 	}
 
 	toggleEdit = () => {
@@ -26,6 +26,10 @@ class TripPage extends Component {
 			<button onClick={this.toggleEdit}>Edit Trip</button>
 		);
 
+	handleDelete = () => {
+		this.props.deleteTrip(this.props.trip.id, this.props.history);
+	};
+
 	render() {
 		return (
 			<div>
@@ -33,16 +37,19 @@ class TripPage extends Component {
 				<TripContent trip={this.props.trip} />
 				<br />
 				{this.displayEditSection()}
-				<button>Delete Trip</button>
+				<button onClick={this.handleDelete}>Delete Trip</button>
+				<br />
+				<br />
+				<Link to="/trips">Back</Link>
 			</div>
 		);
 	}
 }
 
 const mapStateToProps = state => ({
-	trip: state.trip.userTrip
+	trip: state.trip.trip
 });
 
 export default withRouter(
-	connect(mapStateToProps, { fetchUserTrip })(withAuth(TripPage))
+	connect(mapStateToProps, { fetchTrip, deleteTrip })(withAuth(TripPage))
 );

@@ -64,11 +64,11 @@ const parseData = json => {
 	};
 };
 
-export const fetchUserTrip = id => dispatch => {
+export const fetchTrip = id => dispatch => {
 	fetch(`http://localhost:3000/user_trips/${id}`)
 		.then(res => res.json())
 		.then(json => {
-			dispatch({ type: 'FETCH_USER_TRIP', userTrip: parseData(json) });
+			dispatch({ type: 'FETCH_TRIP', trip: parseData(json) });
 		});
 };
 
@@ -103,4 +103,18 @@ export const editTrip = ({
 				editedTrip: parseData(json)
 			});
 		});
+};
+
+export const deleteTrip = id => dispatch => {
+	const options = {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
+			Authorization: localStorage.getItem('jwt')
+		}
+	};
+	fetch(`http://localhost:3000/user_trips/${id}`, options)
+		.then(res => res.json())
+		.then(console.log);
 };
