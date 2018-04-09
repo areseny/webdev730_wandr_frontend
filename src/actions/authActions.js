@@ -2,14 +2,15 @@ export const signUp = (
 	{ firstname, lastname, hometown, username, password },
 	history
 ) => dispatch => {
-	fetch('http://localhost:3000/signup', {
+	const options = {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 			Accept: 'application/json'
 		},
 		body: JSON.stringify({ user: { firstname, lastname, username, password } })
-	})
+	};
+	fetch('http://localhost:3000/signup', options)
 		.then(res => res.json())
 		.then(json => {
 			localStorage.setItem('jwt', json.jwt);
@@ -21,14 +22,15 @@ export const signUp = (
 };
 
 export const logIn = (username, password, history) => dispatch => {
-	fetch('http://localhost:3000/login', {
+	const options = {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 			Accept: 'application/json'
 		},
 		body: JSON.stringify({ user: { username, password } })
-	})
+	};
+	fetch('http://localhost:3000/login', options)
 		.then(res => res.json())
 		.then(json => {
 			if (json.error) {
@@ -44,9 +46,8 @@ export const logIn = (username, password, history) => dispatch => {
 };
 
 export const fetchUser = (jwt, history) => dispatch => {
-	fetch('http://localhost:3000/current_user', {
-		headers: { Authorization: jwt }
-	})
+	const options = { headers: { Authorization: jwt } };
+	fetch('http://localhost:3000/current_user', options)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({ type: 'FETCH_USER', payload: json });

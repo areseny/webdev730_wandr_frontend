@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import TripsList from './TripsList';
-import { fetchTrips } from '../actions/tripActions';
+import { fetchUserTrips } from '../actions/tripActions';
 import { connect } from 'react-redux';
 import AddTripForm from './AddTripForm';
 
 class TripsContainer extends Component {
 	componentDidMount() {
-		this.props.fetchTrips(this.props.currentUser.id);
+		this.props.fetchUserTrips(this.props.currentUser.id);
 	}
 
 	displayTrips = () =>
@@ -31,4 +31,4 @@ const mapStateToProps = state => ({
 	trips: state.trip.userTrips
 });
 
-export default connect(mapStateToProps, { fetchTrips })(TripsContainer);
+export default connect(mapStateToProps, { fetchUserTrips })(TripsContainer);
