@@ -11,6 +11,8 @@ export default class TripsList extends Component {
 				{this.props.trip.description}
 				<br />
 				{this.props.trip.duration} Days
+				<br />
+				From {this.props.trip.startDate} to {this.props.trip.endDate}
 			</div>
 		);
 	}

@@ -4,7 +4,15 @@ export const fetchUserTrips = () => dispatch => {
 	})
 		.then(res => res.json())
 		.then(json => {
-			dispatch({ type: 'FETCH_USER_TRIPS', payload: json });
+			const userTrips = json.map(ut => ({
+				name: ut.trip.name,
+				description: ut.trip.description,
+				duration: ut.trip.duration,
+				startDate: ut.start_date,
+				endDate: ut.end_date,
+				ratings: ut.ratings
+			}));
+			dispatch({ type: 'FETCH_USER_TRIPS', userTrips });
 		});
 };
 
@@ -17,6 +25,7 @@ export const addTrip = ({
 }) => dispatch => {
 	const start_date = startDate;
 	const end_date = endDate;
+
 	const options = {
 		method: 'POST',
 		headers: {
@@ -31,7 +40,17 @@ export const addTrip = ({
 	};
 	fetch('http://localhost:3000/user_trips', options)
 		.then(res => res.json())
-		.then(trip => {
-			dispatch({ type: 'ADD_TRIP', payload: trip });
+		.then(json => {
+			dispatch({
+				type: 'ADD_TRIP',
+				newTrip: {
+					id: json.user_trip.id,
+					name: json.trip.name,
+					description: json.trip.description,
+					duration: json.trip.duration,
+					startDate: json.user_trip.start_date,
+					endDate: json.user_trip.end_date
+				}
+			});
 		});
 };
