@@ -1,34 +1,29 @@
 import React, { Component } from 'react';
-import TripsList from './TripsList';
-import { fetchUserTrips } from '../actions/tripActions';
 import { connect } from 'react-redux';
-import AddTripForm from './AddTripForm';
+import { withRouter } from 'react-router-dom';
+import { fetchUserTrips } from '../actions/tripActions';
+import withAuth from '../app/withAuth';
+import TripsList from './TripsList';
 
 class TripsContainer extends Component {
 	componentDidMount() {
-		this.props.fetchUserTrips(this.props.currentUser.id);
+		this.props.fetchUserTrips(this.props.history);
 	}
-
-	displayTrips = () =>
-		this.props.trips.map((t, i) => (
-			<li key={i}>
-				<TripsList trip={t} />
-			</li>
-		));
 
 	render() {
 		return (
 			<div>
-				<ul>{this.displayTrips()}</ul>
-				<AddTripForm />
+				<h1>My Trips</h1>
+				<TripsList trips={this.props.trips} />
 			</div>
 		);
 	}
 }
 
 const mapStateToProps = state => ({
-	currentUser: state.auth.currentUser,
 	trips: state.trip.userTrips
 });
 
-export default connect(mapStateToProps, { fetchUserTrips })(TripsContainer);
+export default withRouter(
+	connect(mapStateToProps, { fetchUserTrips })(withAuth(TripsContainer))
+);

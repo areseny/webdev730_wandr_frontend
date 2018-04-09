@@ -1,4 +1,4 @@
-export const fetchUserTrips = () => dispatch => {
+export const fetchUserTrips = history => dispatch => {
 	fetch(`http://localhost:3000/user_trips`, {
 		headers: { Authorization: localStorage.getItem('jwt') }
 	})
@@ -10,9 +10,13 @@ export const fetchUserTrips = () => dispatch => {
 				duration: ut.trip.duration,
 				startDate: ut.start_date,
 				endDate: ut.end_date,
-				ratings: ut.ratings
+				ratings: ut.ratings,
+				tripId: ut.trip_id
 			}));
 			dispatch({ type: 'FETCH_USER_TRIPS', userTrips });
+		})
+		.then(() => {
+			history.push('/trips');
 		});
 };
 
@@ -21,11 +25,11 @@ export const addTrip = ({
 	description,
 	duration,
 	startDate,
-	endDate
+	endDate,
+	ratings
 }) => dispatch => {
 	const start_date = startDate;
 	const end_date = endDate;
-
 	const options = {
 		method: 'POST',
 		headers: {
@@ -35,7 +39,7 @@ export const addTrip = ({
 		},
 		body: JSON.stringify({
 			trip: { name, description, duration },
-			user_trip: { start_date, end_date }
+			user_trip: { start_date, end_date, ratings }
 		})
 	};
 	fetch('http://localhost:3000/user_trips', options)
@@ -43,14 +47,60 @@ export const addTrip = ({
 		.then(json => {
 			dispatch({
 				type: 'ADD_TRIP',
-				newTrip: {
-					id: json.user_trip.id,
-					name: json.trip.name,
-					description: json.trip.description,
-					duration: json.trip.duration,
-					startDate: json.user_trip.start_date,
-					endDate: json.user_trip.end_date
-				}
+				newTrip: parseData(json)
+			});
+		});
+};
+
+const parseData = json => {
+	return {
+		id: json.user_trip.id,
+		name: json.trip.name,
+		description: json.trip.description,
+		duration: json.trip.duration,
+		startDate: json.user_trip.start_date,
+		endDate: json.user_trip.end_date,
+		ratings: json.user_trip.ratings
+	};
+};
+
+export const fetchUserTrip = id => dispatch => {
+	fetch(`http://localhost:3000/user_trips/${id}`)
+		.then(res => res.json())
+		.then(json => {
+			dispatch({ type: 'FETCH_USER_TRIP', userTrip: parseData(json) });
+		});
+};
+
+export const editTrip = ({
+	id,
+	name,
+	description,
+	duration,
+	startDate,
+	endDate,
+	ratings
+}) => dispatch => {
+	const start_date = startDate;
+	const end_date = endDate;
+	const options = {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
+			Authorization: localStorage.getItem('jwt')
+		},
+		body: JSON.stringify({
+			trip: { name, description, duration },
+			user_trip: { start_date, end_date, ratings }
+		})
+	};
+	fetch(`http://localhost:3000/user_trips/${id}`, options)
+		.then(res => res.json())
+		.then(json => {
+			dispatch({
+				type: 'EDIT_TRIP',
+				editedTrip: parseData(json)
 			});
 		});
 };

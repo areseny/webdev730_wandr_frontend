@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
+import AddTripForm from './AddTripForm';
+import TripCard from './TripCard';
 
 export default class TripsList extends Component {
+	displayTripCards = () =>
+		this.props.trips.map((t, i) => (
+			<li key={i}>
+				<TripCard trip={t} />
+			</li>
+		));
+
 	render() {
 		return (
 			<div>
-				{this.props.trip.name}
-				<button>Edit Trip</button>
-				<button>Delete Trip</button>
-				<br />
-				{this.props.trip.description}
-				<br />
-				{this.props.trip.duration} Days
-				<br />
-				From {this.props.trip.startDate} to {this.props.trip.endDate}
+				<ul>{this.displayTripCards()}</ul>
+				<AddTripForm />
 			</div>
 		);
 	}

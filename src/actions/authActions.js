@@ -51,9 +51,6 @@ export const fetchUser = (jwt, history) => dispatch => {
 		.then(res => res.json())
 		.then(json => {
 			dispatch({ type: 'FETCH_USER', payload: json });
-		})
-		.then(() => {
-			history.push('/home');
 		});
 };
 
