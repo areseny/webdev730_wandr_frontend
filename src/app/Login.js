@@ -44,4 +44,8 @@ class Login extends Component {
 	}
 }
 
-export default connect(null, { logIn })(Login);
+const mapStateToProps = state => ({
+	loggedIn: state.auth.loggedIn
+});
+
+export default connect(mapStateToProps, { logIn })(Login);

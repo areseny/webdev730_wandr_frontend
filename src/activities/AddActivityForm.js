@@ -1,42 +1,64 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+// import { GM_GEO_KEY } from '../config.js';
 // import { addActivity } from '../actions/tripActions';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import 'react-day-picker/lib/style.css';
 import moment from 'moment';
-import TimePicker from 'rc-time-picker';
-import 'rc-time-picker/assets/index.css';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import '../stylesheets/addActivityForm.css';
 
 class AddActivityForm extends Component {
 	state = {
 		name: '',
 		description: '',
 		cost: '',
-		date: '',
 		startTime: '',
 		endTime: '',
-		lat: '',
-		lng: ''
+		startTimeMoment: null,
+		endTimeMoment: null,
+		address: '',
+		// lat: '',
+		// lng: '',
+		tripId: this.props.tripId
 	};
+
+	// setLatLng = address => {
+	// 	fetch(
+	// 		`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GM_GEO_KEY}`
+	// 	)
+	// 		.then(res => res.json())
+	// 		.then(json => {
+	// 			if (json.status !== 'ZERO_RESULTS')
+	// 				this.setState({
+	// 					lat: json.results[0].geometry.location.lat,
+	// 					lng: json.results[0].geometry.location.lng
+	// 				});
+	// 		});
+	// };
+	//
+	// handleAddressInput = e => {
+	// 	this.setState({ address: e.target.value });
+	// };
 
 	handleChange = e => {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 
-	handleDateInput = day => {
-		this.setState({ startDate: day });
+	handleDateChange = e => {
+		this.setState({ date: e });
 	};
 
-	handleStartTimeInput = e => {
-		this.setState({ startTime: e._d });
+	handleStartTimeChange = e => {
+		this.setState({ startTime: e._d.toISOString(), startTimeMoment: e });
 	};
 
-	handleEndTimeInput = e => {
-		this.setState({ endTime: e._d });
+	handleEndTimeChange = e => {
+		this.setState({ endTime: e._d.toISOString(), endTimeMoment: e });
 	};
 
 	handleSubmit = e => {
 		e.preventDefault();
+		console.log(this.state);
 		// this.props.addActivity(this.state);
 	};
 
@@ -66,28 +88,26 @@ class AddActivityForm extends Component {
 						value={this.state.cost}
 						onChange={this.handleChange}
 					/>
-					<DayPickerInput
-						name="date"
-						placeholder="Date"
-						value={this.state.date}
-						onDayChange={this.handleDateInput}
-						dayPickerProps={{ todayButton: 'Today' }}
+
+					<DatePicker
+						placeholderText="Start Time"
+						selected={this.state.startTimeMoment}
+						onChange={this.handleStartTimeChange}
+						showTimeSelect
+						timeFormat="HH:mm"
+						timeIntervals={15}
+						dateFormat="LLL"
+						timeCaption="time"
 					/>
-					<TimePicker
-						placeholder="StartTime"
-						showSecond={false}
-						format="h:mm a"
-						onChange={this.handleStartTimeInput}
-						use12Hours
-						inputReadOnly
-					/>
-					<TimePicker
-						placeholder="EndTime"
-						showSecond={false}
-						format="h:mm a"
-						onChange={this.handleEndTimeInput}
-						use12Hours
-						inputReadOnly
+					<DatePicker
+						placeholderText="End Time"
+						selected={this.state.endTimeMoment}
+						onChange={this.handleEndTimeChange}
+						showTimeSelect
+						timeFormat="HH:mm"
+						timeIntervals={15}
+						dateFormat="LLL"
+						timeCaption="time"
 					/>
 					<input
 						type="text"
@@ -102,5 +122,10 @@ class AddActivityForm extends Component {
 		);
 	}
 }
+const mapStateToProps = state => ({
+	tripId: state.trip.trip.id,
+	startDate: state.trip.trip.startDate,
+	endDate: state.trip.trip.endDate
+});
 
-export default connect(null)(AddActivityForm);
+export default connect(mapStateToProps)(AddActivityForm);

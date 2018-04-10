@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { editTrip } from '../actions/tripActions';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import 'react-day-picker/lib/style.css';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 class EditTripForm extends Component {
 	state = {
@@ -52,17 +53,16 @@ class EditTripForm extends Component {
 						value={this.state.description}
 						onChange={this.handleChange}
 					/>
-					<DayPickerInput
-						name="startDate"
-						value={this.state.startDate}
-						onDayChange={this.handleStartDateChange}
-						dayPickerProps={{ todayButton: 'Today' }}
+					<DatePicker
+						placeholderText="Depart"
+						selected={moment(this.state.startDate)}
+						onChange={this.handleStartDateInput}
 					/>
-					<DayPickerInput
-						name="endDate"
-						value={this.state.endDate}
-						onDayChange={this.handleEndDateChange}
-						dayPickerProps={{ todayButton: 'Today' }}
+					<DatePicker
+						placeholderText="Return"
+						selected={moment(this.state.endDate)}
+						onChange={this.handleEndDateInput}
+						minDate={moment(this.state.startDate)}
 					/>
 					<select
 						value={this.state.ratings}

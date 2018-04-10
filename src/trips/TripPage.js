@@ -41,7 +41,7 @@ class TripPage extends Component {
 				<button onClick={this.handleDelete}>Delete Trip</button>
 				<br />
 				<br />
-				<ActivitiesContainer activities={this.props.trip.activities} />
+				<ActivitiesContainer />
 				<br />
 				<br />
 				<Link to="/trips">Back</Link>

@@ -55,7 +55,7 @@ export const addTrip = ({
 			user_trip: { start_date, end_date, ratings }
 		})
 	};
-	fetch('http://localhost:3000/user_trips', options)
+	fetch('http://localhost:3000/trips', options)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({

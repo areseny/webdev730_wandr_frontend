@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addTrip } from '../actions/tripActions';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import 'react-day-picker/lib/style.css';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 class AddTripForm extends Component {
 	state = {
@@ -11,7 +12,9 @@ class AddTripForm extends Component {
 		startDate: '',
 		endDate: '',
 		duration: '',
-		ratings: ''
+		ratings: '',
+		startDateMoment: null,
+		endDateMoment: null
 	};
 
 	handleChange = e => {
@@ -19,18 +22,19 @@ class AddTripForm extends Component {
 	};
 
 	handleStartDateInput = day => {
-		this.setState({ startDate: day });
+		this.setState({ startDate: day._d, startDateMoment: day });
 	};
 
 	handleEndDateInput = day => {
 		// convert duration from seconds to days
-		const duration = (day - this.state.startDate) / 86400000 + 1;
-		this.setState({ endDate: day, duration: duration });
+		const duration = (day._d - this.state.startDate) / 86400000 + 1;
+		this.setState({ endDate: day._d, endDateMoment: day, duration: duration });
 	};
 
 	handleSubmit = e => {
 		e.preventDefault();
-		this.props.addTrip(this.state);
+		console.log(this.state);
+		// this.props.addTrip(this.state);
 	};
 
 	render() {
@@ -52,19 +56,16 @@ class AddTripForm extends Component {
 						value={this.state.description}
 						onChange={this.handleChange}
 					/>
-					<DayPickerInput
-						placeholder="Start Date"
-						name="startDate"
-						value={this.state.startDate}
-						onDayChange={this.handleStartDateInput}
-						dayPickerProps={{ todayButton: 'Today' }}
+					<DatePicker
+						placeholderText="Depart"
+						selected={this.state.startDateMoment}
+						onChange={this.handleStartDateInput}
 					/>
-					<DayPickerInput
-						placeholder="End Date"
-						name="endDate"
-						value={this.state.endDate}
-						onDayChange={this.handleEndDateInput}
-						dayPickerProps={{ todayButton: 'Today' }}
+					<DatePicker
+						placeholderText="Return"
+						selected={this.state.endDateMoment}
+						onChange={this.handleEndDateInput}
+						minDate={moment(new Date(this.state.startDate))}
 					/>
 					<select
 						value={this.state.ratings}

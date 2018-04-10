@@ -1,25 +1,13 @@
-// export const fetchActivities = (tripId, history) => dispatch => {
-// 	fetch(`http://localhost:3000/trips/tripId`, {
-// 		headers: { Authorization: localStorage.getItem('jwt') }
-// 	})
-// 		.then(res => res.json())
-// 		.then(json => {
-// 			console.log;
-// 		});
-// };
-
 export const addActivity = ({
 	name,
 	description,
 	cost,
 	startTime,
 	endTime,
+	address,
 	lat,
 	lng,
-	img,
-	trip_id,
-	destination_id,
-	ratings
+	trip_id
 }) => dispatch => {
 	const start_date = startDate;
 	const end_date = endDate;

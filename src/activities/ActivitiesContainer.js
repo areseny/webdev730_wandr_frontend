@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ActivityCard from './ActivityCard';
 import AddActivityForm from './AddActivityForm';
 
-export default class DestinationsContainer extends Component {
+class ActivitiesContainer extends Component {
 	displayActivities = () =>
 		this.props.activities
 			? this.props.activities.map((a, i) => (
@@ -22,3 +23,9 @@ export default class DestinationsContainer extends Component {
 		);
 	}
 }
+
+const mapStateToProps = state => ({
+	activities: state.trip.trip.activities
+});
+
+export default connect(mapStateToProps)(ActivitiesContainer);
