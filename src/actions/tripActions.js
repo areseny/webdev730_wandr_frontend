@@ -106,16 +106,20 @@ export const editTrip = ({
 		});
 };
 
-export const deleteTrip = id => dispatch => {
+export const deleteTrip = (id, history) => dispatch => {
 	const options = {
 		method: 'DELETE',
 		headers: {
 			'Content-Type': 'application/json',
-			Accept: 'application/json',
-			Authorization: localStorage.getItem('jwt')
+			Accept: 'application/json'
 		}
 	};
 	fetch(`http://localhost:3000/user_trips/${id}`, options)
 		.then(res => res.json())
-		.then(console.log);
+		.then(msg => {
+			dispatch({ type: 'DELETE_TRIP', userTripId: id });
+		})
+		.then(() => {
+			history.push('/trips');
+		});
 };
