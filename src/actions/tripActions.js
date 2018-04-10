@@ -5,6 +5,7 @@ export const fetchUserTrips = history => dispatch => {
 		.then(res => res.json())
 		.then(json => {
 			const userTrips = json.map(ut => ({
+				id: ut.id,
 				name: ut.trip.name,
 				description: ut.trip.description,
 				duration: ut.trip.duration,
@@ -18,6 +19,18 @@ export const fetchUserTrips = history => dispatch => {
 		.then(() => {
 			history.push('/trips');
 		});
+};
+
+const parseData = json => {
+	return {
+		id: json.user_trip.id,
+		name: json.trip.name,
+		description: json.trip.description,
+		duration: json.trip.duration,
+		startDate: json.user_trip.start_date,
+		endDate: json.user_trip.end_date,
+		ratings: json.user_trip.ratings
+	};
 };
 
 export const addTrip = ({
@@ -50,18 +63,6 @@ export const addTrip = ({
 				newTrip: parseData(json)
 			});
 		});
-};
-
-const parseData = json => {
-	return {
-		id: json.user_trip.id,
-		name: json.trip.name,
-		description: json.trip.description,
-		duration: json.trip.duration,
-		startDate: json.user_trip.start_date,
-		endDate: json.user_trip.end_date,
-		ratings: json.user_trip.ratings
-	};
 };
 
 export const fetchTrip = id => dispatch => {

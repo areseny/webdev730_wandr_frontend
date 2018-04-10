@@ -14,7 +14,7 @@ class AddTripForm extends Component {
 		ratings: ''
 	};
 
-	handleInputChange = e => {
+	handleChange = e => {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 
@@ -43,14 +43,14 @@ class AddTripForm extends Component {
 						name="name"
 						placeholder="Name"
 						value={this.state.name}
-						onChange={this.handleInputChange}
+						onChange={this.handleChange}
 					/>
 					<input
 						type="text"
 						name="description"
 						placeholder="Description"
 						value={this.state.description}
-						onChange={this.handleInputChange}
+						onChange={this.handleChange}
 					/>
 					<DayPickerInput
 						placeholder="Start Date"

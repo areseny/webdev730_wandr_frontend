@@ -27,7 +27,7 @@ class TripPage extends Component {
 		);
 
 	handleDelete = () => {
-		this.props.deleteTrip(this.props.trip.id, this.props.history);
+		this.props.deleteTrip(this.props.match.params.id, this.props.history);
 	};
 
 	render() {
