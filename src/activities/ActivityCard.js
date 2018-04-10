@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { GM_GEO_KEY } from '../config.js';
+import * as moment from 'moment';
 
 export default class ActivityCard extends Component {
 	state = { address: '' };
@@ -14,24 +15,17 @@ export default class ActivityCard extends Component {
 			.then(
 				json =>
 					json.results[0] && json.results[0].formatted_address
-						? `Address: ${json.results[0].formatted_address}`
-						: null
+						? json.results[0].formatted_address
+						: 'Not Available'
 			);
 	};
 
-	parseTime = () => {
-		console.log(this.props.activity);
-		const st = new Date(this.props.activity.start_time);
-		const et = new Date(this.props.activity.end_time);
-		const date = st.toDateString();
-		const startTime = st
-			.toTimeString()
-			.split(' ')[0]
-			.slice(0, -3);
-		const endTime = et
-			.toTimeString()
-			.split(' ')[0]
-			.slice(0, -3);
+	parseDateTime = () => {
+		const st = moment(new Date(this.props.activity.start_time));
+		const et = moment(new Date(this.props.activity.end_time));
+		const date = st.format('LL');
+		const startTime = st.format('LT');
+		const endTime = et.format('LT');
 		return { date, startTime, endTime };
 	};
 
@@ -42,11 +36,13 @@ export default class ActivityCard extends Component {
 				<br />
 				{this.props.activity.description}
 				<br />
-				Date: {this.parseTime().date}
+				Date: {this.parseDateTime().date}
 				<br />
-				From {this.parseTime().startTime} to {this.parseTime().endTime}
+				From {this.parseDateTime().startTime} to {this.parseDateTime().endTime}
 				<br />
-				{this.getAddress()}
+				Address: {this.getAddress()}
+				<br />
+				Cost: ${this.props.activity.cost}
 				<br />
 				<button>Edit Activity</button>
 				<button>Delete Activity</button>

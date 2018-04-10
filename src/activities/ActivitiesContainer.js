@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ActivityCard from './ActivityCard';
+import AddActivityForm from './AddActivityForm';
 
 export default class DestinationsContainer extends Component {
 	displayActivities = () =>
@@ -16,6 +17,7 @@ export default class DestinationsContainer extends Component {
 			<div>
 				<h3>Activities</h3>
 				<ol>{this.displayActivities()}</ol>
+				<AddActivityForm />
 			</div>
 		);
 	}

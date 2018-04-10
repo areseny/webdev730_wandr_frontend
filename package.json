@@ -1,21 +1,23 @@
 {
-  "name": "wandr-frontend",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "react": "^16.3.1",
-    "react-day-picker": "^7.1.4",
-    "react-dom": "^16.3.1",
-    "react-redux": "^5.0.7",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.4",
-    "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  }
+	"name": "wandr-frontend",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"moment": "^2.22.0",
+		"rc-time-picker": "^3.3.1",
+		"react": "^16.3.1",
+		"react-day-picker": "^7.1.4",
+		"react-dom": "^16.3.1",
+		"react-redux": "^5.0.7",
+		"react-router-dom": "^4.2.2",
+		"react-scripts": "1.1.4",
+		"redux": "^3.7.2",
+		"redux-thunk": "^2.2.0"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test --env=jsdom",
+		"eject": "react-scripts eject"
+	}
 }
