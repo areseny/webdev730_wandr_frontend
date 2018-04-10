@@ -5,12 +5,13 @@ import { fetchTrip, deleteTrip } from '../actions/tripActions';
 import withAuth from '../app/withAuth';
 import TripContent from './TripContent';
 import EditTripForm from './EditTripForm';
+import ActivitiesContainer from '../activities/ActivitiesContainer';
 
 class TripPage extends Component {
-	state = { editing: false };
+	state = { tripId: this.props.match.params.id, editing: false };
 
 	componentDidMount() {
-		this.props.fetchTrip(this.props.match.params.id);
+		this.props.fetchTrip(this.state.tripId);
 	}
 
 	toggleEdit = () => {
@@ -27,7 +28,7 @@ class TripPage extends Component {
 		);
 
 	handleDelete = () => {
-		this.props.deleteTrip(this.props.match.params.id, this.props.history);
+		this.props.deleteTrip(this.state.tripId, this.props.history);
 	};
 
 	render() {
@@ -38,6 +39,9 @@ class TripPage extends Component {
 				<br />
 				{this.displayEditSection()}
 				<button onClick={this.handleDelete}>Delete Trip</button>
+				<br />
+				<br />
+				<ActivitiesContainer activities={this.props.trip.activities} />
 				<br />
 				<br />
 				<Link to="/trips">Back</Link>

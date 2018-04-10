@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const TripCard = props => {
-	console.log(props.trip.id);
+	// console.log(props.trip.id);
 	return (
 		<div>
 			<strong>{props.trip.name}</strong>

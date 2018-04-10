@@ -69,7 +69,10 @@ export const fetchTrip = id => dispatch => {
 	fetch(`http://localhost:3000/user_trips/${id}`)
 		.then(res => res.json())
 		.then(json => {
-			dispatch({ type: 'FETCH_TRIP', trip: parseData(json) });
+			dispatch({
+				type: 'FETCH_TRIP',
+				trip: { ...parseData(json), activities: json.trip.activities }
+			});
 		});
 };
 
