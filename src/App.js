@@ -4,7 +4,7 @@ import Login from './app/Login';
 import Signup from './app/Signup';
 import Home from './app/Home';
 import TripsContainer from './trips/TripsContainer';
-import TripPage from './trips/TripPage';
+import TripContainer from './trips/TripContainer';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchUser } from './actions/authActions';
@@ -37,7 +37,7 @@ class App extends Component {
 					<Route
 						exact
 						path="/trips/:id"
-						render={renderProps => <TripPage {...renderProps} />}
+						render={renderProps => <TripContainer {...renderProps} />}
 					/>
 					<Route
 						path="/trips"

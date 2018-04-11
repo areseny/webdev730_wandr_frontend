@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 const TripCard = props => {
-	// console.log(props.trip.id);
-
 	const startDate = () => moment(props.trip.startDate).format('LL');
 	const endDate = () => moment(props.trip.endDate).format('LL');
 

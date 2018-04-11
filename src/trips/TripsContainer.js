@@ -14,6 +14,7 @@ class TripsContainer extends Component {
 		return (
 			<div>
 				<h1>My Trips</h1>
+
 				<TripsList trips={this.props.trips} />
 			</div>
 		);

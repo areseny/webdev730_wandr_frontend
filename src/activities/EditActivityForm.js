@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import '../stylesheets/addActivityForm.css';
+import '../stylesheets/activityForms.css';
 import { GM_GEO_KEY } from '../config.js';
 
 let debounceFetch;

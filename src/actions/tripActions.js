@@ -29,8 +29,22 @@ const parseData = json => ({
 	duration: json.trip.duration,
 	startDate: json.user_trip.start_date,
 	endDate: json.user_trip.end_date,
-	ratings: json.user_trip.ratings
+	ratings: json.user_trip.ratings,
+	activities: json.trip.activities
 });
+
+export const fetchTrip = id => dispatch => {
+	fetch(`http://localhost:3000/trips/${id}`, {
+		headers: { Authorization: localStorage.getItem('jwt') }
+	})
+		.then(res => res.json())
+		.then(json => {
+			dispatch({
+				type: 'FETCH_TRIP',
+				trip: parseData(json)
+			});
+		});
+};
 
 export const addTrip = ({
 	name,
@@ -60,19 +74,6 @@ export const addTrip = ({
 			dispatch({
 				type: 'ADD_TRIP',
 				newTrip: parseData(json)
-			});
-		});
-};
-
-export const fetchTrip = id => dispatch => {
-	fetch(`http://localhost:3000/trips/${id}`, {
-		headers: { Authorization: localStorage.getItem('jwt') }
-	})
-		.then(res => res.json())
-		.then(json => {
-			dispatch({
-				type: 'FETCH_TRIP',
-				trip: parseData(json)
 			});
 		});
 };
