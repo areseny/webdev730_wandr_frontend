@@ -15,6 +15,7 @@ export default class ActivityCard extends Component {
 				<EditActivityForm
 					activity={this.props.activity}
 					toggleEdit={this.toggleEdit}
+					tripId={this.props.tripId}
 				/>
 			</div>
 		) : (

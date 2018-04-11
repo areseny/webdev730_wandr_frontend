@@ -9,13 +9,13 @@ export default function(state = defaultState, action) {
 				...state,
 				activities: [...state.activities, action.newActivity]
 			};
-		// case 'EDIT_ACTIVITY':
-		// let i = state.userTrips.findIndex(t => t.id === action.editedTripId);
-		// let postEditAct = state.userTrips
-		//   .slice(0, i)
-		//   .concat(action.editedTrip)
-		//   .concat(state.userTrips.slice(i));
-		// return { ...state, userTrips: postEditAct, trip: action.editedTrip };
+		case 'EDIT_ACTIVITY':
+			let i = state.userTrips.findIndex(t => t.id === action.editedTripId);
+			let postEditAct = state.userTrips
+				.slice(0, i)
+				.concat(action.editedTrip)
+				.concat(state.userTrips.slice(i));
+			return { ...state, userTrips: postEditAct, trip: action.editedTrip };
 		// case 'DELETE_ACTIVITY':
 		// 	let j = state.userTrips.findIndex(t => t.id === action.userTripId);
 		// 	let postDeleteAct = state.userTrips

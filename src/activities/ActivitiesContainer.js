@@ -15,7 +15,7 @@ class ActivitiesContainer extends Component {
 		this.props.activities
 			? this.props.activities.map((a, i) => (
 					<li key={i}>
-						<ActivityCard activity={a} />
+						<ActivityCard activity={a} tripId={this.state.tripId} />
 					</li>
 			  ))
 			: null;

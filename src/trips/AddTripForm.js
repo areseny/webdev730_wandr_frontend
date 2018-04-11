@@ -69,6 +69,7 @@ class AddTripForm extends Component {
 						placeholderText="Depart"
 						selected={this.state.startDateMoment}
 						onChange={this.handleStartDateInput}
+						minDate={moment(new Date())}
 					/>
 					<DatePicker
 						placeholderText="Return"

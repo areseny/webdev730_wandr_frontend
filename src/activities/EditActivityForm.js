@@ -4,6 +4,8 @@ import { editActivity } from '../actions/actActions';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import '../stylesheets/addActivityForm.css';
+// import { GM_GEO_KEY } from '../config.js';
 
 class EditTripForm extends Component {
 	state = {
@@ -24,10 +26,6 @@ class EditTripForm extends Component {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 
-	handleDateChange = e => {
-		this.setState({ date: e });
-	};
-
 	handleStartTimeChange = e => {
 		this.setState({ startTime: e._d.toISOString(), startTimeMoment: e });
 	};
@@ -38,7 +36,7 @@ class EditTripForm extends Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		this.props.editActivity(this.state);
+		this.props.editActivity({ ...this.state, tripId: this.props.tripId });
 		this.props.toggleEdit();
 	};
 

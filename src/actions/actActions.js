@@ -51,7 +51,7 @@ export const addActivity = ({
 				lat,
 				lng
 			},
-			trip: { id },
+			user_trip: { id },
 			destination: { lat, lng }
 		})
 	};
@@ -65,40 +65,47 @@ export const addActivity = ({
 		});
 };
 
-// need to change
 export const editActivity = ({
 	id,
 	name,
 	description,
-	duration,
-	startDate,
-	endDate,
-	ratings
+	startTime,
+	endTime,
+	cost,
+	lat,
+	lng,
+	address,
+	tripId
 }) => dispatch => {
-	const start_date = startDate;
-	const end_date = endDate;
+	const start_time = startTime;
+	const end_time = endTime;
 	const options = {
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json',
-			Accept: 'application/json',
-			Authorization: localStorage.getItem('jwt')
+			Accept: 'application/json'
 		},
 		body: JSON.stringify({
-			trip: { name, description, duration },
-			user_trip: { start_date, end_date, ratings }
+			activity: {
+				id,
+				name,
+				description,
+				start_time,
+				end_time,
+				cost,
+				lat,
+				lng,
+				address
+			}
 		})
 	};
-	fetch(`http://localhost:3000/user_trips/${id}`, options)
+	fetch(`http://localhost:3000/trips/${tripId}/activities/${id}`, options)
 		.then(res => res.json())
 		.then(json => {
-			dispatch({
-				type: 'EDIT_TRIP',
-				editedTrip: parseData(json)
-			});
+			console.log;
 		});
 };
-//
+
 // export const deleteTrip = (id, history) => dispatch => {
 // 	const options = {
 // 		method: 'DELETE',

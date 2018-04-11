@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import { GM_GEO_KEY } from '../config.js';
 import { addActivity } from '../actions/actActions';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../stylesheets/addActivityForm.css';
+// import { GM_GEO_KEY } from '../config.js';
 
 class AddActivityForm extends Component {
 	state = {
@@ -18,8 +18,7 @@ class AddActivityForm extends Component {
 		endTimeMoment: null,
 		address: '',
 		lat: 0,
-		lng: 0,
-		tripId: this.props.tripId
+		lng: 0
 	};
 
 	// setLatLng = address => {
@@ -42,10 +41,6 @@ class AddActivityForm extends Component {
 
 	handleChange = e => {
 		this.setState({ [e.target.name]: e.target.value });
-	};
-
-	handleDateChange = e => {
-		this.setState({ date: e });
 	};
 
 	handleStartTimeChange = e => {
