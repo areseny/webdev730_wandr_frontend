@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 const TripContent = props => (
 	<div>
@@ -6,7 +7,8 @@ const TripContent = props => (
 		<br />
 		Duration: {props.trip.duration} days
 		<br />
-		Timeline: from {props.trip.startDate} to {props.trip.endDate}
+		Timeline: from {moment(props.trip.startDate).format('LL')} to{' '}
+		{moment(props.trip.endDate).format('LL')}
 		<br />
 		Ratings: {props.trip.ratings}
 	</div>

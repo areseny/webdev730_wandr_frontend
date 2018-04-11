@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import * as moment from 'moment';
+import moment from 'moment';
 
 const TripCard = props => {
 	// console.log(props.trip.id);
 
-	const startDate = () => moment(new Date(props.trip.startDate)).format('LL');
-	const endDate = () => moment(new Date(props.trip.endDate)).format('LL');
+	const startDate = () => moment(props.trip.startDate).format('LL');
+	const endDate = () => moment(props.trip.endDate).format('LL');
 
 	return (
 		<div>

@@ -1,7 +1,26 @@
 import React, { Component } from 'react';
-import * as moment from 'moment';
+import moment from 'moment';
+import EditActivityForm from './EditActivityForm';
 
 export default class ActivityCard extends Component {
+	state = { editing: false };
+
+	toggleEdit = () => {
+		this.setState({ editing: !this.state.editing });
+	};
+
+	displayEditSection = () =>
+		this.state.editing ? (
+			<div>
+				<EditActivityForm
+					activity={this.props.activity}
+					toggleEdit={this.toggleEdit}
+				/>
+			</div>
+		) : (
+			<button onClick={this.toggleEdit}>Edit Activity</button>
+		);
+
 	parseDateTime = () => {
 		const st = moment(new Date(this.props.activity.start_time));
 		const et = moment(new Date(this.props.activity.end_time));
@@ -26,7 +45,7 @@ export default class ActivityCard extends Component {
 				<br />
 				Cost: ${this.props.activity.cost}
 				<br />
-				<button>Edit Activity</button>
+				{this.displayEditSection()}
 				<button>Delete Activity</button>
 			</div>
 		);

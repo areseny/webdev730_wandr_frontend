@@ -33,8 +33,17 @@ class AddTripForm extends Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		console.log(this.state);
-		// this.props.addTrip(this.state);
+		this.props.addTrip(this.state);
+		this.setState({
+			name: '',
+			description: '',
+			startDate: '',
+			endDate: '',
+			duration: '',
+			ratings: '',
+			startDateMoment: null,
+			endDateMoment: null
+		});
 	};
 
 	render() {

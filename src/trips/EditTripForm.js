@@ -54,12 +54,10 @@ class EditTripForm extends Component {
 						onChange={this.handleChange}
 					/>
 					<DatePicker
-						placeholderText="Depart"
 						selected={moment(this.state.startDate)}
 						onChange={this.handleStartDateInput}
 					/>
 					<DatePicker
-						placeholderText="Return"
 						selected={moment(this.state.endDate)}
 						onChange={this.handleEndDateInput}
 						minDate={moment(this.state.startDate)}

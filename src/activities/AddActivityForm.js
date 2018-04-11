@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { GM_GEO_KEY } from '../config.js';
-// import { addActivity } from '../actions/tripActions';
+import { addActivity } from '../actions/actActions';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -17,8 +17,8 @@ class AddActivityForm extends Component {
 		startTimeMoment: null,
 		endTimeMoment: null,
 		address: '',
-		// lat: '',
-		// lng: '',
+		lat: 0,
+		lng: 0,
 		tripId: this.props.tripId
 	};
 
@@ -58,14 +58,26 @@ class AddActivityForm extends Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		console.log(this.state);
-		// this.props.addActivity(this.state);
+		this.props.addActivity({ ...this.state, tripId: this.props.tripId });
+		this.setState({
+			name: '',
+			description: '',
+			cost: '',
+			startTime: '',
+			endTime: '',
+			startTimeMoment: null,
+			endTimeMoment: null,
+			address: '',
+			lat: 0,
+			lng: 0,
+			tripId: this.props.tripId
+		});
 	};
 
 	render() {
 		return (
 			<div>
-				<h3>Add Activity</h3>
+				<h5>Add Activity</h5>
 				<form onSubmit={this.handleSubmit}>
 					<input
 						type="text"
@@ -82,13 +94,19 @@ class AddActivityForm extends Component {
 						onChange={this.handleChange}
 					/>
 					<input
+						type="text"
+						name="address"
+						placeholder="Address"
+						value={this.state.address}
+						onChange={this.handleChange}
+					/>
+					<input
 						type="number"
 						name="cost"
 						placeholder="Cost"
 						value={this.state.cost}
 						onChange={this.handleChange}
 					/>
-
 					<DatePicker
 						placeholderText="Start Time"
 						selected={this.state.startTimeMoment}
@@ -98,6 +116,8 @@ class AddActivityForm extends Component {
 						timeIntervals={15}
 						dateFormat="LLL"
 						timeCaption="time"
+						minDate={moment(this.props.startDate)}
+						maxDate={moment(this.props.endDate)}
 					/>
 					<DatePicker
 						placeholderText="End Time"
@@ -108,14 +128,10 @@ class AddActivityForm extends Component {
 						timeIntervals={15}
 						dateFormat="LLL"
 						timeCaption="time"
+						minDate={this.state.startTimeMoment}
+						maxDate={moment(this.props.endDate)}
 					/>
-					<input
-						type="text"
-						name="address"
-						placeholder="Address"
-						value={this.state.address}
-						onChange={this.handleChange}
-					/>
+
 					<input type="submit" value="Add Activity" />
 				</form>
 			</div>
@@ -123,9 +139,8 @@ class AddActivityForm extends Component {
 	}
 }
 const mapStateToProps = state => ({
-	tripId: state.trip.trip.id,
 	startDate: state.trip.trip.startDate,
 	endDate: state.trip.trip.endDate
 });
 
-export default connect(mapStateToProps)(AddActivityForm);
+export default connect(mapStateToProps, { addActivity })(AddActivityForm);

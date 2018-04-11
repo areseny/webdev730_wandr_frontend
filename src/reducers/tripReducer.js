@@ -9,13 +9,18 @@ export default function(state = defaultState, action) {
 		case 'ADD_TRIP':
 			return { ...state, userTrips: [...state.userTrips, action.newTrip] };
 		case 'EDIT_TRIP':
-			return { ...state, trip: action.editedTrip };
+			let i = state.userTrips.findIndex(t => t.id === action.editedTripId);
+			let postEditUt = state.userTrips
+				.slice(0, i)
+				.concat(action.editedTrip)
+				.concat(state.userTrips.slice(i));
+			return { ...state, userTrips: postEditUt, trip: action.editedTrip };
 		case 'DELETE_TRIP':
-			const index = state.userTrips.findIndex(t => t.id === action.userTripId);
-			const newUserTrips = state.userTrips
-				.slice(0, index)
-				.concat(state.userTrips.slice(index));
-			return { ...state, userTrips: newUserTrips, trip: {} };
+			let j = state.userTrips.findIndex(t => t.id === action.userTripId);
+			let postDeleteUt = state.userTrips
+				.slice(0, j)
+				.concat(state.userTrips.slice(j));
+			return { ...state, userTrips: postDeleteUt, trip: {} };
 		default:
 			return state;
 	}

@@ -21,17 +21,15 @@ export const fetchUserTrips = history => dispatch => {
 		});
 };
 
-const parseData = json => {
-	return {
-		id: json.user_trip.id,
-		name: json.trip.name,
-		description: json.trip.description,
-		duration: json.trip.duration,
-		startDate: json.user_trip.start_date,
-		endDate: json.user_trip.end_date,
-		ratings: json.user_trip.ratings
-	};
-};
+const parseData = json => ({
+	id: json.user_trip.id,
+	name: json.trip.name,
+	description: json.trip.description,
+	duration: json.trip.duration,
+	startDate: json.user_trip.start_date,
+	endDate: json.user_trip.end_date,
+	ratings: json.user_trip.ratings
+});
 
 export const addTrip = ({
 	name,
@@ -71,7 +69,7 @@ export const fetchTrip = id => dispatch => {
 		.then(json => {
 			dispatch({
 				type: 'FETCH_TRIP',
-				trip: { ...parseData(json), activities: json.trip.activities }
+				trip: parseData(json)
 			});
 		});
 };
