@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { editActivity } from '../actions/actActions';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../stylesheets/addActivityForm.css';
 // import { GM_GEO_KEY } from '../config.js';
 
-class EditTripForm extends Component {
+export default class EditTripForm extends Component {
 	state = {
 		id: this.props.activity.id,
 		name: this.props.activity.name,
@@ -37,11 +35,11 @@ class EditTripForm extends Component {
 	handleSubmit = e => {
 		e.preventDefault();
 		this.props.editActivity({ ...this.state, tripId: this.props.tripId });
-		this.props.toggleEdit();
+		// this.props.editActivity({ ...this.state, tripId: this.props.tripId });
+		// this.props.toggleEdit();
 	};
 
 	render() {
-		console.log(this.state);
 		return (
 			<div>
 				<h5>Edit Activity</h5>
@@ -98,5 +96,3 @@ class EditTripForm extends Component {
 		);
 	}
 }
-
-export default connect(null, { editActivity })(EditTripForm);

@@ -7,7 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 class EditTripForm extends Component {
 	state = {
-		id: this.props.trip.id,
+		userTripId: this.props.trip.userTripId,
 		name: this.props.trip.name,
 		description: this.props.trip.description,
 		startDate: this.props.trip.startDate,
@@ -55,11 +55,11 @@ class EditTripForm extends Component {
 					/>
 					<DatePicker
 						selected={moment(this.state.startDate)}
-						onChange={this.handleStartDateInput}
+						onChange={this.handleStartDateChange}
 					/>
 					<DatePicker
 						selected={moment(this.state.endDate)}
-						onChange={this.handleEndDateInput}
+						onChange={this.handleEndDateChange}
 						minDate={moment(this.state.startDate)}
 					/>
 					<select

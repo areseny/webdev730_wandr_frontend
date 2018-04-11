@@ -10,18 +10,24 @@ export default function(state = defaultState, action) {
 				activities: [...state.activities, action.newActivity]
 			};
 		case 'EDIT_ACTIVITY':
-			let i = state.userTrips.findIndex(t => t.id === action.editedTripId);
-			let postEditAct = state.userTrips
+			let i = state.activities.findIndex(
+				a => a.id === action.editedActivity.id
+			);
+			let postEditActivities = state.activities
 				.slice(0, i)
-				.concat(action.editedTrip)
-				.concat(state.userTrips.slice(i));
-			return { ...state, userTrips: postEditAct, trip: action.editedTrip };
-		// case 'DELETE_ACTIVITY':
-		// 	let j = state.userTrips.findIndex(t => t.id === action.userTripId);
-		// 	let postDeleteAct = state.userTrips
-		// 		.slice(0, j)
-		// 		.concat(state.userTrips.slice(j));
-		// 	return { ...state, userTrips: postDeleteAct, activity: {} };
+				.concat(action.editedActivity)
+				.concat(state.activities.slice(i));
+			return {
+				...state,
+				activities: postEditActivities,
+				activitiy: action.editedActivity
+			};
+		case 'DELETE_ACTIVITY':
+			let j = state.activities.findIndex(a => a.id === action.id);
+			let postDeleteActivities = state.activities
+				.slice(0, j)
+				.concat(state.activities.slice(j + 1));
+			return { ...state, activities: postDeleteActivities, activity: {} };
 		default:
 			return state;
 	}

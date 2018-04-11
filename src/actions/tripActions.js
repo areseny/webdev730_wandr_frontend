@@ -5,14 +5,14 @@ export const fetchUserTrips = history => dispatch => {
 		.then(res => res.json())
 		.then(json => {
 			const userTrips = json.map(ut => ({
-				id: ut.id,
+				id: ut.trip_id,
+				userTripId: ut.id,
 				name: ut.trip.name,
 				description: ut.trip.description,
 				duration: ut.trip.duration,
 				startDate: ut.start_date,
 				endDate: ut.end_date,
-				ratings: ut.ratings,
-				tripId: ut.trip_id
+				ratings: ut.ratings
 			}));
 			dispatch({ type: 'FETCH_USER_TRIPS', userTrips });
 		})
@@ -22,7 +22,8 @@ export const fetchUserTrips = history => dispatch => {
 };
 
 const parseData = json => ({
-	id: json.user_trip.id,
+	id: json.trip.id,
+	userTripId: json.user_trip.id,
 	name: json.trip.name,
 	description: json.trip.description,
 	duration: json.trip.duration,
@@ -64,7 +65,9 @@ export const addTrip = ({
 };
 
 export const fetchTrip = id => dispatch => {
-	fetch(`http://localhost:3000/user_trips/${id}`)
+	fetch(`http://localhost:3000/trips/${id}`, {
+		headers: { Authorization: localStorage.getItem('jwt') }
+	})
 		.then(res => res.json())
 		.then(json => {
 			dispatch({
@@ -75,7 +78,7 @@ export const fetchTrip = id => dispatch => {
 };
 
 export const editTrip = ({
-	id,
+	userTripId,
 	name,
 	description,
 	duration,
@@ -83,8 +86,8 @@ export const editTrip = ({
 	endDate,
 	ratings
 }) => dispatch => {
-	const start_date = startDate;
-	const end_date = endDate;
+	let start_date = startDate;
+	let end_date = endDate;
 	const options = {
 		method: 'PATCH',
 		headers: {
@@ -97,7 +100,7 @@ export const editTrip = ({
 			user_trip: { start_date, end_date, ratings }
 		})
 	};
-	fetch(`http://localhost:3000/user_trips/${id}`, options)
+	fetch(`http://localhost:3000/user_trips/${userTripId}`, options)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({
@@ -107,7 +110,7 @@ export const editTrip = ({
 		});
 };
 
-export const deleteTrip = (id, history) => dispatch => {
+export const deleteTrip = (userTripId, history) => dispatch => {
 	const options = {
 		method: 'DELETE',
 		headers: {
@@ -115,10 +118,10 @@ export const deleteTrip = (id, history) => dispatch => {
 			Accept: 'application/json'
 		}
 	};
-	fetch(`http://localhost:3000/user_trips/${id}`, options)
+	fetch(`http://localhost:3000/user_trips/${userTripId}`, options)
 		.then(res => res.json())
 		.then(msg => {
-			dispatch({ type: 'DELETE_TRIP', userTripId: id });
+			dispatch({ type: 'DELETE_TRIP', userTripId });
 		})
 		.then(() => {
 			history.push('/trips');

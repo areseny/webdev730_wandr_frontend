@@ -7,8 +7,7 @@ const parseData = json => ({
 	endTime: json.end_time,
 	address: json.address,
 	lat: json.lat,
-	lng: json.lng,
-	tripId: json.trip_id
+	lng: json.lng
 });
 
 export const fetchActivities = tripId => dispatch => {
@@ -102,24 +101,24 @@ export const editActivity = ({
 	fetch(`http://localhost:3000/trips/${tripId}/activities/${id}`, options)
 		.then(res => res.json())
 		.then(json => {
-			console.log;
+			dispatch({
+				type: 'EDIT_ACTIVITY',
+				editedActivity: parseData(json)
+			});
 		});
 };
 
-// export const deleteTrip = (id, history) => dispatch => {
-// 	const options = {
-// 		method: 'DELETE',
-// 		headers: {
-// 			'Content-Type': 'application/json',
-// 			Accept: 'application/json'
-// 		}
-// 	};
-// 	fetch(`http://localhost:3000/user_trips/${id}`, options)
-// 		.then(res => res.json())
-// 		.then(msg => {
-// 			dispatch({ type: 'DELETE_TRIP', userTripId: id });
-// 		})
-// 		.then(() => {
-// 			history.push('/trips');
-// 		});
-// };
+export const deleteActivity = (tripId, id) => dispatch => {
+	const options = {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json'
+		}
+	};
+	fetch(`http://localhost:3000/trips/${tripId}/activities/${id}`, options)
+		.then(res => res.json())
+		.then(msg => {
+			dispatch({ type: 'DELETE_ACTIVITY', id: id });
+		});
+};
