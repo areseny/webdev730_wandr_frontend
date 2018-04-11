@@ -5,7 +5,9 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../stylesheets/addActivityForm.css';
-// import { GM_GEO_KEY } from '../config.js';
+import { GM_GEO_KEY } from '../config.js';
+
+let debounceFetch;
 
 class AddActivityForm extends Component {
 	state = {
@@ -21,23 +23,30 @@ class AddActivityForm extends Component {
 		lng: 0
 	};
 
-	// setLatLng = address => {
-	// 	fetch(
-	// 		`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GM_GEO_KEY}`
-	// 	)
-	// 		.then(res => res.json())
-	// 		.then(json => {
-	// 			if (json.status !== 'ZERO_RESULTS')
-	// 				this.setState({
-	// 					lat: json.results[0].geometry.location.lat,
-	// 					lng: json.results[0].geometry.location.lng
-	// 				});
-	// 		});
-	// };
-	//
-	// handleAddressInput = e => {
-	// 	this.setState({ address: e.target.value });
-	// };
+	handleAddressChange = e => {
+		clearTimeout(debounceFetch);
+		debounceFetch = setTimeout(this.fetchLatLng(e.target.value), 10000);
+		this.setState({ address: e.target.value });
+	};
+
+	fetchLatLng = address => {
+		fetch(
+			`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GM_GEO_KEY}`
+		)
+			.then(res => res.json())
+			.then(
+				json =>
+					json.results.length
+						? this.setState({
+								lat: json.results[0].geometry.location.lat,
+								lng: json.results[0].geometry.location.lng
+						  })
+						: this.setState({
+								lat: 0,
+								lng: 0
+						  })
+			);
+	};
 
 	handleChange = e => {
 		this.setState({ [e.target.name]: e.target.value });
@@ -93,7 +102,7 @@ class AddActivityForm extends Component {
 						name="address"
 						placeholder="Address"
 						value={this.state.address}
-						onChange={this.handleChange}
+						onChange={this.handleAddressChange}
 					/>
 					<input
 						type="number"

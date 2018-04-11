@@ -26,6 +26,7 @@ class ActivityCard extends Component {
 
 	handleEdit = editedActivity => {
 		this.setState({ activity: editedActivity });
+		this.props.editActivity(editedActivity);
 		this.toggleEdit();
 	};
 

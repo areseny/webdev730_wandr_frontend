@@ -3,7 +3,9 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../stylesheets/addActivityForm.css';
-// import { GM_GEO_KEY } from '../config.js';
+import { GM_GEO_KEY } from '../config.js';
+
+let debounceFetch;
 
 export default class EditTripForm extends Component {
 	state = {
@@ -24,6 +26,31 @@ export default class EditTripForm extends Component {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 
+	handleAddressChange = e => {
+		clearTimeout(debounceFetch);
+		debounceFetch = setTimeout(this.fetchLatLng(e.target.value), 10000);
+		this.setState({ address: e.target.value });
+	};
+
+	fetchLatLng = address => {
+		fetch(
+			`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GM_GEO_KEY}`
+		)
+			.then(res => res.json())
+			.then(
+				json =>
+					json.results.length
+						? this.setState({
+								lat: json.results[0].geometry.location.lat,
+								lng: json.results[0].geometry.location.lng
+						  })
+						: this.setState({
+								lat: 0,
+								lng: 0
+						  })
+			);
+	};
+
 	handleStartTimeChange = e => {
 		this.setState({ startTime: e._d.toISOString(), startTimeMoment: e });
 	};
@@ -35,8 +62,6 @@ export default class EditTripForm extends Component {
 	handleSubmit = e => {
 		e.preventDefault();
 		this.props.editActivity({ ...this.state, tripId: this.props.tripId });
-		// this.props.editActivity({ ...this.state, tripId: this.props.tripId });
-		// this.props.toggleEdit();
 	};
 
 	render() {
@@ -60,7 +85,7 @@ export default class EditTripForm extends Component {
 						type="text"
 						name="address"
 						value={this.state.address}
-						onChange={this.handleChange}
+						onChange={this.handleAddressChange}
 					/>
 					<input
 						type="number"

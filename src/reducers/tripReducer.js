@@ -15,7 +15,7 @@ export default function(state = defaultState, action) {
 			let postEditUt = state.userTrips
 				.slice(0, i)
 				.concat(action.editedTrip)
-				.concat(state.userTrips.slice(i));
+				.concat(state.userTrips.slice(i + 1));
 			return { ...state, userTrips: postEditUt, trip: action.editedTrip };
 		case 'DELETE_TRIP':
 			let j = state.userTrips.findIndex(

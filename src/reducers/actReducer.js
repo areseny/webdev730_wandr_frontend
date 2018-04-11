@@ -16,7 +16,7 @@ export default function(state = defaultState, action) {
 			let postEditActivities = state.activities
 				.slice(0, i)
 				.concat(action.editedActivity)
-				.concat(state.activities.slice(i));
+				.concat(state.activities.slice(i + 1));
 			return {
 				...state,
 				activities: postEditActivities,
