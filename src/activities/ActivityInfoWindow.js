@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { editActivity, deleteActivity } from '../actions/actActions';
 import EditActivityForm from './EditActivityForm';
 
-class ActivityCard extends Component {
+class ActivityInfoWindow extends Component {
 	state = { activity: this.props.activity, editing: false };
 
 	toggleEdit = () => {
@@ -49,13 +49,11 @@ class ActivityCard extends Component {
 				{this.state.activity.name}
 				<br />
 				{this.state.activity.description}
-				<br />
-				Date: {this.parseDateTime().date}
-				<br />
-				From {this.parseDateTime().startTime} to {this.parseDateTime().endTime}
 			</div>
 		);
 	}
 }
 
-export default connect(null, { editActivity, deleteActivity })(ActivityCard);
+export default connect(null, { editActivity, deleteActivity })(
+	ActivityInfoWindow
+);

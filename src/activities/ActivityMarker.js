@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ActivityCardLite from './ActivityCardLite';
+import ActivityInfoWindow from './ActivityInfoWindow';
 import { Marker, InfoWindow } from 'react-google-maps';
 import { connect } from 'react-redux';
 import { updateTargetActivity } from '../actions/mapActions';
@@ -36,7 +36,7 @@ class ActivityMarker extends Component {
 				onMouseOut={this.handleMouseOut}>
 				{this.state.hover ? (
 					<InfoWindow>
-						<ActivityCardLite activity={this.props.activity} />
+						<ActivityInfoWindow activity={this.props.activity} />
 					</InfoWindow>
 				) : null}
 			</Marker>
