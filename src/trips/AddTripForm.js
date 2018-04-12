@@ -14,7 +14,47 @@ class AddTripForm extends Component {
 		duration: '',
 		ratings: '',
 		startDateMoment: null,
-		endDateMoment: null
+		endDateMoment: null,
+		destinations: [{ name: '' }]
+	};
+
+	destinationInputs = () =>
+		this.state.destinations.map((d, i) => (
+			<div>
+				<input
+					type="text"
+					name={d.name}
+					value={d.name}
+					placeholder={`Destination ${i + 1}`}
+					onChange={this.handleDestinationChange(i)}
+				/>
+				<input
+					type="button"
+					onClick={this.handleRemoveDestination(i)}
+					value="X"
+				/>
+			</div>
+		));
+
+	handleAddDestinationInput = e => {
+		if (this.state.destinations[this.state.destinations.length - 1].name) {
+			this.setState({
+				destinations: [...this.state.destinations, { name: '' }]
+			});
+		}
+	};
+
+	handleRemoveDestination = index => () => {
+		this.setState({
+			destinations: this.state.destinations.filter((d, i) => i !== index)
+		});
+	};
+
+	handleDestinationChange = index => e => {
+		const newDestinations = this.state.destinations.map(
+			(d, i) => (i !== index ? d : { ...d, name: e.target.value })
+		);
+		this.setState({ destinations: [...newDestinations] });
 	};
 
 	handleChange = e => {
@@ -76,6 +116,12 @@ class AddTripForm extends Component {
 						selected={this.state.endDateMoment}
 						onChange={this.handleEndDateInput}
 						minDate={moment(new Date(this.state.startDate))}
+					/>
+					{this.destinationInputs()}
+					<input
+						type="button"
+						value="Add Destination"
+						onClick={this.handleAddDestinationInput}
 					/>
 					<select
 						value={this.state.ratings}

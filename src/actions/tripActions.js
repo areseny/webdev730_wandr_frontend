@@ -52,7 +52,8 @@ export const addTrip = ({
 	duration,
 	startDate,
 	endDate,
-	ratings
+	ratings,
+	destinations
 }) => dispatch => {
 	const start_date = startDate;
 	const end_date = endDate;
@@ -65,7 +66,8 @@ export const addTrip = ({
 		},
 		body: JSON.stringify({
 			trip: { name, description, duration },
-			user_trip: { start_date, end_date, ratings }
+			user_trip: { start_date, end_date, ratings },
+			destinations: destinations
 		})
 	};
 	fetch('http://localhost:3000/trips', options)
