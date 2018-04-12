@@ -19,8 +19,23 @@ const TripMap = withScriptjs(
 			lng: Number(a.lng)
 		}));
 
+		const center = () => {
+			const latSum = props.activities.map(a => Number(a.lat))[0];
+			const lngSum = props.activities.map(a => Number(a.lng))[0];
+			const avgLat = latSum / props.activities.length;
+			const avgLng = lngSum / props.activities.length;
+			return { lat: avgLat, lng: avgLng };
+		};
+
+		// const bounds = new window.google.maps.LatLngBounds();
+		// 	props.activities.forEach(a => {
+		// 		bounds.extend(
+		// 			new window.google.maps.LatLng(Number(a.lat), Number(a.lng))
+		// 		);
+		// 	});
+
 		return (
-			<GoogleMap defaultZoom={3} defaultCenter={{ lat: 0, lng: 0 }}>
+			<GoogleMap defaultZoom={2} defaultCenter={center()}>
 				{activityMarkers}
 				<Polyline path={polylinePath} />
 			</GoogleMap>

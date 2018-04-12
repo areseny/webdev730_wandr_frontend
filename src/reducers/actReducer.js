@@ -1,4 +1,4 @@
-const defaultState = { activities: [], activity: {} };
+const defaultState = { activities: [], targetActivity: {} };
 
 export default function(state = defaultState, action) {
 	switch (action.type) {
@@ -27,7 +27,9 @@ export default function(state = defaultState, action) {
 			let postDeleteActivities = state.activities
 				.slice(0, j)
 				.concat(state.activities.slice(j + 1));
-			return { ...state, activities: postDeleteActivities, activity: {} };
+			return { ...state, activities: postDeleteActivities };
+		case 'UPDATE_TARGET_ACTIVITY':
+			return { ...state, targetActivity: action.activity };
 		default:
 			return state;
 	}

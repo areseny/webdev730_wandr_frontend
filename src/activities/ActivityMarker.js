@@ -1,35 +1,28 @@
 import React, { Component } from 'react';
-import ActivityCard from './ActivityCard';
+import ActivityCardLite from './ActivityCardLite';
 import { Marker, InfoWindow } from 'react-google-maps';
+import { connect } from 'react-redux';
+import { updateTargetActivity } from '../actions/mapActions';
 // import closedEnvelope from '../media/closedEnv.png';
 // import openEnvelope from '../media/openEnv.png';
 // import '../stylesheets/map.css';
 
-export default class ActivityMarker extends Component {
-	// state = {
-	// 	position: {
-	// 		lat: Number(this.props.story.location.split(',')[0]),
-	// 		lng: Number(this.props.story.location.split(',')[1])
-	// 	},
-	// 	showInfo: false,
-	// 	icon: closedEnvelope
-	// };
-	//
-	// openShowInfo = () => {
-	// 	this.setState({ showInfo: true, icon: openEnvelope });
-	// };
-	//
-	// generateInfoWindow = () =>
-	// 	this.state.showInfo ? (
-	// 		<InfoWindow
-	// 			onCloseClick={() =>
-	// 				this.setState({ showInfo: false, icon: closedEnvelope })
-	// 			}>
-	// 			<ActivityCard story={this.props.story} user={this.props.user} />
-	// 		</InfoWindow>
-	// 	) : null;
-	//
-	// envelope = () => (this.state.showInfo ? openEnvelope : closedEnvelope);
+class ActivityMarker extends Component {
+	state = { hover: false };
+
+	handleClick = () => {
+		this.props.updateTargetActivity(this.props.activity);
+	};
+
+	handleMouseOver = () => {
+		this.setState({ hover: true });
+		console.log('HOVERING');
+		// add info window
+	};
+
+	handleMouseOut = () => {
+		this.setState({ hover: false });
+	};
 
 	render() {
 		return (
@@ -38,7 +31,17 @@ export default class ActivityMarker extends Component {
 					lat: Number(this.props.activity.lat),
 					lng: Number(this.props.activity.lng)
 				}}
-			/>
+				onClick={this.handleClick}
+				onMouseOver={this.handleMouseOver}
+				onMouseOut={this.handleMouseOut}>
+				{this.state.hover ? (
+					<InfoWindow>
+						<ActivityCardLite activity={this.props.activity} />
+					</InfoWindow>
+				) : null}
+			</Marker>
 		);
 	}
 }
+
+export default connect(null, { updateTargetActivity })(ActivityMarker);
