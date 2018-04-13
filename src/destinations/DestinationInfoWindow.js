@@ -4,7 +4,7 @@
 // import { editActivity, deleteActivity } from '../actions/actActions';
 // import EditActivityForm from './EditActivityForm';
 //
-// class ActivityCard extends Component {
+// class ActivityInfoWindow extends Component {
 // 	state = { activity: this.props.activity, editing: false };
 //
 // 	toggleEdit = () => {
@@ -49,20 +49,11 @@
 // 				{this.state.activity.name}
 // 				<br />
 // 				{this.state.activity.description}
-// 				<br />
-// 				Date: {this.parseDateTime().date}
-// 				<br />
-// 				From {this.parseDateTime().startTime} to {this.parseDateTime().endTime}
-// 				<br />
-// 				Address: {this.state.activity.address}
-// 				<br />
-// 				Cost: ${this.state.activity.cost}
-// 				<br />
-// 				{this.displayEditSection()}
-// 				<button onClick={this.handleDelete}>Delete Activity</button>
 // 			</div>
 // 		);
 // 	}
 // }
 //
-// export default connect(null, { editActivity, deleteActivity })(ActivityCard);
+// export default connect(null, { editActivity, deleteActivity })(
+// 	ActivityInfoWindow
+// );

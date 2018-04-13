@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 const Navbar = props => (
 	<div>
 		<NavLink to="/home">Home</NavLink>
-		<NavLink to="/trips">Trips</NavLink>
+		<NavLink to="/mytrips">Trips</NavLink>
 		<NavLink to="/about">About</NavLink>
 		<NavLink to="/contact">Contact</NavLink>
 		<button onClick={() => props.logOut(props.history)}>Log Out</button>

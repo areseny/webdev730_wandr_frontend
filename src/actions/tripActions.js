@@ -1,50 +1,28 @@
+const parseTripData = json => ({
+	id: json.id,
+	tripId: json.trip.id,
+	name: json.trip.name,
+	description: json.trip.description,
+	duration: json.trip.duration,
+	startDate: json.start_date,
+	endDate: json.end_date,
+	ratings: json.ratings,
+	activities: json.activities,
+	destinations: json.destinations
+});
+
 export const fetchUserTrips = history => dispatch => {
 	fetch(`http://localhost:3000/user_trips`, {
 		headers: { Authorization: localStorage.getItem('jwt') }
 	})
 		.then(res => res.json())
 		.then(json => {
-			const userTrips = json.map(ut => ({
-				id: ut.trip_id,
-				userTripId: ut.id,
-				name: ut.trip.name,
-				description: ut.trip.description,
-				duration: ut.trip.duration,
-				startDate: ut.start_date,
-				endDate: ut.end_date,
-				ratings: ut.ratings
-			}));
+			const userTrips = json.map(ut => parseTripData(ut));
 			dispatch({ type: 'FETCH_USER_TRIPS', userTrips });
-		})
-		.then(() => {
-			history.push('/trips');
 		});
 };
 
-const parseData = json => ({
-	id: json.trip.id,
-	userTripId: json.user_trip.id,
-	name: json.trip.name,
-	description: json.trip.description,
-	duration: json.trip.duration,
-	startDate: json.user_trip.start_date,
-	endDate: json.user_trip.end_date,
-	ratings: json.user_trip.ratings,
-	activities: json.trip.activities
-});
-
-export const fetchTrip = id => dispatch => {
-	fetch(`http://localhost:3000/trips/${id}`, {
-		headers: { Authorization: localStorage.getItem('jwt') }
-	})
-		.then(res => res.json())
-		.then(json => {
-			dispatch({
-				type: 'FETCH_TRIP',
-				trip: parseData(json)
-			});
-		});
-};
+export const setTargetTrip = id => ({ type: 'SET_TARGET_TRIP', id });
 
 export const addTrip = ({
 	name,
@@ -67,27 +45,28 @@ export const addTrip = ({
 		body: JSON.stringify({
 			trip: { name, description, duration },
 			user_trip: { start_date, end_date, ratings },
-			destinations: destinations
+			destinations
 		})
 	};
-	fetch('http://localhost:3000/trips', options)
+	fetch('http://localhost:3000/user_trips', options)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({
 				type: 'ADD_TRIP',
-				newTrip: parseData(json)
+				newTrip: parseTripData(json)
 			});
 		});
 };
 
 export const editTrip = ({
-	userTripId,
+	id,
 	name,
 	description,
 	duration,
 	startDate,
 	endDate,
-	ratings
+	ratings,
+	destinations
 }) => dispatch => {
 	let start_date = startDate;
 	let end_date = endDate;
@@ -100,20 +79,22 @@ export const editTrip = ({
 		},
 		body: JSON.stringify({
 			trip: { name, description, duration },
-			user_trip: { start_date, end_date, ratings }
+			user_trip: { start_date, end_date, ratings },
+			destinations
 		})
 	};
-	fetch(`http://localhost:3000/user_trips/${userTripId}`, options)
+	fetch(`http://localhost:3000/user_trips/${id}`, options)
 		.then(res => res.json())
 		.then(json => {
+			console.log(parseTripData(json));
 			dispatch({
 				type: 'EDIT_TRIP',
-				editedTrip: parseData(json)
+				editedTrip: parseTripData(json)
 			});
 		});
 };
 
-export const deleteTrip = (userTripId, history) => dispatch => {
+export const deleteTrip = (id, history) => dispatch => {
 	const options = {
 		method: 'DELETE',
 		headers: {
@@ -121,12 +102,10 @@ export const deleteTrip = (userTripId, history) => dispatch => {
 			Accept: 'application/json'
 		}
 	};
-	fetch(`http://localhost:3000/user_trips/${userTripId}`, options)
+	fetch(`http://localhost:3000/user_trips/${id}`, options)
 		.then(res => res.json())
 		.then(msg => {
-			dispatch({ type: 'DELETE_TRIP', userTripId });
-		})
-		.then(() => {
-			history.push('/trips');
+			history.push('/mytrips');
+			dispatch({ type: 'DELETE_TRIP', id });
 		});
 };

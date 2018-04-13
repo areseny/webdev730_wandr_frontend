@@ -11,6 +11,7 @@ let debounceFetch;
 
 class AddActivityForm extends Component {
 	state = {
+		id: this.props.targetTripId,
 		name: '',
 		description: '',
 		cost: '',
@@ -20,12 +21,13 @@ class AddActivityForm extends Component {
 		endTimeMoment: null,
 		address: '',
 		lat: 0,
-		lng: 0
+		lng: 0,
+		destinationName: ''
 	};
 
 	handleAddressChange = e => {
 		clearTimeout(debounceFetch);
-		debounceFetch = setTimeout(this.fetchLatLng(e.target.value), 10000);
+		debounceFetch = setTimeout(this.fetchLatLng(e.target.value), 2000);
 		this.setState({ address: e.target.value });
 	};
 
@@ -39,11 +41,13 @@ class AddActivityForm extends Component {
 					json.results.length
 						? this.setState({
 								lat: json.results[0].geometry.location.lat,
-								lng: json.results[0].geometry.location.lng
+								lng: json.results[0].geometry.location.lng,
+								destinationName: json.results[0].formatted_address
 						  })
 						: this.setState({
 								lat: 0,
-								lng: 0
+								lng: 0,
+								destinationName: 'No where'
 						  })
 			);
 	};
@@ -62,7 +66,7 @@ class AddActivityForm extends Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		this.props.addActivity({ ...this.state, tripId: this.props.tripId });
+		this.props.addActivity({ ...this.state });
 		this.setState({
 			name: '',
 			description: '',
@@ -73,8 +77,7 @@ class AddActivityForm extends Component {
 			endTimeMoment: null,
 			address: '',
 			lat: 0,
-			lng: 0,
-			tripId: this.props.tripId
+			lng: 0
 		});
 	};
 
@@ -138,13 +141,10 @@ class AddActivityForm extends Component {
 
 					<input type="submit" value="Add Activity" />
 				</form>
+				<button onClick={this.props.toggleAdd}>Collapse</button>
 			</div>
 		);
 	}
 }
-const mapStateToProps = state => ({
-	startDate: state.trip.trip.startDate,
-	endDate: state.trip.trip.endDate
-});
 
-export default connect(mapStateToProps, { addActivity })(AddActivityForm);
+export default connect(null, { addActivity })(AddActivityForm);

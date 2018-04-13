@@ -27,13 +27,6 @@ const TripMap = withScriptjs(
 			return { lat: avgLat, lng: avgLng };
 		};
 
-		// const bounds = new window.google.maps.LatLngBounds();
-		// 	props.activities.forEach(a => {
-		// 		bounds.extend(
-		// 			new window.google.maps.LatLng(Number(a.lat), Number(a.lng))
-		// 		);
-		// 	});
-
 		return (
 			<GoogleMap defaultZoom={2} defaultCenter={center()}>
 				{activityMarkers}
@@ -52,3 +45,10 @@ export default TripMap;
 // 		  ))
 // 		: null}
 // </MarkerClusterer>
+
+// const bounds = new window.google.maps.LatLngBounds();
+// 	props.activities.forEach(a => {
+// 		bounds.extend(
+// 			new window.google.maps.LatLng(Number(a.lat), Number(a.lng))
+// 		);
+// 	});

@@ -3,11 +3,12 @@ import Landing from './app/Landing';
 import Login from './app/Login';
 import Signup from './app/Signup';
 import Home from './app/Home';
-import TripsContainer from './trips/TripsContainer';
+import TripsList from './trips/TripsList';
 import TripPage from './trips/TripPage';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchUser } from './actions/authActions';
+import { fetchUserTrips } from './actions/tripActions';
 
 class App extends Component {
 	componentDidMount() {
@@ -15,6 +16,7 @@ class App extends Component {
 		if (jwt && !this.props.currentUser) {
 			this.props.fetchUser(jwt, this.props.history);
 		}
+		this.props.fetchUserTrips();
 	}
 
 	render() {
@@ -35,27 +37,24 @@ class App extends Component {
 						render={renderProps => <Home history={renderProps.history} />}
 					/>
 					<Route
-						exact
-						path="/trips/:id"
-						render={renderProps => <TripPage {...renderProps} />}
+						path="/mytrips/:id"
+						render={renderProps => <TripPage history={renderProps.history} />}
 					/>
 					<Route
-						path="/trips"
-						render={renderProps => (
-							<TripsContainer history={renderProps.history} />
-						)}
+						path="/mytrips"
+						render={renderProps => <TripsList history={renderProps.history} />}
 					/>
 				</Switch>
 			</div>
 		);
 	}
 }
+const mapStateToProps = state => ({
+	loggedIn: state.auth.loggedIn,
+	currentUser: state.auth.currentUser,
+	userTrips: state.trip.userTrips
+});
 
-function mapStateToProps(state) {
-	return {
-		loggedIn: state.auth.loggedIn,
-		currentUser: state.auth.currentUser
-	};
-}
-
-export default withRouter(connect(mapStateToProps, { fetchUser })(App));
+export default withRouter(
+	connect(mapStateToProps, { fetchUser, fetchUserTrips })(App)
+);

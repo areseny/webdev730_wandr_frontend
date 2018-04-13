@@ -4,6 +4,9 @@ import { addTrip } from '../actions/tripActions';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { GM_GEO_KEY } from '../config.js';
+
+let debounceFetch;
 
 class AddTripForm extends Component {
 	state = {
@@ -12,49 +15,70 @@ class AddTripForm extends Component {
 		startDate: '',
 		endDate: '',
 		duration: '',
-		ratings: '',
+		ratings: 0,
 		startDateMoment: null,
 		endDateMoment: null,
-		destinations: [{ name: '' }]
+		destinations: [{ name: '', lat: 0, lng: 0 }]
 	};
 
 	destinationInputs = () =>
 		this.state.destinations.map((d, i) => (
-			<div>
+			<div key={`destination ${i + 1}`}>
 				<input
+					key={i}
 					type="text"
 					name={d.name}
 					value={d.name}
 					placeholder={`Destination ${i + 1}`}
 					onChange={this.handleDestinationChange(i)}
 				/>
-				<input
-					type="button"
-					onClick={this.handleRemoveDestination(i)}
-					value="X"
-				/>
+				<input type="button" onClick={this.removeDestination(i)} value="X" />
 			</div>
 		));
 
-	handleAddDestinationInput = e => {
+	addDestinationField = e => {
 		if (this.state.destinations[this.state.destinations.length - 1].name) {
 			this.setState({
-				destinations: [...this.state.destinations, { name: '' }]
+				destinations: [...this.state.destinations, { name: '', lat: 0, lng: 0 }]
 			});
 		}
 	};
 
-	handleRemoveDestination = index => () => {
+	removeDestination = index => () => {
 		this.setState({
 			destinations: this.state.destinations.filter((d, i) => i !== index)
 		});
 	};
 
 	handleDestinationChange = index => e => {
+		clearTimeout(debounceFetch);
+		debounceFetch = setTimeout(this.fetchLatLng(e.target.value, index), 2000);
 		const newDestinations = this.state.destinations.map(
 			(d, i) => (i !== index ? d : { ...d, name: e.target.value })
 		);
 		this.setState({ destinations: [...newDestinations] });
+	};
+
+	fetchLatLng = (address, index) => {
+		fetch(
+			`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GM_GEO_KEY}`
+		)
+			.then(res => res.json())
+			.then(json => {
+				if (json.results.length) {
+					const newDestinationsWithLatLng = this.state.destinations.map(
+						(d, i) =>
+							i !== index
+								? d
+								: {
+										...d,
+										lat: json.results[0].geometry.location.lat.toFixed(3),
+										lng: json.results[0].geometry.location.lng.toFixed(3)
+								  }
+					);
+					this.setState({ destinations: [...newDestinationsWithLatLng] });
+				}
+			});
 	};
 
 	handleChange = e => {
@@ -82,7 +106,8 @@ class AddTripForm extends Component {
 			duration: '',
 			ratings: '',
 			startDateMoment: null,
-			endDateMoment: null
+			endDateMoment: null,
+			destinations: [{ name: '', lat: 0, lng: 0 }]
 		});
 	};
 
@@ -98,6 +123,7 @@ class AddTripForm extends Component {
 						value={this.state.name}
 						onChange={this.handleChange}
 					/>
+					<br />
 					<input
 						type="text"
 						name="description"
@@ -120,9 +146,11 @@ class AddTripForm extends Component {
 					{this.destinationInputs()}
 					<input
 						type="button"
-						value="Add Destination"
-						onClick={this.handleAddDestinationInput}
+						value="Enter Another Destination"
+						onClick={this.addDestinationField}
 					/>
+					<br />
+					Ratings:
 					<select
 						value={this.state.ratings}
 						name="ratings"
@@ -134,8 +162,10 @@ class AddTripForm extends Component {
 						<option value="4">4</option>
 						<option value="5">5</option>
 					</select>
-					<input type="submit" value="Add Trip" />
+					<br />
+					<input type="submit" value="Add" />
 				</form>
+				<button onClick={this.props.toggleAdd}>Collapse</button>
 			</div>
 		);
 	}

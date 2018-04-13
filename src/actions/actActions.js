@@ -1,4 +1,4 @@
-const parseData = json => ({
+const parseActivityData = json => ({
 	id: json.id,
 	name: json.name,
 	description: json.description,
@@ -10,16 +10,8 @@ const parseData = json => ({
 	lng: json.lng
 });
 
-export const fetchActivities = tripId => dispatch => {
-	fetch(`http://localhost:3000/trips/${tripId}/activities`)
-		.then(res => res.json())
-		.then(json => {
-			const activities = json.map(a => parseData(a));
-			dispatch({ type: 'FETCH_ACTIVITIES', activities });
-		});
-};
-
 export const addActivity = ({
+	id,
 	name,
 	description,
 	cost,
@@ -28,11 +20,11 @@ export const addActivity = ({
 	address,
 	lat,
 	lng,
-	tripId
+	destinationName
 }) => dispatch => {
 	const start_time = startTime;
 	const end_time = endTime;
-	const id = tripId;
+	const destination_name = destinationName;
 	const options = {
 		method: 'POST',
 		headers: {
@@ -51,16 +43,17 @@ export const addActivity = ({
 				lng
 			},
 			user_trip: { id },
-			destination: { lat, lng }
+			destination: {
+				lat,
+				lng,
+				destination_name
+			}
 		})
 	};
-	fetch(`http://localhost:3000/trips/${tripId}/activities`, options)
+	fetch(`http://localhost:3000/activities`, options)
 		.then(res => res.json())
 		.then(json => {
-			dispatch({
-				type: 'ADD_ACTIVITY',
-				newActivity: parseData(json)
-			});
+			dispatch({ type: 'ADD_ACTIVITY', newActivity: parseActivityData(json) });
 		});
 };
 
@@ -68,13 +61,12 @@ export const editActivity = ({
 	id,
 	name,
 	description,
+	cost,
 	startTime,
 	endTime,
-	cost,
-	lat,
-	lng,
 	address,
-	tripId
+	lat,
+	lng
 }) => dispatch => {
 	const start_time = startTime;
 	const end_time = endTime;
@@ -89,21 +81,21 @@ export const editActivity = ({
 				id,
 				name,
 				description,
-				start_time,
-				end_time,
 				cost,
+				startTime,
+				endTime,
+				address,
 				lat,
-				lng,
-				address
+				lng
 			}
 		})
 	};
-	fetch(`http://localhost:3000/trips/${tripId}/activities/${id}`, options)
+	fetch(`http://localhost:3000/activities/${id}`, options)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({
 				type: 'EDIT_ACTIVITY',
-				editedActivity: parseData(json)
+				editedActivity: parseActivityData(json)
 			});
 		});
 };
@@ -116,7 +108,7 @@ export const deleteActivity = (tripId, id) => dispatch => {
 			Accept: 'application/json'
 		}
 	};
-	fetch(`http://localhost:3000/trips/${tripId}/activities/${id}`, options)
+	fetch(`http://localhost:3000/activities/${id}`, options)
 		.then(res => res.json())
 		.then(msg => {
 			dispatch({ type: 'DELETE_ACTIVITY', id: id });
