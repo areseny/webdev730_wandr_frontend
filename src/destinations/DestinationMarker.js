@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
 import DestinationInfoWindow from './DestinationInfoWindow';
 import { Marker, InfoWindow } from 'react-google-maps';
-import { connect } from 'react-redux';
-import { updateTargetDestination } from '../actions/mapActions';
+import destinationIcon from '../media/destination.png';
+// import { connect } from 'react-redux';
+// import { updateTargetDestination } from '../actions/mapActions';
 // import closedEnvelope from '../media/closedEnv.png';
 // import openEnvelope from '../media/openEnv.png';
 // import '../stylesheets/map.css';
 
-class DestinationMarker extends Component {
+export default class DestinationMarker extends Component {
 	state = { hover: false };
 
-	handleClick = () => {
-		this.props.updateTargetDestination(this.props.destination);
-	};
+	// handleClick = () => {
+	// 	this.props.updateTargetDestination(this.props.destination);
+	// };
 
 	handleMouseOver = () => {
 		this.setState({ hover: true });
-		console.log('HOVERING');
-		// add info window here
 	};
 
 	handleMouseOut = () => {
@@ -27,6 +26,7 @@ class DestinationMarker extends Component {
 	render() {
 		return (
 			<Marker
+				icon={destinationIcon}
 				position={{
 					lat: Number(this.props.destination.lat),
 					lng: Number(this.props.destination.lng)
@@ -36,12 +36,10 @@ class DestinationMarker extends Component {
 				onMouseOut={this.handleMouseOut}>
 				{this.state.hover ? (
 					<InfoWindow>
-						<DestinationInfoWindow destination={this.props.destination} />
+						<DestinationInfoWindow name={this.props.destination.name} />
 					</InfoWindow>
 				) : null}
 			</Marker>
 		);
 	}
 }
-
-export default connect(null, { updateTargetDestination })(DestinationMarker);

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { editActivity } from '../actions/actActions';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -7,7 +9,7 @@ import { GM_GEO_KEY } from '../config.js';
 
 let debounceFetch;
 
-export default class EditTripForm extends Component {
+class EditActivityForm extends Component {
 	state = {
 		id: this.props.activity.id,
 		name: this.props.activity.name,
@@ -62,12 +64,12 @@ export default class EditTripForm extends Component {
 	handleSubmit = e => {
 		e.preventDefault();
 		this.props.editActivity({ ...this.state, tripId: this.props.tripId });
+		this.props.toggleEdit();
 	};
 
 	render() {
 		return (
 			<div>
-				<h5>Edit Activity</h5>
 				<form onSubmit={this.handleSubmit}>
 					<input
 						type="text"
@@ -121,3 +123,5 @@ export default class EditTripForm extends Component {
 		);
 	}
 }
+
+export default connect(null, { editActivity })(EditActivityForm);

@@ -7,7 +7,6 @@ const parseTripData = json => ({
 	startDate: json.start_date,
 	endDate: json.end_date,
 	ratings: json.ratings,
-	activities: json.activities,
 	destinations: json.destinations
 });
 

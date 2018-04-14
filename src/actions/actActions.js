@@ -82,8 +82,8 @@ export const editActivity = ({
 				name,
 				description,
 				cost,
-				startTime,
-				endTime,
+				start_time,
+				end_time,
 				address,
 				lat,
 				lng
@@ -100,7 +100,7 @@ export const editActivity = ({
 		});
 };
 
-export const deleteActivity = (tripId, id) => dispatch => {
+export const deleteActivity = (id, destinationId) => dispatch => {
 	const options = {
 		method: 'DELETE',
 		headers: {
@@ -111,6 +111,6 @@ export const deleteActivity = (tripId, id) => dispatch => {
 	fetch(`http://localhost:3000/activities/${id}`, options)
 		.then(res => res.json())
 		.then(msg => {
-			dispatch({ type: 'DELETE_ACTIVITY', id: id });
+			dispatch({ type: 'DELETE_ACTIVITY', payload: { id, destinationId } });
 		});
 };

@@ -1,24 +1,19 @@
-// import React, { Component } from 'react';
-// import { connect } from 'react-redux';
-//
-// class DestinationsContainer extends Component {
-// 	destinationCards = () =>
-// 		this.props.destinations
-// 			? this.props.destinations.map(d => <li>{d.name}</li>)
-// 			: null;
-//
-// 	render() {
-// 		return (
-// 			<div>
-// 				Destinations:
-// 				<ol>{this.destinationCards()}</ol>
-// 			</div>
-// 		);
-// 	}
-// }
-//
-// const mapStateToProps = state => ({
-// 	destinations: state.dest.destinations
-// });
-//
-// export default connect(mapStateToProps)(DestinationsContainer);
+import React from 'react';
+import DestinationCard from './DestinationCard';
+
+const DestinationsContainer = props => (
+	<div>
+		<h3>Destinations</h3>
+		<ol>
+			{props.destinations
+				? props.destinations.map((d, i) => (
+						<li key={i}>
+							<DestinationCard destination={d} />
+						</li>
+				  ))
+				: 'No destination has been added (yet...)'}
+		</ol>
+	</div>
+);
+
+export default DestinationsContainer;

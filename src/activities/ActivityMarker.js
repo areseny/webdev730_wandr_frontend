@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import ActivityInfoWindow from './ActivityInfoWindow';
 import { Marker, InfoWindow } from 'react-google-maps';
-import { connect } from 'react-redux';
-import { updateTargetActivity } from '../actions/mapActions';
-// import closedEnvelope from '../media/closedEnv.png';
-// import openEnvelope from '../media/openEnv.png';
-// import '../stylesheets/map.css';
+// import { connect } from 'react-redux';
+// import { updateTargetActivity } from '../actions/mapActions';
+import activityIcon from '../media/activity.png';
 
-class ActivityMarker extends Component {
+export default class ActivityMarker extends Component {
 	state = { hover: false };
 
 	handleClick = () => {
@@ -27,6 +25,7 @@ class ActivityMarker extends Component {
 	render() {
 		return (
 			<Marker
+				icon={activityIcon}
 				position={{
 					lat: Number(this.props.activity.lat),
 					lng: Number(this.props.activity.lng)
@@ -36,7 +35,10 @@ class ActivityMarker extends Component {
 				onMouseOut={this.handleMouseOut}>
 				{this.state.hover ? (
 					<InfoWindow>
-						<ActivityInfoWindow activity={this.props.activity} />
+						<ActivityInfoWindow
+							name={this.props.activity.name}
+							description={this.props.activity.description}
+						/>
 					</InfoWindow>
 				) : null}
 			</Marker>
@@ -44,4 +46,4 @@ class ActivityMarker extends Component {
 	}
 }
 
-export default connect(null, { updateTargetActivity })(ActivityMarker);
+// export default connect(null, { updateTargetActivity })(ActivityMarker);

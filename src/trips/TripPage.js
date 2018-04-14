@@ -7,8 +7,7 @@ import { GM_JS_KEY } from '../config.js';
 import TripMap from './TripMap';
 import TripDashboard from './TripDashboard';
 import '../stylesheets/tripMap.css';
-// import ActivitiesContainer from '../activities/ActivitiesContainer';
-// import ActivitySpec from '../activities/ActivitySpec';
+import { Grid } from 'semantic-ui-react';
 
 class TripPage extends Component {
 	state = { loaded: false };
@@ -21,30 +20,46 @@ class TripPage extends Component {
 		}
 	}
 
+	targetTripActivities = () => {
+		if (this.props.targetTrip.destinations) {
+			const activitiesArr = [];
+			this.props.targetTrip.destinations.forEach(d => {
+				d.activities.forEach(a => {
+					activitiesArr.push(a);
+				});
+			});
+			console.log(activitiesArr);
+			return activitiesArr;
+		}
+	};
+
 	render() {
 		return (
 			<div>
 				{this.state.loaded ? (
-					<div>
-						<TripMap
-							activities={this.props.targetTrip.activities}
-							googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GM_JS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
-							loadingElement={<div id="loading-element" />}
-							containerElement={<div id="map-container" />}
-							mapElement={<div id="map-element" />}
-						/>
-						<br />
-						<TripDashboard
-							targetTrip={this.props.targetTrip}
-							history={this.props.history}
-						/>
-					</div>
+					<Grid columns={2} divided>
+						<Grid.Column width={11}>
+							<TripMap
+								destinations={this.props.targetTrip.destinations}
+								activities={this.targetTripActivities()}
+								googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GM_JS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
+								loadingElement={<div id="loading-element" />}
+								containerElement={<div id="map-container" />}
+								mapElement={<div id="map-element" />}
+							/>
+							<br />
+							<Link to="/mytrips">Back to Trips</Link>
+						</Grid.Column>
+						<Grid.Column width={5}>
+							<TripDashboard
+								targetTrip={this.props.targetTrip}
+								history={this.props.history}
+							/>
+						</Grid.Column>
+					</Grid>
 				) : (
 					'Loading map...'
 				)}
-				<br />
-				<Link to="/mytrips">Back to Trips</Link>
-				<br />
 			</div>
 		);
 	}

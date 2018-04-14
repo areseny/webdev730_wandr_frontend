@@ -36,20 +36,20 @@ class AddActivityForm extends Component {
 			`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GM_GEO_KEY}`
 		)
 			.then(res => res.json())
-			.then(
-				json =>
-					json.results.length
-						? this.setState({
-								lat: json.results[0].geometry.location.lat,
-								lng: json.results[0].geometry.location.lng,
-								destinationName: json.results[0].formatted_address
-						  })
-						: this.setState({
-								lat: 0,
-								lng: 0,
-								destinationName: 'No where'
-						  })
-			);
+			.then(json => {
+				debugger;
+				return json.results.length
+					? this.setState({
+							lat: json.results[0].geometry.location.lat,
+							lng: json.results[0].geometry.location.lng,
+							destinationName: json.results[0].formatted_address
+					  })
+					: this.setState({
+							lat: 0,
+							lng: 0,
+							destinationName: 'No where'
+					  });
+			});
 	};
 
 	handleChange = e => {
@@ -147,4 +147,9 @@ class AddActivityForm extends Component {
 	}
 }
 
-export default connect(null, { addActivity })(AddActivityForm);
+const mapStateToProps = state => ({
+	startDate: state.trip.targetTrip.startDate,
+	endDate: state.trip.targetTrip.endDate
+});
+
+export default connect(mapStateToProps, { addActivity })(AddActivityForm);

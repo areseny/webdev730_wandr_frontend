@@ -5,31 +5,29 @@ import {
 	GoogleMap,
 	Polyline
 } from 'react-google-maps';
-// import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerClusterer';
+import DestinationMarker from '../destinations/DestinationMarker';
 import ActivityMarker from '../activities/ActivityMarker';
 
 const TripMap = withScriptjs(
 	withGoogleMap(props => {
-		const activityMarkers = props.activities.map((a, i) => (
-			<ActivityMarker activity={a} key={i} />
-		));
-
-		const polylinePath = props.activities.map(a => ({
-			lat: Number(a.lat),
-			lng: Number(a.lng)
+		const polylinePath = props.destinations.map(d => ({
+			lat: Number(d.lat),
+			lng: Number(d.lng)
 		}));
 
 		const center = () => {
-			const latSum = props.activities.map(a => Number(a.lat))[0];
-			const lngSum = props.activities.map(a => Number(a.lng))[0];
-			const avgLat = latSum / props.activities.length;
-			const avgLng = lngSum / props.activities.length;
+			const latSum = props.destinations.map(d => Number(d.lat))[0];
+			const lngSum = props.destinations.map(d => Number(d.lng))[0];
+			const avgLat = latSum / props.destinations.length;
+			const avgLng = lngSum / props.destinations.length;
 			return { lat: avgLat, lng: avgLng };
 		};
 
 		return (
 			<GoogleMap defaultZoom={2} defaultCenter={center()}>
-				{activityMarkers}
+				{props.destinations.map((d, i) => (
+					<DestinationMarker destination={d} key={i} />
+				))}
 				<Polyline path={polylinePath} />
 			</GoogleMap>
 		);
@@ -38,17 +36,6 @@ const TripMap = withScriptjs(
 
 export default TripMap;
 
-// <MarkerClusterer enableRetinaIcons={true} maxZoom={5} gridSize={100}>
-// 	{props.stories.length > 0
-// 		? props.stories.map(s => (
-// 				<ActivityMarker user={props.user} story={s} key={s.id} />
-// 		  ))
-// 		: null}
-// </MarkerClusterer>
-
-// const bounds = new window.google.maps.LatLngBounds();
-// 	props.activities.forEach(a => {
-// 		bounds.extend(
-// 			new window.google.maps.LatLng(Number(a.lat), Number(a.lng))
-// 		);
-// 	});
+// {props.activities.map((a, i) => (
+// 	<ActivityMarker activity={a} key={i} />
+// ))}
