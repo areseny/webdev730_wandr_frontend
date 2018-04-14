@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import DestinationCard from './DestinationCard';
 
 const DestinationsContainer = props => (
@@ -8,7 +9,11 @@ const DestinationsContainer = props => (
 			{props.destinations
 				? props.destinations.map((d, i) => (
 						<li key={i}>
-							<DestinationCard destination={d} />
+							{d.id === props.targetDestination.id ? (
+								<DestinationCard destination={d} />
+							) : (
+								d.name
+							)}
 						</li>
 				  ))
 				: 'No destination has been added (yet...)'}
@@ -16,4 +21,8 @@ const DestinationsContainer = props => (
 	</div>
 );
 
-export default DestinationsContainer;
+const mapStateToProps = state => ({
+	targetDestination: state.dest.targetDestination
+});
+
+export default connect(mapStateToProps)(DestinationsContainer);

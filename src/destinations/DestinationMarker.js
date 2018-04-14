@@ -2,18 +2,15 @@ import React, { Component } from 'react';
 import DestinationInfoWindow from './DestinationInfoWindow';
 import { Marker, InfoWindow } from 'react-google-maps';
 import destinationIcon from '../media/destination.png';
-// import { connect } from 'react-redux';
-// import { updateTargetDestination } from '../actions/mapActions';
-// import closedEnvelope from '../media/closedEnv.png';
-// import openEnvelope from '../media/openEnv.png';
-// import '../stylesheets/map.css';
+import { connect } from 'react-redux';
+import { updateTargetDestination } from '../actions/destActions';
 
-export default class DestinationMarker extends Component {
+class DestinationMarker extends Component {
 	state = { hover: false };
 
-	// handleClick = () => {
-	// 	this.props.updateTargetDestination(this.props.destination);
-	// };
+	handleClick = () => {
+		this.props.updateTargetDestination(this.props.destination);
+	};
 
 	handleMouseOver = () => {
 		this.setState({ hover: true });
@@ -43,3 +40,5 @@ export default class DestinationMarker extends Component {
 		);
 	}
 }
+
+export default connect(null, { updateTargetDestination })(DestinationMarker);

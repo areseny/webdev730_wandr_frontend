@@ -7,15 +7,14 @@ import activityIcon from '../media/activity.png';
 
 export default class ActivityMarker extends Component {
 	state = { hover: false };
-
-	handleClick = () => {
-		this.props.updateTargetActivity(this.props.activity);
-	};
+	//
+	// handleClick = () => {
+	// 	this.props.updateTargetActivity(this.props.activity);
+	// };
 
 	handleMouseOver = () => {
 		this.setState({ hover: true });
 		console.log('HOVERING');
-		// add info window
 	};
 
 	handleMouseOut = () => {
@@ -30,7 +29,6 @@ export default class ActivityMarker extends Component {
 					lat: Number(this.props.activity.lat),
 					lng: Number(this.props.activity.lng)
 				}}
-				onClick={this.handleClick}
 				onMouseOver={this.handleMouseOver}
 				onMouseOut={this.handleMouseOut}>
 				{this.state.hover ? (

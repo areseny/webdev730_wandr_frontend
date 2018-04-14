@@ -114,3 +114,8 @@ export const deleteActivity = (id, destinationId) => dispatch => {
 			dispatch({ type: 'DELETE_ACTIVITY', payload: { id, destinationId } });
 		});
 };
+
+export const updateTargetActivity = activity => ({
+	type: 'UPDATE_TARGET_ACTIVITY',
+	activity
+});

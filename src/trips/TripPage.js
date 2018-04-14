@@ -28,7 +28,6 @@ class TripPage extends Component {
 					activitiesArr.push(a);
 				});
 			});
-			console.log(activitiesArr);
 			return activitiesArr;
 		}
 	};

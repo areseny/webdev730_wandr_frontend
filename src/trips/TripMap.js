@@ -28,6 +28,9 @@ const TripMap = withScriptjs(
 				{props.destinations.map((d, i) => (
 					<DestinationMarker destination={d} key={i} />
 				))}
+				{props.activities.map((a, i) => (
+					<ActivityMarker activity={a} key={i} />
+				))}
 				<Polyline path={polylinePath} />
 			</GoogleMap>
 		);
