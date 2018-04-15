@@ -7,7 +7,9 @@ import { GM_JS_KEY } from '../config.js';
 import TripMap from './TripMap';
 import TripDashboard from './TripDashboard';
 import TripCalendar from './TripCalendar';
-import '../stylesheets/tripMap.css';
+import '../stylesheets/tripPage.css';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 import { Grid } from 'semantic-ui-react';
 
 class TripPage extends Component {
@@ -39,19 +41,31 @@ class TripPage extends Component {
 				{this.state.loaded ? (
 					<Grid columns={2} divided>
 						<Grid.Column width={11}>
-							<TripCalendar
-								trip={this.props.targetTrip}
-								activities={this.targetTripActivities()}
-							/>
+							<Tabs>
+								<TabList>
+									<Tab>Calendar</Tab>
+									<Tab>Map</Tab>
+								</TabList>
+								<TabPanel>
+									<div className="trip-info-container">
+										<TripCalendar
+											trip={this.props.targetTrip}
+											activities={this.targetTripActivities()}
+										/>
+									</div>
+								</TabPanel>
+								<TabPanel>
+									<TripMap
+										destinations={this.props.targetTrip.destinations}
+										activities={this.targetTripActivities()}
+										googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GM_JS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
+										loadingElement={<div id="loading-element" />}
+										containerElement={<div className="trip-info-container" />}
+										mapElement={<div id="map-element" />}
+									/>
+								</TabPanel>
+							</Tabs>
 							<br />
-							<TripMap
-								destinations={this.props.targetTrip.destinations}
-								activities={this.targetTripActivities()}
-								googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GM_JS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
-								loadingElement={<div id="loading-element" />}
-								containerElement={<div id="map-container" />}
-								mapElement={<div id="map-element" />}
-							/>
 							<br />
 							<Link to="/mytrips">Back to Trips</Link>
 						</Grid.Column>
@@ -63,7 +77,7 @@ class TripPage extends Component {
 						</Grid.Column>
 					</Grid>
 				) : (
-					'Loading map...'
+					'Loading trip info...'
 				)}
 			</div>
 		);
@@ -77,16 +91,3 @@ const mapStateToProps = state => ({
 export default withRouter(
 	connect(mapStateToProps, { setTargetTrip })(withAuth(TripPage))
 );
-
-// CHANGE TO DESTINATIONS
-// <br />
-// {this.props.targetActivity.key ? (
-// 	<ActivitySpec
-// 		activity={this.props.targetActivity}
-// 		tripId={this.state.tripId}
-// 	/>
-// ) : null}
-// <br />
-
-//
-// <ActivitiesContainer />

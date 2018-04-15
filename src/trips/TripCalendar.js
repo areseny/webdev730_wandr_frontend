@@ -6,7 +6,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
-const allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
+Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k]);
 
 const TripCalendar = props => {
 	const activityEvents = props.activities.map(a => ({
@@ -40,7 +40,7 @@ const TripCalendar = props => {
 
 	const eventStyleGetter = (event, start, end, isSelected) => {
 		let customStyle = {
-			borderRadius: '2px',
+			borderRadius: '10px',
 			opacity: 0.8,
 			color: 'black',
 			border: '0px',
@@ -49,8 +49,8 @@ const TripCalendar = props => {
 		if (event.type === 'destination') {
 			customStyle.backgroundColor = 'red';
 		} else if (event.type === 'activity') {
-			customStyle.backgroundColor = 'pink';
-			customStyle.display = 'inline';
+			customStyle.backgroundColor = 'transparent';
+			customStyle.color = 'pink';
 		}
 		return { style: customStyle };
 	};
@@ -58,6 +58,7 @@ const TripCalendar = props => {
 	return (
 		<BigCalendar
 			selectable
+			popup
 			events={allEvents}
 			defaultView="month"
 			defaultDate={new Date(props.trip.startDate)}
