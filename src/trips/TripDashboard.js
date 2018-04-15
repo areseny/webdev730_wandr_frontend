@@ -4,14 +4,10 @@ import { deleteTrip } from '../actions/tripActions';
 import TripContent from './TripContent';
 import EditTripForm from './EditTripForm';
 
+import DestinationsContainer from '../destinations/DestinationsContainer';
+
 class TripDashboard extends Component {
 	state = { editing: false };
-
-	// componentWillReceiveProps(nextProps) {
-	// 	if (nextProps.targetTrip) {
-	// 		this.setState({ loaded: true });
-	// 	}
-	// }
 
 	toggleEdit = () => {
 		this.setState({ editing: !this.state.editing });
@@ -25,26 +21,27 @@ class TripDashboard extends Component {
 		return (
 			<div>
 				<h1>{this.props.targetTrip.name}</h1>
-				<TripContent targetTrip={this.props.targetTrip} />
-				<br />
-				{this.state.editing ? (
-					<div>
+				<div>
+					{this.state.editing ? (
 						<EditTripForm
 							targetTrip={this.props.targetTrip}
 							toggleEdit={this.toggleEdit}
 						/>
-					</div>
-				) : (
-					<button onClick={this.toggleEdit}>Edit Trip</button>
-				)}
+					) : (
+						<TripContent
+							targetTrip={this.props.targetTrip}
+							toggleEdit={this.toggleEdit}
+						/>
+					)}
+				</div>
+				<br />
+				<DestinationsContainer
+					destinations={this.props.targetTrip.destinations}
+				/>
 				<button onClick={this.handleDelete}>Delete Trip</button>
 			</div>
 		);
 	}
 }
-
-// const mapStateToProps = state => ({
-// 	tartgetTrip: state.trip.targetTrip
-// });
 
 export default connect(null, { deleteTrip })(TripDashboard);

@@ -1,5 +1,9 @@
 const defaultState = { userTrips: [], targetTrip: {}, targetDestination: {} };
 
+let nextActivities;
+let nextDestinations;
+let nextUserTrips;
+
 const tripIndex = state =>
 	state.userTrips.findIndex(ut => ut.id === state.targetTrip.id);
 
@@ -25,13 +29,11 @@ export default function(state = defaultState, action) {
 		case 'ADD_TRIP':
 			return { ...state, userTrips: [...state.userTrips, action.newTrip] };
 		case 'EDIT_TRIP':
-			const editedUserTrips = state.userTrips
-				.slice(0, tripIndex(state))
-				.concat(action.editedTrip)
-				.concat(state.userTrips.slice(tripIndex(state) + 1));
+			nextUserTrips = [...state.userTrips];
+			nextUserTrips.splice(tripIndex(state), 1, action.editedTrip);
 			return {
 				...state,
-				userTrips: editedUserTrips,
+				userTrips: nextUserTrips,
 				targetTrip: action.editedTrip
 			};
 		case 'DELETE_TRIP':
@@ -51,78 +53,62 @@ export default function(state = defaultState, action) {
 				...targetDestination,
 				activities: [...state.targetDestination.activities, action.newActivity]
 			};
-			const ttNewAct = {
-				...state.targetTrip,
-				destinations: state.targetTrip.destinations
-					.slice(0, destinationIndex(state))
-					.concat(destNewAct)
-					.concat(
-						state.targetTrip.destinations.slice(destinationIndex(state) + 1)
-					)
-			};
-			const utNewAct = state.userTrips
-				.slice(0, tripIndex(state))
-				.concat(ttNewAct)
-				.concat(state.userTrips.slice(tripIndex(state) + 1));
+			nextDestinations = [...state.targetTrip.destinations];
+			nextDestinations.splice(destinationIndex(state), 1, destNewAct);
+			const ttNewAct = { ...state.targetTrip, destinations: nextDestinations };
+			nextUserTrips = [...state.userTrips];
+			nextUserTrips.splice(tripIndex(state), 1, ttNewAct);
 			return {
 				...state,
-				userTrips: utNewAct,
+				userTrips: nextUserTrips,
 				targetTrip: ttNewAct,
 				targetDestination: destNewAct
 			};
 		case 'EDIT_ACTIVITY':
+			nextActivities = [...state.targetDestination.activities];
+			nextActivities.splice(
+				activityIndex(state, action.editedActivity.id),
+				1,
+				action.editedActivity
+			);
 			const destEditedAct = {
 				...state.targetDestination,
-				activities: state.targetDestination.activities
-					.slice(0, activityIndex(state, action.editedActivity.id))
-					.concat(action.editedActivity)
-					.concat(
-						state.targetDestination.activities.slice(
-							activityIndex(state, action.editedActivity.id)
-						)
-					)
+				activities: nextActivities
 			};
+			nextDestinations = [...state.targetTrip.destinations];
+			nextDestinations.splice(destinationIndex(state), 1, destEditedAct);
 			const ttEditedAct = {
 				...state.targetTrip,
-				destinations: state.targetTrip.destinations
-					.slice(0, destinationIndex(state))
-					.concat(destEditedAct)
-					.concat(
-						state.targetTrip.destinations.slice(destinationIndex(state) + 1)
-					)
+				destinations: nextDestinations
 			};
-			const utEditedAct = state.userTrips
-				.slice(0, tripIndex(state))
-				.concat(ttEditedAct)
-				.concat(state.userTrips.slice(tripIndex(state) + 1));
+			nextUserTrips = [...state.userTrips];
+			nextUserTrips.splice(tripIndex(state), 1, ttEditedAct);
 			return {
 				...state,
-				userTrips: utEditedAct,
+				userTrips: nextUserTrips,
 				targetTrip: ttEditedAct,
 				targetDestination: destEditedAct
 			};
-
 		case 'DELETE_ACTIVITY':
-			const actArr = state.targetDestination.activities.filter(
+			nextActivities = state.targetDestination.activities.filter(
 				a => a.id !== Number(action.payload.id)
 			);
-			const destDeletedAct = { ...state.targetDestination, activities: actArr };
+			const destDeletedAct = {
+				...state.targetDestination,
+				activities: nextActivities
+			};
+			nextDestinations = [...state.targetTrip.destinations];
+			nextDestinations.splice(destinationIndex(state), 1, destDeletedAct);
 			const ttDeletedAct = {
 				...state.targetTrip,
-				destinations: state.targetTrip.destinations
-					.slice(0, destinationIndex(state))
-					.concat(destDeletedAct)
-					.concat(
-						state.targetTrip.destinations.slice(destinationIndex(state) + 1)
-					)
+				destinations: nextDestinations
 			};
-			const utDeletedAct = state.userTrips
-				.slice(0, tripIndex(state))
-				.concat(ttDeletedAct)
-				.concat(state.userTrips.slice(tripIndex(state) + 1));
+			nextUserTrips = [...state.userTrips];
+			nextUserTrips.splice(tripIndex(state), 1, ttDeletedAct);
+
 			return {
 				...state,
-				userTrips: utDeletedAct,
+				userTrips: nextUserTrips,
 				targetTrip: ttDeletedAct,
 				targetDestination: destDeletedAct
 			};

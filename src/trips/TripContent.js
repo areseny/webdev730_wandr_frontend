@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import DestinationsContainer from '../destinations/DestinationsContainer';
 
 export default class TripContent extends Component {
 	render() {
 		return (
 			<div>
+				<button onClick={this.props.toggleEdit}>Edit Trip</button>
+				<br />
 				Description: {this.props.targetTrip.description}
 				<br />
 				Timeline: from {moment(this.props.targetTrip.startDate).format('LL')} to
@@ -15,11 +16,6 @@ export default class TripContent extends Component {
 				days)
 				<br />
 				Ratings: {this.props.targetTrip.ratings}
-				<br />
-				<br />
-				<DestinationsContainer
-					destinations={this.props.targetTrip.destinations}
-				/>
 			</div>
 		);
 	}

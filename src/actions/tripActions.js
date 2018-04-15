@@ -39,7 +39,6 @@ export const addTrip = ({
 	fetch('http://localhost:3000/user_trips', options)
 		.then(res => res.json())
 		.then(json => {
-			debugger;
 			dispatch({
 				type: 'ADD_TRIP',
 				newTrip: parseTripData(json)

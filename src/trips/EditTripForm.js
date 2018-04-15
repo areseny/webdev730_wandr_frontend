@@ -24,16 +24,65 @@ class EditTripForm extends Component {
 		return this.state.destinations.map((d, i) => (
 			<div key={`destination ${i + 1}`}>
 				<input
-					key={i}
 					type="text"
-					name={d.name}
+					name="name"
 					value={d.name}
 					placeholder={`Destination ${i + 1}`}
 					onChange={this.handleDestinationChange(i)}
 				/>
+				<br />
+				<input
+					type="text"
+					name="description"
+					value={d.description}
+					placeholder={`Description for destination ${i + 1}`}
+					onChange={this.handleDestinationChange(i)}
+				/>
+				<DatePicker
+					placeholderText="Arriving on..."
+					selected={this.state.destinations[i].arrival}
+					onChange={this.handleArrivalInput}
+					minDate={moment(new Date(this.state.startDate))}
+					maxDate={moment(new Date(this.state.endDate))}
+				/>
+				<DatePicker
+					placeholderText="Leaving on..."
+					selected={this.state.destinations[i].departure}
+					onChange={this.handleDepartureInput}
+					minDate={moment(new Date(this.state.destinations[i].arrival))}
+					maxDate={moment(new Date(this.state.endDate))}
+				/>
 				<input type="button" onClick={this.removeDestination(i)} value="X" />
 			</div>
 		));
+	};
+
+	handleTripChange = e => {
+		this.setState({ [e.target.name]: e.target.value });
+	};
+
+	handleArrivalInput = day => {
+		this.setState({
+			destinations: [
+				...this.state.destinations.slice(0, -1),
+				{
+					...this.state.destinations[this.state.destinations.length - 1],
+					arrival: day
+				}
+			]
+		});
+	};
+
+	handleDepartureInput = day => {
+		this.setState({
+			destinations: [
+				...this.state.destinations.slice(0, -1),
+				{
+					...this.state.destinations[this.state.destinations.length - 1],
+					departure: day
+				}
+			]
+		});
 	};
 
 	addDestinationField = e => {
@@ -42,14 +91,17 @@ class EditTripForm extends Component {
 			this.state.destinations[this.state.destinations.length - 1].name
 		) {
 			this.setState({
-				destinations: [...this.state.destinations, { name: '', lat: 0, lng: 0 }]
+				destinations: [
+					...this.state.destinations,
+					{ name: '', description: '', lat: 0, lng: 0 }
+				]
 			});
 		}
 	};
 
 	removeDestination = index => () => {
 		this.setState({
-			destinations: this.state.destinations.filter((d, i) => i !== index)
+			destinations: [...this.state.destinations].filter((d, i) => i !== index)
 		});
 	};
 
@@ -57,9 +109,9 @@ class EditTripForm extends Component {
 		clearTimeout(debounceFetch);
 		debounceFetch = setTimeout(this.fetchLatLng(e.target.value, index), 2000);
 		const newDestinations = this.state.destinations.map(
-			(d, i) => (i !== index ? d : { ...d, name: e.target.value })
+			(d, i) => (i !== index ? d : { ...d, [e.target.name]: e.target.value })
 		);
-		this.setState({ destinations: [...newDestinations] });
+		this.setState({ destinations: newDestinations });
 	};
 
 	fetchLatLng = (address, index) => {
@@ -151,7 +203,7 @@ class EditTripForm extends Component {
 					<br />
 					<input type="submit" value="Update" />
 				</form>
-				<button onClick={this.props.toggleEdit}>Collapse</button>
+				<button onClick={this.props.toggleEdit}>Back</button>
 			</div>
 		);
 	}
