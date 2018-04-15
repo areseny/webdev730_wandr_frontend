@@ -22,7 +22,7 @@ const DestinationsContainer = props => (
 );
 
 const mapStateToProps = state => ({
-	targetDestination: state.dest.targetDestination
+	targetDestination: state.trip.targetDestination
 });
 
 export default connect(mapStateToProps)(DestinationsContainer);

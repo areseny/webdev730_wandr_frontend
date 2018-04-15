@@ -8,18 +8,18 @@ import { GM_GEO_KEY } from '../config.js';
 
 let debounceFetch;
 
+const defaultState = {
+	name: '',
+	description: '',
+	startDate: null,
+	endDate: null,
+	duration: '',
+	ratings: 0,
+	destinations: [{ name: '', arrival: null, departure: null, lat: 0, lng: 0 }]
+};
+
 class AddTripForm extends Component {
-	state = {
-		name: '',
-		description: '',
-		startDate: '',
-		endDate: '',
-		duration: '',
-		ratings: 0,
-		startDateMoment: null,
-		endDateMoment: null,
-		destinations: [{ name: '', lat: 0, lng: 0 }]
-	};
+	state = defaultState;
 
 	destinationInputs = () =>
 		this.state.destinations.map((d, i) => (
@@ -32,14 +32,51 @@ class AddTripForm extends Component {
 					placeholder={`Destination ${i + 1}`}
 					onChange={this.handleDestinationChange(i)}
 				/>
+				<DatePicker
+					placeholderText="Arriving on..."
+					selected={this.state.destinations[i].arrival}
+					onChange={this.handleArrivalInput}
+					minDate={moment(new Date(this.state.startDate))}
+					maxDate={moment(new Date(this.state.endDate))}
+				/>
+				<DatePicker
+					placeholderText="Learving on..."
+					selected={this.state.destinations[i].departure}
+					onChange={this.handleDepartureInput}
+					minDate={moment(new Date(this.state.destinations[i].arrival))}
+					maxDate={moment(new Date(this.state.endDate))}
+				/>
 				<input type="button" onClick={this.removeDestination(i)} value="X" />
 			</div>
 		));
 
+	handleArrivalInput = day => {
+		const i = this.state.destinations.length - 1;
+		this.setState({
+			destinations: [
+				...this.state.destinations.slice(0, i),
+				{ ...this.state.destinations[i], arrival: day }
+			]
+		});
+	};
+
+	handleDepartureInput = day => {
+		const j = this.state.destinations.length - 1;
+		this.setState({
+			destinations: [
+				...this.state.destinations.slice(0, j),
+				{ ...this.state.destinations[j], departure: day }
+			]
+		});
+	};
+
 	addDestinationField = e => {
 		if (this.state.destinations[this.state.destinations.length - 1].name) {
 			this.setState({
-				destinations: [...this.state.destinations, { name: '', lat: 0, lng: 0 }]
+				destinations: [
+					...this.state.destinations,
+					{ name: '', arrival: '', departure: '', lat: 0, lng: 0 }
+				]
 			});
 		}
 	};
@@ -86,29 +123,19 @@ class AddTripForm extends Component {
 	};
 
 	handleStartDateInput = day => {
-		this.setState({ startDate: day._d, startDateMoment: day });
+		this.setState({ startDate: day });
 	};
 
 	handleEndDateInput = day => {
 		// convert duration from seconds to days
-		const duration = (day._d - this.state.startDate) / 86400000 + 1;
-		this.setState({ endDate: day._d, endDateMoment: day, duration: duration });
+		const duration = (day._d - this.state.startDate._d) / 86400000 + 1;
+		this.setState({ endDate: day, duration: duration });
 	};
 
 	handleSubmit = e => {
 		e.preventDefault();
 		this.props.addTrip(this.state);
-		this.setState({
-			name: '',
-			description: '',
-			startDate: '',
-			endDate: '',
-			duration: '',
-			ratings: '',
-			startDateMoment: null,
-			endDateMoment: null,
-			destinations: [{ name: '', lat: 0, lng: 0 }]
-		});
+		this.setState(defaultState);
 	};
 
 	render() {
@@ -132,14 +159,14 @@ class AddTripForm extends Component {
 						onChange={this.handleChange}
 					/>
 					<DatePicker
-						placeholderText="Depart"
-						selected={this.state.startDateMoment}
+						placeholderText="Start Date"
+						selected={this.state.startDate}
 						onChange={this.handleStartDateInput}
 						minDate={moment(new Date())}
 					/>
 					<DatePicker
-						placeholderText="Return"
-						selected={this.state.endDateMoment}
+						placeholderText="End Date"
+						selected={this.state.endDate}
 						onChange={this.handleEndDateInput}
 						minDate={moment(new Date(this.state.startDate))}
 					/>

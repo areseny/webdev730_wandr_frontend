@@ -1,16 +1,4 @@
-const parseTripData = json => ({
-	id: json.id,
-	tripId: json.trip.id,
-	name: json.trip.name,
-	description: json.trip.description,
-	duration: json.trip.duration,
-	startDate: json.start_date,
-	endDate: json.end_date,
-	ratings: json.ratings,
-	destinations: json.destinations
-});
-
-export const fetchUserTrips = history => dispatch => {
+export const fetchUserTrips = () => dispatch => {
 	fetch(`http://localhost:3000/user_trips`, {
 		headers: { Authorization: localStorage.getItem('jwt') }
 	})
@@ -32,8 +20,8 @@ export const addTrip = ({
 	ratings,
 	destinations
 }) => dispatch => {
-	const start_date = startDate;
-	const end_date = endDate;
+	const start_date = startDate._d;
+	const end_date = endDate._d;
 	const options = {
 		method: 'POST',
 		headers: {
@@ -44,12 +32,14 @@ export const addTrip = ({
 		body: JSON.stringify({
 			trip: { name, description, duration },
 			user_trip: { start_date, end_date, ratings },
-			destinations
+			destinations: parseDestinationsTimes(destinations)
 		})
 	};
+
 	fetch('http://localhost:3000/user_trips', options)
 		.then(res => res.json())
 		.then(json => {
+			debugger;
 			dispatch({
 				type: 'ADD_TRIP',
 				newTrip: parseTripData(json)
@@ -108,3 +98,48 @@ export const deleteTrip = (id, history) => dispatch => {
 			dispatch({ type: 'DELETE_TRIP', id });
 		});
 };
+
+const parseTripData = json => ({
+	id: json.id,
+	tripId: json.trip.id,
+	name: json.trip.name,
+	description: json.trip.description,
+	duration: json.trip.duration,
+	startDate: json.start_date,
+	endDate: json.end_date,
+	ratings: json.ratings,
+	destinations: parseDestinationsData(json.destinations, json.trip.id)
+});
+
+const parseDestinationsData = (destinations, tripId) =>
+	destinations.map(d => ({
+		id: d.id,
+		name: d.name,
+		description: d.description,
+		lat: d.lat,
+		lng: d.lng,
+		arrival: d.trip_destinations.filter(td => td.trip_id === tripId)[0].arrival,
+		departure: d.trip_destinations.filter(td => td.trip_id === tripId)[0]
+			.departure,
+		activities: parseActivitiesData(d.activities)
+	}));
+
+const parseActivitiesData = activities =>
+	activities.map(a => ({
+		id: a.id,
+		name: a.name,
+		address: a.address,
+		cost: a.cost,
+		description: a.description,
+		startTime: a.start_time,
+		endTime: a.end_time,
+		lat: a.lat,
+		lng: a.lng
+	}));
+
+const parseDestinationsTimes = destinations =>
+	destinations.map(d => ({
+		...d,
+		arrival: d.arrival._d,
+		departure: d.departure._d
+	}));

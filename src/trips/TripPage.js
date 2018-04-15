@@ -6,6 +6,7 @@ import withAuth from '../app/withAuth';
 import { GM_JS_KEY } from '../config.js';
 import TripMap from './TripMap';
 import TripDashboard from './TripDashboard';
+import TripCalendar from './TripCalendar';
 import '../stylesheets/tripMap.css';
 import { Grid } from 'semantic-ui-react';
 
@@ -38,6 +39,11 @@ class TripPage extends Component {
 				{this.state.loaded ? (
 					<Grid columns={2} divided>
 						<Grid.Column width={11}>
+							<TripCalendar
+								trip={this.props.targetTrip}
+								activities={this.targetTripActivities()}
+							/>
+							<br />
 							<TripMap
 								destinations={this.props.targetTrip.destinations}
 								activities={this.targetTripActivities()}

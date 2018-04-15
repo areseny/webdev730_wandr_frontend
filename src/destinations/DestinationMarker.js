@@ -3,13 +3,13 @@ import DestinationInfoWindow from './DestinationInfoWindow';
 import { Marker, InfoWindow } from 'react-google-maps';
 import destinationIcon from '../media/destination.png';
 import { connect } from 'react-redux';
-import { updateTargetDestination } from '../actions/destActions';
+import { setTargetDestination } from '../actions/destActions';
 
 class DestinationMarker extends Component {
 	state = { hover: false };
 
 	handleClick = () => {
-		this.props.updateTargetDestination(this.props.destination);
+		this.props.setTargetDestination(this.props.destination.id);
 	};
 
 	handleMouseOver = () => {
@@ -41,4 +41,4 @@ class DestinationMarker extends Component {
 	}
 }
 
-export default connect(null, { updateTargetDestination })(DestinationMarker);
+export default connect(null, { setTargetDestination })(DestinationMarker);
