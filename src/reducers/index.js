@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
 import authReducer from './authReducer';
 import tripReducer from './tripReducer';
-// import destReducer from './destReducer';
+import friendReducer from './friendReducer';
 
 export default combineReducers({
 	auth: authReducer,
-	trip: tripReducer
+	trip: tripReducer,
+	friend: friendReducer
 });

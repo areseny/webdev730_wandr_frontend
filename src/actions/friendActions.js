@@ -1,16 +1,17 @@
-export const fetchUsers = () => {
-	return dispatch => {
-		adapter.friends.fetchUsers().then(res => {
+export const fetchUsers = () => dispatch => {
+	fetch(`http://localhost:3000/users`, {
+		headers: { Authorization: localStorage.getItem('jwt') }
+	})
+		.then(res => res.json())
+		.then(json => {
 			dispatch({
-				type: 'GET_USERS',
+				type: 'FETCH_USERS',
 				payload: {
-					all: res.all,
-					unfriended: res.unfriended,
-					pendingFriends: res.pending_friends,
-					requestedFriends: res.requested_friends,
-					acceptedFriends: res.accepted_friends
+					allUsers: json.all,
+					friends: json.friends,
+					pendingFriends: json.pending_friends,
+					requestedFriends: json.requested_friends
 				}
 			});
 		});
-	};
 };
