@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import withAuth from '../app/withAuth';
+import Navbar from '../app/Navbar';
 import TripCard from './TripCard';
 import AddTripForm from './AddTripForm';
 
@@ -15,6 +16,7 @@ class TripsList extends Component {
 	render() {
 		return (
 			<div>
+				<Navbar history={this.props.history} />
 				<h1>My Trips</h1>
 				<ul>
 					{this.props.userTrips.map((t, i) => (

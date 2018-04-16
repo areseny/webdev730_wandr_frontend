@@ -5,11 +5,12 @@ import Signup from './app/Signup';
 import Home from './app/Home';
 import TripsList from './trips/TripsList';
 import TripPage from './trips/TripPage';
+import FriendsContainer from './friends/FriendsContainer';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchUser } from './actions/authActions';
 import { fetchUserTrips } from './actions/tripActions';
-
+import { fetchUsers } from './actions/friendActions';
 class App extends Component {
 	componentDidMount() {
 		let jwt = localStorage.getItem('token');
@@ -44,6 +45,12 @@ class App extends Component {
 						path="/mytrips"
 						render={renderProps => <TripsList history={renderProps.history} />}
 					/>
+					<Route
+						path="/friends"
+						render={routerProps => (
+							<FriendsContainer history={routerProps.history} />
+						)}
+					/>
 				</Switch>
 			</div>
 		);
@@ -51,10 +58,9 @@ class App extends Component {
 }
 const mapStateToProps = state => ({
 	loggedIn: state.auth.loggedIn,
-	currentUser: state.auth.currentUser,
-	userTrips: state.trip.userTrips
+	currentUser: state.auth.currentUser
 });
 
 export default withRouter(
-	connect(mapStateToProps, { fetchUser, fetchUserTrips })(App)
+	connect(mapStateToProps, { fetchUser, fetchUserTrips, fetchUsers })(App)
 );

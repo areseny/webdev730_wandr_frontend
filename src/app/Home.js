@@ -8,8 +8,9 @@ const Home = props => (
 		<h1>Welcome, {props.currentUser.firstname}</h1>
 		<h3>Upcoming Trips</h3>
 		<h3>Past Trips</h3>
-		<h3>Wishlist</h3>
-		<h3>To Do List</h3>
+		<hr />
+		<h3>Fellow Nomads</h3>
+		<h3>Friends</h3>
 	</div>
 );
 

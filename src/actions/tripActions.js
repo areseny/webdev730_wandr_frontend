@@ -1,7 +1,6 @@
 export const fetchUserTrips = () => dispatch => {
-	fetch(`http://localhost:3000/user_trips`, {
-		headers: { Authorization: localStorage.getItem('jwt') }
-	})
+	const options = { headers: { Authorization: localStorage.getItem('jwt') } };
+	fetch(`http://localhost:3000/user_trips`, options)
 		.then(res => res.json())
 		.then(json => {
 			const userTrips = json.map(ut => parseTripJson(ut));

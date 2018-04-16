@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
-import { setTargetTrip } from '../actions/tripActions';
 import withAuth from '../app/withAuth';
+import Navbar from '../app/Navbar';
+import { setTargetTrip } from '../actions/tripActions';
 import { GM_JS_KEY } from '../config.js';
 import TripMap from './TripMap';
 import TripDashboard from './TripDashboard';
@@ -42,6 +43,7 @@ class TripPage extends Component {
 	render() {
 		return (
 			<div>
+				<Navbar history={this.props.history} />
 				{this.state.loaded ? (
 					<Grid columns={2} divided>
 						<Grid.Column width={11}>

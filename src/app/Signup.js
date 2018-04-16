@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { signUp } from '../actions/authActions';
 import { connect } from 'react-redux';
 
-class Signup extends React.Component {
+class Signup extends Component {
 	state = {
 		firstname: '',
 		lastname: '',

@@ -2,7 +2,8 @@ const defaultState = {
 	allUsers: [],
 	friends: [],
 	pendingFriends: [],
-	requestedFriends: []
+	requestedFriends: [],
+	strangers: []
 };
 
 export default function(state = defaultState, action) {
@@ -13,21 +14,22 @@ export default function(state = defaultState, action) {
 				allUsers: action.payload.allUsers,
 				friends: action.payload.friends,
 				pendingFriends: action.payload.pendingFriends,
-				requestedFriends: action.payload.requestedFriends
+				requestedFriends: action.payload.requestedFriends,
+				strangers: action.payload.strangers
 			};
-		case 'SEND_FRIEND_INVITE':
+		case 'ADD_FRIEND':
 			return {
 				...state,
 				requestedFriends: [...state.requestedFriends, action.friend]
 			};
-		case 'CANCEL_FRIEND_INVITE':
+		case 'CANCEL_FRIEND_REQUEST':
 			return {
 				...state,
 				requestedFriends: [...state.requestedFriends].filter(
 					f => f.id !== action.friend.id
 				)
 			};
-		case 'ACCEPT_FRIEND_INVITE':
+		case 'ACCEPT_FRIEND_REQUEST':
 			return {
 				...state,
 				friends: [...state.friends, action.friend],
@@ -35,7 +37,7 @@ export default function(state = defaultState, action) {
 					f => f.id !== action.friend.id
 				)
 			};
-		case 'REJECT_FRIEND_INVITE':
+		case 'REJECT_FRIEND_REQUEST':
 			return {
 				...state,
 				pendingFriends: [...state.pendingFriends].filter(

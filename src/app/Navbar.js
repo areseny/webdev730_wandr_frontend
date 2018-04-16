@@ -9,6 +9,7 @@ const Navbar = props => (
 		<NavLink to="/mytrips">Trips</NavLink>
 		<NavLink to="/about">About</NavLink>
 		<NavLink to="/contact">Contact</NavLink>
+		<NavLink to="/friends">Friends</NavLink>
 		<button onClick={() => props.logOut(props.history)}>Log Out</button>
 	</div>
 );
