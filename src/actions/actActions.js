@@ -1,4 +1,4 @@
-const parseActivityData = json => ({
+const parseActivityJson = json => ({
 	id: json.id,
 	name: json.name,
 	description: json.description,
@@ -20,11 +20,10 @@ export const addActivity = ({
 	address,
 	lat,
 	lng,
-	destinationName
+	destinationId
 }) => dispatch => {
-	const start_time = startTime;
-	const end_time = endTime;
-	const destination_name = destinationName;
+	const start_time = startTime.toISOString();
+	const end_time = endTime.toISOString();
 	const options = {
 		method: 'POST',
 		headers: {
@@ -43,17 +42,15 @@ export const addActivity = ({
 				lng
 			},
 			user_trip: { id },
-			destination: {
-				lat,
-				lng,
-				destination_name
-			}
+			destination: { destinationId }
 		})
 	};
 	fetch(`http://localhost:3000/activities`, options)
 		.then(res => res.json())
 		.then(json => {
-			dispatch({ type: 'ADD_ACTIVITY', newActivity: parseActivityData(json) });
+			debugger;
+			console.log('json response:', json);
+			dispatch({ type: 'ADD_ACTIVITY', newActivity: parseActivityJson(json) });
 		});
 };
 
@@ -95,7 +92,7 @@ export const editActivity = ({
 		.then(json => {
 			dispatch({
 				type: 'EDIT_ACTIVITY',
-				editedActivity: parseActivityData(json)
+				editedActivity: parseActivityJson(json)
 			});
 		});
 };

@@ -28,8 +28,6 @@ export default function(state = defaultState, action) {
 		case 'EDIT_TRIP':
 			nextUserTrips = [...state.userTrips];
 			nextUserTrips.splice(tripIndex(state), 1, action.editedTrip);
-			console.log('next trips:', nextUserTrips);
-			console.log('edited trip:', action.editedTrip);
 			return {
 				...state,
 				userTrips: nextUserTrips,
@@ -48,9 +46,13 @@ export default function(state = defaultState, action) {
 			return { ...state, targetDestination };
 
 		case 'ADD_ACTIVITY':
+			nextActivities = [
+				...state.targetDestination.activities,
+				action.newActivity
+			];
 			const destNewAct = {
 				...targetDestination,
-				activities: [...state.targetDestination.activities, action.newActivity]
+				activities: nextActivities
 			};
 			nextDestinations = [...state.targetTrip.destinations];
 			nextDestinations.splice(destinationIndex(state), 1, destNewAct);

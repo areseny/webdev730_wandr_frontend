@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import DestinationCard from './DestinationCard';
 
 const DestinationsContainer = props => (
@@ -12,7 +13,11 @@ const DestinationsContainer = props => (
 							{d.id === props.targetDestination.id ? (
 								<DestinationCard destination={d} />
 							) : (
-								d.name
+								<div>
+									{d.name} ({`${moment(d.arrival).format('MMM DD')} - ${moment(
+										d.departure
+									).format('MMM Do')}`})
+								</div>
 							)}
 						</li>
 				  ))

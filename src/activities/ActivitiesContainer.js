@@ -5,32 +5,31 @@ import AddActivityForm from './AddActivityForm';
 export default class ActivitiesContainer extends Component {
 	state = { addingActivity: false };
 
-	toggleAddActivity = () => {
+	toggleAdd = () => {
 		this.setState({ addingActivity: !this.state.addingActivity });
 	};
 
 	render() {
 		return (
 			<div>
-				<ul>
-					{this.props.activities.map((a, i) => (
-						<li key={i}>
-							<ActivityCard
-								activity={a}
-								destinationId={this.props.destinationId}
-							/>
-						</li>
-					))}
-				</ul>
-				<br />
 				{this.state.addingActivity ? (
 					<AddActivityForm
-						toggleAddActivity={this.toggleAddActivity}
+						toggleAdd={this.toggleAdd}
 						destinationId={this.props.destinationId}
 					/>
 				) : (
-					<button onClick={this.toggleAddActivity}>Add Activity</button>
+					<button onClick={this.toggleAdd}>Add Activity</button>
 				)}
+				<br />
+				{this.props.activities.length
+					? this.props.activities.map((a, i) => (
+							<ActivityCard
+								activity={a}
+								key={i}
+								destinationId={this.props.destinationId}
+							/>
+					  ))
+					: 'No activity have been planned (yet...)'}
 			</div>
 		);
 	}

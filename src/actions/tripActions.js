@@ -71,11 +71,9 @@ export const editTrip = ({
 			destinations: parseDestinationsTimes(destinations)
 		})
 	};
-	console.log('before fetch:', parseDestinationsTimes(destinations));
 	fetch(`http://localhost:3000/user_trips/${id}`, options)
 		.then(res => res.json())
 		.then(json => {
-			console.log('json res:', json);
 			dispatch({
 				type: 'EDIT_TRIP',
 				editedTrip: parseTripJson(json)

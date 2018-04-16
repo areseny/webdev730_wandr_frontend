@@ -52,10 +52,7 @@ class TripPage extends Component {
 								</TabList>
 								<TabPanel>
 									<div className="trip-info-container">
-										<TripCalendar
-											trip={this.props.targetTrip}
-											activities={this.targetTripActivities()}
-										/>
+										<TripCalendar trip={this.props.targetTrip} />
 									</div>
 								</TabPanel>
 								<TabPanel>

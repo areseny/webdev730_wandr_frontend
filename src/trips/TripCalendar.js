@@ -16,32 +16,48 @@ class Dnd extends Component {
 	state = { allEvents: [] };
 
 	componentDidMount() {
-		const activityEvents = this.props.activities.map(a => ({
-			id: a.id,
-			title: a.name,
-			start: new Date(a.startTime),
-			end: new Date(a.endTime),
-			type: 'activity'
-		}));
+		this.generateAllEvents(this.props);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.generateAllEvents(nextProps);
+	}
+
+	generateAllEvents = props => {
 		const tripEvents = {
-			id: this.props.trip.id,
-			title: this.props.trip.name.toUpperCase(),
+			id: props.trip.id,
+			title: props.trip.name.toUpperCase(),
 			allDay: true,
-			start: new Date(this.props.trip.startDate),
-			end: new Date(this.props.trip.endDate),
+			start: new Date(props.trip.startDate + 'T12:00:00'),
+			end: new Date(props.trip.endDate + 'T12:00:00'),
 			type: 'trip'
 		};
-		const destinationEvents = this.props.trip.destinations.map(d => ({
-			id: d.id,
-			title: d.name,
-			start: new Date(d.arrival),
-			end: new Date(d.departure),
-			type: 'destination'
-		}));
-		this.setState({
-			allEvents: [...activityEvents, tripEvents, ...destinationEvents]
+		const destinationEvents = props.trip.destinations.map(d => {
+			return {
+				id: d.id,
+				title: d.name,
+				start: new Date(d.arrival + 'T12:00:00'),
+				end: new Date(d.departure + 'T12:00:00'),
+				type: 'destination'
+			};
 		});
-	}
+		const activityEventsNested = props.trip.destinations.map(d =>
+			d.activities.map(a => ({
+				id: a.id,
+				title: a.name,
+				start: a.startTime,
+				end: a.endTime,
+				type: 'activity'
+			}))
+		);
+		const activityEvents = activityEventsNested.reduce(
+			(arr, act) => arr.concat(act),
+			[]
+		);
+		this.setState({
+			allEvents: [tripEvents, ...destinationEvents, ...activityEvents]
+		});
+	};
 
 	moveEvent = ({ event, start, end }) => {
 		if (event.type === 'destination') {

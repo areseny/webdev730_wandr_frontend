@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { editActivity } from '../actions/actActions';
+import { editActivity, deleteActivity } from '../actions/actActions';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -63,7 +63,12 @@ class EditActivityForm extends Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		this.props.editActivity({ ...this.state, tripId: this.props.tripId });
+		this.props.editActivity(this.state);
+		this.props.toggleEdit();
+	};
+
+	handleDelete = () => {
+		this.props.deleteActivity(this.props.activity.id, this.props.destinationId);
 		this.props.toggleEdit();
 	};
 
@@ -119,9 +124,17 @@ class EditActivityForm extends Component {
 					/>
 					<input type="submit" value="Update" />
 				</form>
+				<button onClick={this.handleDelete}>Delete Activity</button>
 			</div>
 		);
 	}
 }
 
-export default connect(null, { editActivity })(EditActivityForm);
+const mapStateToProps = state => ({
+	startDate: state.trip.targetTrip.startDate,
+	endDate: state.trip.targetTrip.endDate
+});
+
+export default connect(mapStateToProps, { editActivity, deleteActivity })(
+	EditActivityForm
+);

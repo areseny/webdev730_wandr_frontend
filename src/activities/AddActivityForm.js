@@ -9,20 +9,22 @@ import { GM_GEO_KEY } from '../config.js';
 
 let debounceFetch;
 
+let defaultState = {
+	name: '',
+	description: '',
+	cost: '',
+	startTime: null,
+	endTime: null,
+	address: '',
+	lat: 0,
+	lng: 0
+};
+
 class AddActivityForm extends Component {
 	state = {
 		id: this.props.targetTripId,
-		name: '',
-		description: '',
-		cost: '',
-		startTime: '',
-		endTime: '',
-		startTimeMoment: null,
-		endTimeMoment: null,
-		address: '',
-		lat: 0,
-		lng: 0,
-		destinationName: ''
+		destinationId: this.props.destinationId,
+		...defaultState
 	};
 
 	handleAddressChange = e => {
@@ -37,17 +39,14 @@ class AddActivityForm extends Component {
 		)
 			.then(res => res.json())
 			.then(json => {
-				debugger;
 				return json.results.length
 					? this.setState({
 							lat: json.results[0].geometry.location.lat,
-							lng: json.results[0].geometry.location.lng,
-							destinationName: json.results[0].formatted_address
+							lng: json.results[0].geometry.location.lng
 					  })
 					: this.setState({
 							lat: 0,
-							lng: 0,
-							destinationName: 'No where'
+							lng: 0
 					  });
 			});
 	};
@@ -57,28 +56,17 @@ class AddActivityForm extends Component {
 	};
 
 	handleStartTimeChange = e => {
-		this.setState({ startTime: e._d.toISOString(), startTimeMoment: e });
+		this.setState({ startTime: e });
 	};
 
 	handleEndTimeChange = e => {
-		this.setState({ endTime: e._d.toISOString(), endTimeMoment: e });
+		this.setState({ endTime: e });
 	};
 
 	handleSubmit = e => {
 		e.preventDefault();
 		this.props.addActivity({ ...this.state });
-		this.setState({
-			name: '',
-			description: '',
-			cost: '',
-			startTime: '',
-			endTime: '',
-			startTimeMoment: null,
-			endTimeMoment: null,
-			address: '',
-			lat: 0,
-			lng: 0
-		});
+		this.setState({ id: this.props.targetTripId, ...defaultState });
 	};
 
 	render() {
@@ -116,27 +104,27 @@ class AddActivityForm extends Component {
 					/>
 					<DatePicker
 						placeholderText="Start Time"
-						selected={this.state.startTimeMoment}
+						selected={this.state.startTime}
 						onChange={this.handleStartTimeChange}
 						showTimeSelect
 						timeFormat="HH:mm"
 						timeIntervals={15}
 						dateFormat="LLL"
 						timeCaption="time"
-						minDate={moment(this.props.startDate)}
-						maxDate={moment(this.props.endDate)}
+						minDate={moment(this.props.arrival)}
+						maxDate={moment(this.props.departure)}
 					/>
 					<DatePicker
 						placeholderText="End Time"
-						selected={this.state.endTimeMoment}
+						selected={this.state.endTime}
 						onChange={this.handleEndTimeChange}
 						showTimeSelect
 						timeFormat="HH:mm"
 						timeIntervals={15}
 						dateFormat="LLL"
 						timeCaption="time"
-						minDate={this.state.startTimeMoment}
-						maxDate={moment(this.props.endDate)}
+						minDate={moment(this.state.startTime)}
+						maxDate={moment(this.props.departure)}
 					/>
 
 					<input type="submit" value="Add Activity" />
@@ -148,8 +136,10 @@ class AddActivityForm extends Component {
 }
 
 const mapStateToProps = state => ({
-	startDate: state.trip.targetTrip.startDate,
-	endDate: state.trip.targetTrip.endDate
+	targetTripId: state.trip.targetTrip.id,
+	arrival: state.trip.targetDestination.arrival,
+	departure: state.trip.targetDestination.departure,
+	destinationId: state.trip.targetDestination.id
 });
 
 export default connect(mapStateToProps, { addActivity })(AddActivityForm);
