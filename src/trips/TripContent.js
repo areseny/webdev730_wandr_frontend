@@ -5,11 +5,9 @@ export default class TripContent extends Component {
 	render() {
 		return (
 			<div>
-				<button onClick={this.props.toggleEdit}>Edit Trip</button>
-				<br />
 				Description: {this.props.targetTrip.description}
 				<br />
-				Timeline: from {moment(this.props.targetTrip.startDate).format('LL')} to
+				Travel Dates: {moment(this.props.targetTrip.startDate).format('LL')} -
 				{moment(this.props.targetTrip.endDate).format('LL')} ({
 					this.props.targetTrip.duration
 				}{' '}

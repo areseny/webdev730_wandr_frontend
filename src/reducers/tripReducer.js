@@ -4,13 +4,10 @@ let nextActivities;
 let nextDestinations;
 let nextUserTrips;
 
-const tripIndex = state =>
-	state.userTrips.findIndex(ut => ut.id === state.targetTrip.id);
+const tripIndex = state => state.userTrips.indexOf(state.targetTrip);
 
 const destinationIndex = state =>
-	state.targetTrip.destinations.findIndex(
-		d => d.id === state.targetDestination.id
-	);
+	state.targetTrip.destinations.indexOf(state.targetDestination);
 
 const activityIndex = (state, activityId) =>
 	state.targetDestination.activities.findIndex(
@@ -31,6 +28,8 @@ export default function(state = defaultState, action) {
 		case 'EDIT_TRIP':
 			nextUserTrips = [...state.userTrips];
 			nextUserTrips.splice(tripIndex(state), 1, action.editedTrip);
+			console.log('next trips:', nextUserTrips);
+			console.log('edited trip:', action.editedTrip);
 			return {
 				...state,
 				userTrips: nextUserTrips,

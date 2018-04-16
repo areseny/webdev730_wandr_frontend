@@ -27,8 +27,6 @@ const defaultState = {
 	destinations: [defaultDestinationObj]
 };
 
-let nextDestinations;
-
 class AddTripForm extends Component {
 	state = defaultState;
 
@@ -55,15 +53,15 @@ class AddTripForm extends Component {
 						placeholderText="Arriving on..."
 						selected={this.state.destinations[i].arrival}
 						onChange={this.handleArrivalInput}
-						minDate={moment(new Date(this.state.startDate))}
-						maxDate={moment(new Date(this.state.endDate))}
+						minDate={moment(this.state.startDate)}
+						maxDate={moment(this.state.endDate)}
 					/>
 					<DatePicker
 						placeholderText="Leaving on..."
 						selected={this.state.destinations[i].departure}
 						onChange={this.handleDepartureInput}
-						minDate={moment(new Date(this.state.destinations[i].arrival))}
-						maxDate={moment(new Date(this.state.endDate))}
+						minDate={moment(this.state.destinations[i].arrival)}
+						maxDate={moment(this.state.endDate)}
 					/>
 					<input type="button" onClick={this.removeDestination(i)} value="X" />
 				</div>
@@ -155,8 +153,6 @@ class AddTripForm extends Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		console.log(this.state);
-		debugger;
 		this.props.addTrip(this.state);
 		this.setState(defaultState);
 	};
@@ -191,7 +187,7 @@ class AddTripForm extends Component {
 						placeholderText="End Date"
 						selected={this.state.endDate}
 						onChange={this.handleEndDateInput}
-						minDate={moment(new Date(this.state.startDate))}
+						minDate={moment(this.state.startDate)}
 					/>
 					{this.destinationInputs()}
 					<input

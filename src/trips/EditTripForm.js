@@ -14,8 +14,8 @@ class EditTripForm extends Component {
 		name: this.props.targetTrip.name,
 		description: this.props.targetTrip.description,
 		duration: this.props.targetTrip.duration,
-		startDate: this.props.targetTrip.startDate,
-		endDate: this.props.targetTrip.endDate,
+		startDate: moment(this.props.targetTrip.startDate),
+		endDate: moment(this.props.targetTrip.endDate),
 		ratings: this.props.targetTrip.ratings,
 		destinations: this.props.targetTrip.destinations
 	};
@@ -39,18 +39,16 @@ class EditTripForm extends Component {
 					onChange={this.handleDestinationChange(i)}
 				/>
 				<DatePicker
-					placeholderText="Arriving on..."
-					selected={this.state.destinations[i].arrival}
-					onChange={this.handleArrivalInput}
-					minDate={moment(new Date(this.state.startDate))}
-					maxDate={moment(new Date(this.state.endDate))}
+					selected={moment(this.state.destinations[i].arrival)}
+					onChange={this.handleArrivalInput(i)}
+					minDate={this.state.startDate}
+					maxDate={this.state.endDate}
 				/>
 				<DatePicker
-					placeholderText="Leaving on..."
-					selected={this.state.destinations[i].departure}
-					onChange={this.handleDepartureInput}
-					minDate={moment(new Date(this.state.destinations[i].arrival))}
-					maxDate={moment(new Date(this.state.endDate))}
+					selected={moment(this.state.destinations[i].departure)}
+					onChange={this.handleDepartureInput(i)}
+					minDate={moment(this.state.destinations[i].arrival)}
+					maxDate={this.state.endDate}
 				/>
 				<input type="button" onClick={this.removeDestination(i)} value="X" />
 			</div>
@@ -61,42 +59,34 @@ class EditTripForm extends Component {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 
-	handleArrivalInput = day => {
-		this.setState({
-			destinations: [
-				...this.state.destinations.slice(0, -1),
-				{
-					...this.state.destinations[this.state.destinations.length - 1],
-					arrival: day
-				}
-			]
-		});
+	handleArrivalInput = index => day => {
+		let destWithArr = { ...this.state.destinations[index], arrival: day };
+		let nextDestWithArr = [...this.state.destinations];
+		nextDestWithArr.splice(index, 1, destWithArr);
+		this.setState({ destinations: nextDestWithArr });
 	};
 
-	handleDepartureInput = day => {
-		this.setState({
-			destinations: [
-				...this.state.destinations.slice(0, -1),
-				{
-					...this.state.destinations[this.state.destinations.length - 1],
-					departure: day
-				}
-			]
-		});
+	handleDepartureInput = index => day => {
+		let destWithDep = { ...this.state.destinations[index], departure: day };
+		let nextDestWithDep = [...this.state.destinations];
+		nextDestWithDep.splice(index, 1, destWithDep);
+		this.setState({ destinations: nextDestWithDep });
 	};
 
 	addDestinationField = e => {
-		if (
-			!this.state.destinations.length ||
-			this.state.destinations[this.state.destinations.length - 1].name
-		) {
-			this.setState({
-				destinations: [
-					...this.state.destinations,
-					{ name: '', description: '', lat: 0, lng: 0 }
-				]
-			});
-		}
+		this.setState({
+			destinations: [
+				...this.state.destinations,
+				{
+					name: '',
+					description: '',
+					arrival: moment(this.props.targetTrip.startDate),
+					departure: moment(this.props.targetTrip.startDate),
+					lat: 0,
+					lng: 0
+				}
+			]
+		});
 	};
 
 	removeDestination = index => () => {
@@ -175,13 +165,13 @@ class EditTripForm extends Component {
 						onChange={this.handleChange}
 					/>
 					<DatePicker
-						selected={moment(this.state.startDate)}
+						selected={this.state.startDate}
 						onChange={this.handleStartDateChange}
 					/>
 					<DatePicker
-						selected={moment(this.state.endDate)}
+						selected={this.state.endDate}
 						onChange={this.handleEndDateChange}
-						minDate={moment(this.state.startDate)}
+						minDate={this.state.startDate}
 					/>
 					{this.destinationInputs()}
 					<input

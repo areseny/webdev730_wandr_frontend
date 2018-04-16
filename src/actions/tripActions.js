@@ -4,7 +4,7 @@ export const fetchUserTrips = () => dispatch => {
 	})
 		.then(res => res.json())
 		.then(json => {
-			const userTrips = json.map(ut => parseTripData(ut));
+			const userTrips = json.map(ut => parseTripJson(ut));
 			dispatch({ type: 'FETCH_USER_TRIPS', userTrips });
 		});
 };
@@ -41,7 +41,7 @@ export const addTrip = ({
 		.then(json => {
 			dispatch({
 				type: 'ADD_TRIP',
-				newTrip: parseTripData(json)
+				newTrip: parseTripJson(json)
 			});
 		});
 };
@@ -68,16 +68,17 @@ export const editTrip = ({
 		body: JSON.stringify({
 			trip: { name, description, duration },
 			user_trip: { start_date, end_date, ratings },
-			destinations
+			destinations: parseDestinationsTimes(destinations)
 		})
 	};
+	console.log('before fetch:', parseDestinationsTimes(destinations));
 	fetch(`http://localhost:3000/user_trips/${id}`, options)
 		.then(res => res.json())
 		.then(json => {
-			console.log(parseTripData(json));
+			console.log('json res:', json);
 			dispatch({
 				type: 'EDIT_TRIP',
-				editedTrip: parseTripData(json)
+				editedTrip: parseTripJson(json)
 			});
 		});
 };
@@ -98,7 +99,7 @@ export const deleteTrip = (id, history) => dispatch => {
 		});
 };
 
-const parseTripData = json => ({
+const parseTripJson = json => ({
 	id: json.id,
 	tripId: json.trip.id,
 	name: json.trip.name,
@@ -107,23 +108,26 @@ const parseTripData = json => ({
 	startDate: json.start_date,
 	endDate: json.end_date,
 	ratings: json.ratings,
-	destinations: parseDestinationsData(json.destinations, json.trip.id)
+	destinations: parseDestinationsJson(json.destinations, json.trip.id)
 });
 
-const parseDestinationsData = (destinations, tripId) =>
-	destinations.map(d => ({
-		id: d.id,
-		name: d.name,
-		description: d.description,
-		lat: d.lat,
-		lng: d.lng,
-		arrival: d.trip_destinations.filter(td => td.trip_id === tripId)[0].arrival,
-		departure: d.trip_destinations.filter(td => td.trip_id === tripId)[0]
-			.departure,
-		activities: parseActivitiesData(d.activities)
-	}));
+const parseDestinationsJson = (destinations, tripId) =>
+	destinations.map(d => {
+		return {
+			id: d.id,
+			name: d.name,
+			description: d.description,
+			lat: d.lat,
+			lng: d.lng,
+			arrival: d.trip_destinations.filter(td => td.trip_id === tripId)[0]
+				.arrival,
+			departure: d.trip_destinations.filter(td => td.trip_id === tripId)[0]
+				.departure,
+			activities: parseActivitiesJson(d.activities)
+		};
+	});
 
-const parseActivitiesData = activities =>
+const parseActivitiesJson = activities =>
 	activities.map(a => ({
 		id: a.id,
 		name: a.name,
@@ -139,6 +143,10 @@ const parseActivitiesData = activities =>
 const parseDestinationsTimes = destinations =>
 	destinations.map(d => ({
 		...d,
-		arrival: d.arrival._d,
+		arrival: d.arrival._d
+			? d.arrival._d.toISOString()
+			: new Date(d.arrival).toISOString(),
 		departure: d.departure._d
+			? d.departure._d.toISOString()
+			: new Date(d.departure).toISOString()
 	}));

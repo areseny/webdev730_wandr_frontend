@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setTargetDestination } from '../actions/destActions';
+import { editTrip } from '../actions/tripActions';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -12,7 +13,7 @@ BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 const DragAndDropCalendar = withDragAndDrop(BigCalendar);
 
 class Dnd extends Component {
-	state = { events: [] };
+	state = { allEvents: [] };
 
 	componentDidMount() {
 		const activityEvents = this.props.activities.map(a => ({
@@ -37,26 +38,28 @@ class Dnd extends Component {
 			end: new Date(d.departure),
 			type: 'destination'
 		}));
-		const allEvents = activityEvents
-			.concat(tripEvents)
-			.concat(destinationEvents);
-		this.setState({ events: allEvents });
+		this.setState({
+			allEvents: [...activityEvents, tripEvents, ...destinationEvents]
+		});
 	}
 
-	moveEvent = ({ e, start, end }) => {
-		if (e.type === 'destination') {
-			const i = this.state.events.indexOf(e);
-			const updatedEvent = { ...e, start, end };
-
-			// update state and persist
-
-			const updatedEvents = [...this.state.events];
+	moveEvent = ({ event, start, end }) => {
+		if (event.type === 'destination') {
+			const i = this.state.allEvents.indexOf(event);
+			const updatedEvent = { ...event, start, end };
+			const updatedEvents = [...this.state.allEvents];
 			updatedEvents.splice(i, 1, updatedEvent);
-			this.setState({
-				events: updatedEvents
-			});
-		} else {
-			alert('Can only change destination times via the calendar.');
+			this.setState({ allEvents: updatedEvents });
+
+			const j = this.props.trip.destinations.findIndex(d => d.id === event.id);
+			const updatedDestination = {
+				...this.props.trip.destinations[j],
+				arrival: start,
+				departure: end
+			};
+			const updatedTrip = { ...this.props.trip };
+			updatedTrip.destinations.splice(j, 1, updatedDestination);
+			this.props.editTrip(updatedTrip);
 		}
 	};
 
@@ -81,7 +84,7 @@ class Dnd extends Component {
 			<DragAndDropCalendar
 				selectable
 				popup
-				events={this.state.events}
+				events={this.state.allEvents}
 				onEventDrop={this.moveEvent}
 				defaultView="month"
 				defaultDate={new Date(this.props.trip.startDate)}
@@ -96,6 +99,6 @@ class Dnd extends Component {
 	}
 }
 
-export default connect(null, { setTargetDestination })(
+export default connect(null, { setTargetDestination, editTrip })(
 	DragDropContext(HTML5Backend)(Dnd)
 );

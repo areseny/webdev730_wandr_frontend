@@ -14,7 +14,11 @@ class TripDashboard extends Component {
 	};
 
 	handleDelete = () => {
-		this.props.deleteTrip(this.props.targetTrip.id, this.props.history);
+		if (
+			window.confirm('This action cannot be undone. Would you like to proceed?')
+		) {
+			this.props.deleteTrip(this.props.targetTrip.id, this.props.history);
+		}
 	};
 
 	render() {
@@ -28,10 +32,13 @@ class TripDashboard extends Component {
 							toggleEdit={this.toggleEdit}
 						/>
 					) : (
-						<TripContent
-							targetTrip={this.props.targetTrip}
-							toggleEdit={this.toggleEdit}
-						/>
+						<div>
+							<TripContent
+								targetTrip={this.props.targetTrip}
+								toggleEdit={this.toggleEdit}
+							/>
+							<button onClick={this.toggleEdit}>Edit Trip</button>
+						</div>
 					)}
 				</div>
 				<br />

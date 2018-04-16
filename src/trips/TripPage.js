@@ -15,6 +15,10 @@ import { Grid } from 'semantic-ui-react';
 class TripPage extends Component {
 	state = { loaded: false };
 
+	componentDidMount() {
+		this.props.setTargetTrip(this.props.match.params.id);
+	}
+
 	componentWillReceiveProps(nextProps) {
 		if (Object.keys(nextProps.targetTrip || {}).length) {
 			this.setState({ loaded: true });

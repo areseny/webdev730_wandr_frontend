@@ -38,7 +38,3 @@ const TripMap = withScriptjs(
 );
 
 export default TripMap;
-
-// {props.activities.map((a, i) => (
-// 	<ActivityMarker activity={a} key={i} />
-// ))}
