@@ -2,15 +2,24 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
 	addFriend,
+	cancelRequest,
 	acceptRequest,
-	rejectRequest
+	rejectRequest,
+	unfriend
 } from '../actions/friendActions';
 
 const UserCard = props => {
 	const generateButton = () => {
 		switch (props.status) {
 			case 'friends':
-				return null;
+				return (
+					<button
+						onClick={() => {
+							props.unfriend(props.user.id);
+						}}>
+						Unfriend
+					</button>
+				);
 			case 'requested':
 				return (
 					<button
@@ -110,6 +119,10 @@ const UserCard = props => {
 	);
 };
 
-export default connect(null, { addFriend, acceptRequest, rejectRequest })(
-	UserCard
-);
+export default connect(null, {
+	addFriend,
+	cancelRequest,
+	acceptRequest,
+	rejectRequest,
+	unfriend
+})(UserCard);

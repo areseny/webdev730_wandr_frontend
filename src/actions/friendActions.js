@@ -36,26 +36,7 @@ export const addFriend = friendId => dispatch => {
 		});
 };
 
-// export const cancelRequest = friendId => dispatch => {
-// 	fetch(`http://localhost:3000/friendships`, {
-// 		method: 'POST',
-// 		headers: {
-// 			'Content-Type': 'application/json',
-// 			Accept: 'application/json',
-// 			Authorization: localStorage.getItem('jwt')
-// 		},
-// 		body: JSON.stringify({ friend_id: friendId })
-// 	})
-// 		.then(res => res.json())
-// 		.then(json => {
-// 			dispatch({
-// 				type: 'CANCEL_REQUEST',
-// 				payload: res
-// 			});
-// 		});
-// };
-
-export const acceptRequest = friendId => dispatch => {
+export const cancelRequest = friendId => dispatch => {
 	const options = {
 		method: 'POST',
 		headers: {
@@ -63,7 +44,22 @@ export const acceptRequest = friendId => dispatch => {
 			Accept: 'application/json',
 			Authorization: localStorage.getItem('jwt')
 		},
-		body: JSON.stringify({ friend_id: friendId, accepted: true })
+		body: JSON.stringify({ friend_id: friendId })
+	};
+	return fetch(`http://localhost:3000/friendships/cancel`, options)
+		.then(res => res.json())
+		.then(console.log);
+};
+
+export const acceptRequest = friendId => dispatch => {
+	const options = {
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
+			Authorization: localStorage.getItem('jwt')
+		},
+		body: JSON.stringify({ friend_id: friendId, accept: true })
 	};
 	return fetch(`http://localhost:3000/friendships/update`, options)
 		.then(res => res.json())
@@ -72,15 +68,30 @@ export const acceptRequest = friendId => dispatch => {
 
 export const rejectRequest = friendId => dispatch => {
 	const options = {
-		method: 'POST',
+		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json',
 			Accept: 'application/json',
 			Authorization: localStorage.getItem('jwt')
 		},
-		body: JSON.stringify({ friend_id: friendId, accepted: false })
+		body: JSON.stringify({ friend_id: friendId, accept: false })
 	};
 	return fetch(`http://localhost:3000/friendships/update`, options)
+		.then(res => res.json())
+		.then(console.log);
+};
+
+export const unfriend = friendId => dispatch => {
+	const options = {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
+			Authorization: localStorage.getItem('jwt')
+		},
+		body: JSON.stringify({ friend_id: friendId })
+	};
+	return fetch(`http://localhost:3000/friendships/destroy`, options)
 		.then(res => res.json())
 		.then(console.log);
 };
