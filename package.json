@@ -5,6 +5,7 @@
 	"dependencies": {
 		"moment": "^2.22.0",
 		"react": "^16.3.1",
+		"react-actioncable-provider": "^1.0.3",
 		"react-big-calendar": "^0.19.0",
 		"react-datepicker": "^1.4.1",
 		"react-dnd": "^2.6.0",

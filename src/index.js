@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
+import { ActionCableProvider } from 'react-actioncable-provider';
 import 'semantic-ui-css/semantic.min.css';
 
 const store = createStore(
@@ -17,10 +18,14 @@ const store = createStore(
 	)
 );
 
+const API_WS_ROOT = `ws://localhost:3000/cable`;
+
 ReactDOM.render(
 	<Router>
 		<Provider store={store}>
-			<App />
+			<ActionCableProvider url={API_WS_ROOT}>
+				<App />
+			</ActionCableProvider>
 		</Provider>
 	</Router>,
 	document.getElementById('root')

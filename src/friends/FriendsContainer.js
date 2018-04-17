@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import withAuth from '../app/withAuth';
 import Navbar from '../app/Navbar';
 import UserCard from './UserCard';
+import ChatroomContainer from '../chatroom/ChatroomContainer';
 import { withRouter } from 'react-router-dom';
 import { fetchUsers } from '../actions/friendActions';
 
@@ -50,6 +51,7 @@ class FriendsContainer extends Component {
 				) : (
 					'Loading friends info...'
 				)}
+				<ChatroomContainer />
 			</div>
 		);
 	}
