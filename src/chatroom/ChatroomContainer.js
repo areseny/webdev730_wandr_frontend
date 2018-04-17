@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import ChatroomList from './ChatroomList';
-import Chatroom from './Chatroom';
+import ChatroomBox from './ChatroomBox';
 
 export default class ChatroomContainer extends Component {
-	state = { chatrooms: [], openChatroom: null, name: '', password: '' };
+	state = { chatrooms: [], openChatroom: null, friends: this.props.friends };
 
 	componentDidMount() {
 		fetch('http://localhost:3000/chatrooms')
 			.then(res => res.json())
 			.then(chatrooms => {
-				this.setState({
-					chatrooms: chatrooms
-				});
+				this.setState({ chatrooms: chatrooms });
 			});
 	}
 
@@ -38,20 +36,6 @@ export default class ChatroomContainer extends Component {
 			});
 	};
 
-	removeMessage = messageId => {
-		let newMessages = this.state.openChatroom.messages.filter(
-			message => message.id !== messageId
-		);
-
-		let newChatroom = { ...this.state.openChatroom };
-
-		newChatroom.messages = newMessages;
-
-		this.setState({
-			openChatroom: newChatroom
-		});
-	};
-
 	selectRoom = chatroomId => {
 		fetch(`http://localhost:3000/chatrooms/${chatroomId}/authorize`, {
 			method: 'POST',
@@ -60,17 +44,17 @@ export default class ChatroomContainer extends Component {
 				Accept: 'application/json'
 			},
 			body: JSON.stringify({
+				name: this.state.name,
 				password: this.state.password
 			})
 		})
 			.then(res => res.json())
 			.then(chatroom => {
-				this.setState({
-					openChatroom: chatroom
-				});
+				this.setState({ openChatroom: chatroom });
 			});
 	};
-	handleChange = e => {
+
+	handleInputChange = e => {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 
@@ -79,38 +63,17 @@ export default class ChatroomContainer extends Component {
 	};
 
 	addMessage = message => {
-		let copyChat = { ...this.state.openChatroom };
-		copyChat.messages.push(message);
-		this.setState({
-			openChatroom: copyChat
-		});
+		let nextChatroom = { ...this.state.openChatroom };
+		nextChatroom.messages.push(message);
+		this.setState({ openChatroom: nextChatroom });
 	};
 
 	render() {
-		console.log(this.state);
 		return (
 			<div>
-				<form onSubmit={this.createChatroom}>
-					<input
-						type="text"
-						name="name"
-						value={this.state.name}
-						placeholder="Chatroom Name"
-						onChange={this.handleChange}
-					/>
-					<input
-						type="password"
-						name="password"
-						value={this.state.password}
-						placeholder="Chatroom Password"
-						onChange={this.handleChange}
-					/>
-					<input type="submit" value="Create Chatroom" />
-				</form>
-
+				<h3>Messenger</h3>
 				{this.state.openChatroom ? (
-					<Chatroom
-						removeMessage={this.removeMessage}
+					<ChatroomBox
 						addMessage={this.addMessage}
 						leaveChatroom={this.leaveChatroom}
 						chatroom={this.state.openChatroom}
@@ -119,6 +82,7 @@ export default class ChatroomContainer extends Component {
 					<ChatroomList
 						chatrooms={this.state.chatrooms}
 						selectRoom={this.selectRoom}
+						friends={this.props.friends}
 					/>
 				)}
 			</div>
