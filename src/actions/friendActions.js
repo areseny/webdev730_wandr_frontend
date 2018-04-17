@@ -6,7 +6,6 @@ export const fetchUsers = () => dispatch => {
 			dispatch({
 				type: 'FETCH_USERS',
 				payload: {
-					allUsers: json.all,
 					friends: json.friends,
 					pendingFriends: json.pending_friends,
 					requestedFriends: json.requested_friends,
@@ -46,9 +45,12 @@ export const cancelRequest = friendId => dispatch => {
 		},
 		body: JSON.stringify({ friend_id: friendId })
 	};
+
 	return fetch(`http://localhost:3000/friendships/cancel`, options)
 		.then(res => res.json())
-		.then(console.log);
+		.then(json => {
+			dispatch({ type: 'CANCEL_REQUEST', friendId });
+		});
 };
 
 export const acceptRequest = friendId => dispatch => {
@@ -63,7 +65,9 @@ export const acceptRequest = friendId => dispatch => {
 	};
 	return fetch(`http://localhost:3000/friendships/update`, options)
 		.then(res => res.json())
-		.then(console.log);
+		.then(json => {
+			dispatch({ type: 'ACCEPT_REQUEST', friend: parseFriendJson(json) });
+		});
 };
 
 export const rejectRequest = friendId => dispatch => {
@@ -78,7 +82,9 @@ export const rejectRequest = friendId => dispatch => {
 	};
 	return fetch(`http://localhost:3000/friendships/update`, options)
 		.then(res => res.json())
-		.then(console.log);
+		.then(json => {
+			dispatch({ type: 'REJECT_REQUEST' });
+		});
 };
 
 export const unfriend = friendId => dispatch => {
@@ -93,11 +99,13 @@ export const unfriend = friendId => dispatch => {
 	};
 	return fetch(`http://localhost:3000/friendships/destroy`, options)
 		.then(res => res.json())
-		.then(console.log);
+		.then(json => {
+			dispatch({ type: 'UNFRIEND', friendId });
+		});
 };
 
 const parseFriendJson = json => ({
-	friendId: json.friend_id,
+	id: json.friend_id,
 	username: json.friend.username,
 	firstname: json.friend.firstname,
 	lastname: json.friend.lastname,

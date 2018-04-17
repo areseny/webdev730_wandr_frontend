@@ -11,18 +11,41 @@ import { connect } from 'react-redux';
 import { fetchUser } from './actions/authActions';
 import { fetchUserTrips } from './actions/tripActions';
 import { fetchUsers } from './actions/friendActions';
+import { receiveMessage } from './actions/chatActions';
+import { ActionCable } from 'react-actioncable-provider';
+
 class App extends Component {
 	componentDidMount() {
 		let jwt = localStorage.getItem('token');
 		if (jwt && !this.props.currentUser) {
 			this.props.fetchUser(jwt, this.props.history);
 		}
-		this.props.fetchUserTrips();
 	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.loggedIn) {
+			this.props.fetchUserTrips();
+		}
+	}
+
+	handleSocketResponse = message => {
+		this.props.receiveMessage(message);
+	};
+
+	connectActionCable = () => (
+		<ActionCable
+			channel={{
+				channel: 'UserChannel',
+				user_id: this.props.currentUser.id
+			}}
+			onReceived={this.handleSocketResponse}
+		/>
+	);
 
 	render() {
 		return (
 			<div className="App">
+				{this.props.loggedIn ? this.connectActionCable() : null}
 				<Switch>
 					<Route exact path="/" component={Landing} />
 					<Route
@@ -62,5 +85,10 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(
-	connect(mapStateToProps, { fetchUser, fetchUserTrips, fetchUsers })(App)
+	connect(mapStateToProps, {
+		fetchUser,
+		fetchUserTrips,
+		fetchUsers,
+		receiveMessage
+	})(App)
 );

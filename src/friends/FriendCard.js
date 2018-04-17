@@ -8,7 +8,17 @@ import {
 	unfriend
 } from '../actions/friendActions';
 
-const UserCard = props => {
+const FriendCard = props => {
+	const confirmUnfriend = () => {
+		if (
+			window.confirm(
+				`Are you sure you would like to unfriend ${props.user.firstname} ?`
+			)
+		) {
+			props.unfriend(props.user.id);
+		}
+	};
+
 	const button = () => {
 		switch (props.status) {
 			case 'friends':
@@ -16,10 +26,11 @@ const UserCard = props => {
 					<div>
 						<button
 							onClick={() => {
-								props.unfriend(props.user.id);
+								props.switchChat(props.user.id);
 							}}>
-							Unfriend
+							Chat
 						</button>
+						<button onClick={confirmUnfriend}>Unfriend</button>
 					</div>
 				);
 			case 'requested':
@@ -77,4 +88,4 @@ export default connect(null, {
 	acceptRequest,
 	rejectRequest,
 	unfriend
-})(UserCard);
+})(FriendCard);

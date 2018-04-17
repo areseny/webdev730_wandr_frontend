@@ -48,8 +48,6 @@ export const addActivity = ({
 	fetch(`http://localhost:3000/activities`, options)
 		.then(res => res.json())
 		.then(json => {
-			debugger;
-			console.log('json response:', json);
 			dispatch({ type: 'ADD_ACTIVITY', newActivity: parseActivityJson(json) });
 		});
 };
