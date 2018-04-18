@@ -6,7 +6,7 @@ import FriendCard from './FriendCard';
 import { withRouter } from 'react-router-dom';
 import { fetchUsers } from '../actions/friendActions';
 import ChatContainer from '../chatroom/ChatContainer';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Message, Icon, Card } from 'semantic-ui-react';
 
 class FriendsContainer extends Component {
 	state = { loaded: false, chatFriendId: null };
@@ -38,31 +38,39 @@ class FriendsContainer extends Component {
 						<Grid.Column width={11}>
 							<div>
 								<h1>Friends</h1>
-								{this.props.friends.map((u, i) => (
-									<FriendCard
-										key={i}
-										user={u}
-										status={'friends'}
-										switchChat={this.switchChat}
-									/>
-								))}
+								<Card.Group>
+									{this.props.friends.map((u, i) => (
+										<FriendCard
+											key={i}
+											user={u}
+											status={'friends'}
+											switchChat={this.switchChat}
+										/>
+									))}
+								</Card.Group>
 								<h3>You've sent requests to...</h3>
-								{this.props.requestedFriends.map((u, i) => (
-									<FriendCard
-										key={i}
-										user={u}
-										status={'requested'}
-										friendshipId={u.friendshipId}
-									/>
-								))}
+								<Card.Group>
+									{this.props.requestedFriends.map((u, i) => (
+										<FriendCard
+											key={i}
+											user={u}
+											status={'requested'}
+											friendshipId={u.friendshipId}
+										/>
+									))}
+								</Card.Group>
 								<h3>You have pending requests from...</h3>
-								{this.props.pendingFriends.map((u, i) => (
-									<FriendCard key={i} user={u} status={'pending'} />
-								))}
+								<Card.Group>
+									{this.props.pendingFriends.map((u, i) => (
+										<FriendCard key={i} user={u} status={'pending'} />
+									))}
+								</Card.Group>
 								<h3>Add more friends</h3>
-								{this.props.strangers.map((u, i) => (
-									<FriendCard key={i} user={u} status={'strangers'} />
-								))}
+								<Card.Group>
+									{this.props.strangers.map((u, i) => (
+										<FriendCard key={i} user={u} status={'strangers'} />
+									))}
+								</Card.Group>
 							</div>
 						</Grid.Column>
 						<Grid.Column width={5}>
@@ -77,7 +85,13 @@ class FriendsContainer extends Component {
 						</Grid.Column>
 					</Grid>
 				) : (
-					'Loading friends info...'
+					<Message icon>
+						<Icon name="circle notched" color="teal" loading />
+						<Message.Content>
+							<Message.Header>Just one second</Message.Header>
+							"We are loading your friends' info for you."
+						</Message.Content>
+					</Message>
 				)}
 			</div>
 		);

@@ -85,7 +85,7 @@ export default function(state = defaultState, action) {
 				sent_messages: [...state.friends[y].sent_messages, action.message]
 			};
 			nextFriends = [...state.friends];
-			nextFriends.splice(x, 1, targetFriend);
+			nextFriends.splice(y, 1, targetFriend);
 			return { ...state, friends: nextFriends };
 		default:
 			return state;

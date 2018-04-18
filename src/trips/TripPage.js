@@ -11,7 +11,7 @@ import TripCalendar from './TripCalendar';
 import '../stylesheets/tripPage.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Message, Icon } from 'semantic-ui-react';
 
 class TripPage extends Component {
 	state = { loaded: false };
@@ -80,7 +80,13 @@ class TripPage extends Component {
 						</Grid.Column>
 					</Grid>
 				) : (
-					'Loading trip info...'
+					<Message icon>
+						<Icon name="circle notched" color="teal" loading />
+						<Message.Content>
+							<Message.Header>Just one second</Message.Header>
+							We are loading your trip info for you.
+						</Message.Content>
+					</Message>
 				)}
 			</div>
 		);

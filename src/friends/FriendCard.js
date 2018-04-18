@@ -7,6 +7,7 @@ import {
 	rejectRequest,
 	unfriend
 } from '../actions/friendActions';
+import { Card, Image, Button } from 'semantic-ui-react';
 
 const FriendCard = props => {
 	const confirmUnfriend = () => {
@@ -23,50 +24,60 @@ const FriendCard = props => {
 		switch (props.status) {
 			case 'friends':
 				return (
-					<div>
-						<button
+					<div className="ui two buttons">
+						<Button
+							basic
+							color="teal"
 							onClick={() => {
 								props.switchChat(props.user.id);
 							}}>
 							Chat
-						</button>
-						<button onClick={confirmUnfriend}>Unfriend</button>
+						</Button>
+						<Button basic color="red" onClick={confirmUnfriend}>
+							Unfriend
+						</Button>
 					</div>
 				);
 			case 'requested':
 				return (
-					<button
+					<Button
+						basic
 						onClick={() => {
 							props.cancelRequest(props.user.id);
 						}}>
 						Cancel
-					</button>
+					</Button>
 				);
 			case 'pending':
 				return (
-					<div>
-						<button
+					<div className="ui two buttons">
+						<Button
+							basic
+							color="green"
 							onClick={() => {
 								props.acceptRequest(props.user.id);
 							}}>
 							Accept
-						</button>
-						<button
+						</Button>
+						<Button
+							basic
+							color="red"
 							onClick={() => {
 								props.rejectRequest(props.user.id);
 							}}>
 							Reject
-						</button>
+						</Button>
 					</div>
 				);
 			case 'strangers':
 				return (
-					<button
+					<Button
+						basic
 						onClick={() => {
 							props.addFriend(props.user.id);
 						}}>
 						Add Friend
-					</button>
+					</Button>
 				);
 			default:
 				return null;
@@ -75,9 +86,20 @@ const FriendCard = props => {
 
 	return (
 		<div>
-			{props.user.firstname} {props.user.lastname} of {props.user.hometown}
-			<br />
-			{button()}
+			<Card>
+				<Card.Content>
+					<Image
+						floated="right"
+						size="mini"
+						src="/assets/images/avatar/large/steve.jpg"
+					/>
+					<Card.Header>
+						{props.user.firstname} {props.user.lastname}
+					</Card.Header>
+					<Card.Meta>{props.user.hometown}</Card.Meta>
+				</Card.Content>
+				<Card.Content extra>{button()}</Card.Content>
+			</Card>
 		</div>
 	);
 };

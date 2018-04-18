@@ -5,6 +5,7 @@ import withAuth from '../app/withAuth';
 import Navbar from '../app/Navbar';
 import TripCard from './TripCard';
 import AddTripForm from './AddTripForm';
+import { Card } from 'semantic-ui-react';
 
 class TripsList extends Component {
 	state = { adding: false };
@@ -18,13 +19,11 @@ class TripsList extends Component {
 			<div>
 				<Navbar history={this.props.history} />
 				<h1>My Trips</h1>
-				<ul>
-					{this.props.userTrips.map((t, i) => (
-						<li key={i}>
-							<TripCard trip={t} />
-						</li>
-					))}
-				</ul>
+
+				<Card.Group>
+					{this.props.userTrips.map((t, i) => <TripCard key={i} trip={t} />)}
+				</Card.Group>
+
 				{this.state.adding ? (
 					<AddTripForm toggleAdd={this.toggleAdd} />
 				) : (

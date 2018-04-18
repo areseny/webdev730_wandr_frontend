@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { sendMessage } from '../actions/chatActions';
+import { Input, Label, Menu, Form, Button, TextArea } from 'semantic-ui-react';
 
 // NOTE: flip send/receieve
 
@@ -11,14 +12,6 @@ class ChatContainer extends Component {
 		sentMessages: this.props.friend.received_messages,
 		receivedMessages: this.props.friend.sent_messages
 	};
-
-	// componentDidMount() {
-	// 	console.log(this.sortByDate(this.props.friend.sent_messages));
-	// 	this.setState({
-	// 		sentMessages: this.sortByDate(this.props.friend.sent_messages),
-	// 		receivedMessages: this.sortByDate(this.props.friend.received_messages)
-	// 	});
-	// }
 
 	// sortByDate = arr => {
 	// 	arr.sort((a, b) => a.created_at - b.created_at);
@@ -38,41 +31,40 @@ class ChatContainer extends Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		console.log(this.state.friendId, this.state.content);
 		this.props.sendMessage(this.state.friendId, this.state.content);
 		this.setState({ content: '' });
 	};
 
 	render() {
 		return (
-			<div>
+			<Menu vertical>
 				<h3>Chat with {this.props.friend.firstname}</h3>
-				<div>
+				<Menu.Item>
 					<h5>sent:</h5>
 					<ol>
 						{this.state.sentMessages.map((m, i) => (
 							<li key={i}>{m.content}</li>
 						))}
 					</ol>
-					<br />
 					<h5>received: </h5>
 					<ol>
 						{this.state.receivedMessages.map((m, i) => (
 							<li key={i}>{m.content}</li>
 						))}
 					</ol>
-				</div>
-				<form onSubmit={this.handleSubmit}>
-					<input
+				</Menu.Item>
+				<Form onSubmit={this.handleSubmit}>
+					<TextArea
+						placeholder="Your message here..."
+						rows={2}
 						value={this.state.content}
-						type="text"
 						onChange={this.handleInputChange}
 					/>
-					<input type="submit" value="Send" />
-				</form>
+					<Button type="submit">Send</Button>
+				</Form>
 				<br />
 				<button onClick={this.props.closeChat}>Close</button>
-			</div>
+			</Menu>
 		);
 	}
 }
