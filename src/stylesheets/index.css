@@ -11,6 +11,11 @@ h1 {
 	font-family: 'Handlee', cursive;
 }
 
+h3 {
+	font-family: 'Handlee', cursive;
+	font-size: 1.3rem;
+}
+
 /* navbar logo and user icon */
 #logo {
 	font-family: 'Cabin Sketch', cursive;

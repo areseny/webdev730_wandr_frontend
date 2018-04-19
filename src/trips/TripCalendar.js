@@ -85,10 +85,11 @@ class Dnd extends Component {
 			borderRadius: '0.5rem',
 			opacity: 0.8,
 			color: 'black',
-			display: 'block'
+			display: 'block',
+			backgroundColor: '#0fc0ad'
 		};
 		if (event.type === 'destination') {
-			customStyle.backgroundColor = 'pink';
+			customStyle.backgroundColor = '#fe8181';
 		} else if (event.type === 'activity') {
 			customStyle.backgroundColor = 'transparent';
 			customStyle.color = 'black';

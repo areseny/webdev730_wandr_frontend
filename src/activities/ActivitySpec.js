@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { Card } from 'semantic-ui-react';
+import '../stylesheets/activities.css';
 
 export default class ActivitySpec extends Component {
 	parseDateTime = () => {
@@ -11,21 +13,35 @@ export default class ActivitySpec extends Component {
 		return { date, startTime, endTime };
 	};
 
+	constructDetails = () => (
+		<div>
+			{this.props.activity.description}
+			<br />
+			<strong>Date:</strong> {this.parseDateTime().date}
+			<br />
+			<strong>Address:</strong> {this.props.activity.address}
+		</div>
+	);
+
+	constructTime = () => (
+		<div>
+			From {this.parseDateTime().startTime} to {this.parseDateTime().endTime}
+			<br />
+			${this.props.activity.cost}
+		</div>
+	);
+
 	render() {
+		console.log(this.props.activity.description);
 		return (
-			<div>
-				{this.props.activity.name}
-				<br />
-				{this.props.activity.description}
-				<br />
-				Date: {this.parseDateTime().date}
-				<br />
-				From {this.parseDateTime().startTime} to {this.parseDateTime().endTime}
-				<br />
-				Address: {this.props.activity.address}
-				<br />
-				Cost: ${this.props.activity.cost}
-			</div>
+			<Card
+				id="activity-spec"
+				fluid
+				color="grey"
+				header={this.props.activity.name}
+				meta={this.constructTime()}
+				description={this.constructDetails()}
+			/>
 		);
 	}
 }

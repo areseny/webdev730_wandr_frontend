@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ActivityCard from './ActivityCard';
 import AddActivityForm from './AddActivityForm';
 import { Form, Button, Icon } from 'semantic-ui-react';
+import '../stylesheets/activities.css';
 
 export default class ActivitiesContainer extends Component {
 	state = { addingActivity: false };
@@ -12,17 +13,16 @@ export default class ActivitiesContainer extends Component {
 
 	render() {
 		return (
-			<div>
+			<div id="activities-container">
 				{this.state.addingActivity ? (
 					<AddActivityForm
 						toggleAdd={this.toggleAdd}
 						destinationId={this.props.destinationId}
 					/>
 				) : (
-					<Button onClick={this.toggleAdd}>
-						<Icon onClick={this.toggleAdd} name="calendar plus icon" /> Add
-						Activity
-					</Button>
+					<a role="button" onClick={this.toggleAdd} className="float-right-btn">
+						<Icon name="calendar plus icon" /> Add Activity
+					</a>
 				)}
 				<br />
 				{this.props.activities.length

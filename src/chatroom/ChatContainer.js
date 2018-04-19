@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { sendMessage } from '../actions/chatActions';
-import { Menu, Form, Button } from 'semantic-ui-react';
+import { Menu, Form, Button, Card } from 'semantic-ui-react';
+import '../stylesheets/chat.css';
 
 // NOTE: flip send/receieve to user perspective
 
@@ -13,10 +14,10 @@ class ChatContainer extends Component {
 		receivedMessages: this.props.friend.sent_messages
 	};
 
-	// sortByDate = arr => {
-	// 	arr.sort((a, b) => a.created_at - b.created_at);
-	// 	console.log(arr);
-	// };
+	sortedMessages = () =>
+		[...this.state.sentMessages, ...this.state.receivedMessages].sort(
+			(a, b) => new Date(a.created_at) - new Date(b.created_at)
+		);
 
 	componentWillReceiveProps(nextProps) {
 		this.setState({
@@ -36,22 +37,23 @@ class ChatContainer extends Component {
 	};
 
 	render() {
+		console.log(this.sortedMessages());
 		return (
-			<Menu vertical>
+			<Menu vertical id="chatbox">
 				<h3>Chat with {this.props.friend.firstname}</h3>
-				<Menu.Item>
-					<h5>sent:</h5>
-					<ol>
-						{this.state.sentMessages.map((m, i) => (
-							<li key={i}>{m.content}</li>
-						))}
-					</ol>
-					<h5>received: </h5>
-					<ol>
-						{this.state.receivedMessages.map((m, i) => (
-							<li key={i}>{m.content}</li>
-						))}
-					</ol>
+				<Menu.Item id="msg-window">
+					{this.sortedMessages().map(
+						(m, i) =>
+							m.sender_id === this.props.currentUserId ? (
+								<Card raised className="msg self" key={i}>
+									{m.content}
+								</Card>
+							) : (
+								<Card raised key={i} className="msg received">
+									{m.content}
+								</Card>
+							)
+					)}
 				</Menu.Item>
 				<Form onSubmit={this.handleSubmit}>
 					<Form.Input
@@ -60,15 +62,21 @@ class ChatContainer extends Component {
 						value={this.state.content}
 						onChange={this.handleInputChange}
 					/>
-					<Button primary type="submit">
+					<Button primary type="submit" id="chat-send-btn">
 						Send
 					</Button>
 				</Form>
 				<br />
-				<button onClick={this.props.closeChat}>Close</button>
+				<a role="button" onClick={this.props.closeChat} id="close-chat-link">
+					Close
+				</a>
 			</Menu>
 		);
 	}
 }
 
-export default connect(null, { sendMessage })(ChatContainer);
+const mapStateToProps = state => ({
+	currentUserId: state.auth.currentUser.id
+});
+
+export default connect(mapStateToProps, { sendMessage })(ChatContainer);

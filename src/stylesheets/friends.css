@@ -12,9 +12,3 @@
 	font-size: 0.75rem;
 	margin-top: 0.5rem;
 }
-
-.ui.vertical.menu #chatbox-container {
-	margin-top: 3rem;
-	padding: 3rem, 0;
-	position: absolute;
-}

@@ -48,7 +48,7 @@ const TripMap = withScriptjs(
 				))}
 				<Polyline
 					path={destinationsPath}
-					options={{ strokeColor: 'red', strokeWeight: 3 }}
+					options={{ strokeColor: '#fe8181', strokeWeight: 3 }}
 				/>
 			</GoogleMap>
 		);

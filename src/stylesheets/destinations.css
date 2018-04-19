@@ -1,3 +1,12 @@
 #dest-cards {
 	font-size: 0.8rem;
 }
+
+#side-pane {
+	position: absolute;
+	bottom: 1rem;
+	padding: 0.5rem;
+	overflow: auto;
+	height: 53vh;
+	border-radius: 0.5rem;
+}

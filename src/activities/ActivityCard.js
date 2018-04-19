@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import EditActivityForm from './EditActivityForm';
 import ActivitySpec from './ActivitySpec';
+import '../stylesheets/activities.css';
 
 export default class ActivityCard extends Component {
 	state = { editing: false };

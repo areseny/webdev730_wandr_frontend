@@ -50,7 +50,7 @@ class FriendsContainer extends Component {
 										/>
 									))}
 								</Card.Group>
-								<h3>You have sent requests to...</h3>
+								<h3>Pending Requests</h3>
 								<Card.Group itemsPerRow={4} className="friend-card">
 									{this.props.requestedFriends.map((u, i) => (
 										<NonFriendCard
@@ -61,13 +61,13 @@ class FriendsContainer extends Component {
 										/>
 									))}
 								</Card.Group>
-								<h3>You have pending requests from...</h3>
+								<h3>New Requests</h3>
 								<Card.Group itemsPerRow={4} className="friend-card">
 									{this.props.pendingFriends.map((u, i) => (
 										<NonFriendCard key={i} user={u} status={'pending'} />
 									))}
 								</Card.Group>
-								<h3>Add more friends</h3>
+								<h3>Other wanderers</h3>
 								<Card.Group itemsPerRow={4} className="friend-card">
 									{this.props.strangers.map((u, i) => (
 										<NonFriendCard key={i} user={u} status={'strangers'} />
@@ -77,15 +77,13 @@ class FriendsContainer extends Component {
 						</Grid.Column>
 						<Grid.Column width={3}>
 							{this.state.chatFriendId ? (
-								<div>
-									<ChatContainer
-										id="chatbox-container"
-										closeChat={this.closeChat}
-										friend={this.props.friends.find(
-											f => f.id === this.state.chatFriendId
-										)}
-									/>
-								</div>
+								<ChatContainer
+									id="chatbox-container"
+									closeChat={this.closeChat}
+									friend={this.props.friends.find(
+										f => f.id === this.state.chatFriendId
+									)}
+								/>
 							) : null}
 						</Grid.Column>
 					</Grid>

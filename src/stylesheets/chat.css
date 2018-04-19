@@ -1,0 +1,49 @@
+#chatbox {
+	/* margin-top: 6.5rem; */
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	border: 5px solid white;
+	border-right-color: transparent;
+	border-top-color: transparent;
+	padding: 0.5rem;
+	width: 20.5rem;
+	text-align: center;
+}
+
+#msg-window {
+	height: 50vh;
+	width: 19rem;
+	overflow: auto;
+}
+
+.msg {
+	font-family: 'Handlee', cursive;
+	display: block;
+}
+
+.ui.card.self {
+	background-color: #0fc0ad;
+	text-align: right;
+	float: right;
+	padding: 1rem 1.5rem;
+	width: 60%;
+	margin: 0.5rem;
+}
+
+.ui.card.received {
+	background-color: #eae9f1;
+	text-align: left;
+	float: left;
+	padding: 1rem 1.5rem;
+	width: 60%;
+	margin: 0.5rem;
+}
+
+#chat-send-btn {
+	float: right;
+}
+
+#close-chat-link {
+	float: left;
+}

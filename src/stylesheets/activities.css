@@ -6,3 +6,16 @@
 	padding-right: 0;
 	font-size: 11px;
 }
+
+.float-right-btn {
+	float: right;
+}
+
+#activities-container {
+	border-radius: 0.5rem;
+	width: 20rem;
+}
+
+#activity-spec {
+	background-color: #f2f4fc;
+}
