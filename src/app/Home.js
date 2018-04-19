@@ -53,8 +53,10 @@ const Home = props => {
 							<h3>Upcoming Trips</h3>
 							{upcomingTrips}
 						</Grid.Column>
-						<h3>Past Trips</h3>
-						{pastTrips}
+						<Grid.Column>
+							<h3>Past Trips</h3>
+							{pastTrips}
+						</Grid.Column>
 					</Grid>
 				</div>
 			</div>

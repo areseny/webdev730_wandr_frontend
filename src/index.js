@@ -11,13 +11,15 @@ import { ActionCableProvider } from 'react-actioncable-provider';
 import 'semantic-ui-css/semantic.min.css';
 import './stylesheets/index.css';
 
-const store = createStore(
-	rootReducer,
-	compose(
-		applyMiddleware(thunk),
-		window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-	)
-);
+const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
+
+// const store = createStore(
+// 	rootReducer,
+// 	compose(
+// 		applyMiddleware(thunk),
+// 		window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+// 	)
+// );
 
 const API_WS_ROOT = `ws://localhost:3000/cable`;
 
