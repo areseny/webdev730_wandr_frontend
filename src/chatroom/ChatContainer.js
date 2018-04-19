@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { sendMessage } from '../actions/chatActions';
-import { Input, Label, Menu, Form, Button, TextArea } from 'semantic-ui-react';
+import { Menu, Form, Button } from 'semantic-ui-react';
 
-// NOTE: flip send/receieve
+// NOTE: flip send/receieve to user perspective
 
 class ChatContainer extends Component {
 	state = {
@@ -54,13 +54,15 @@ class ChatContainer extends Component {
 					</ol>
 				</Menu.Item>
 				<Form onSubmit={this.handleSubmit}>
-					<TextArea
+					<Form.Input
 						placeholder="Your message here..."
 						rows={2}
 						value={this.state.content}
 						onChange={this.handleInputChange}
 					/>
-					<Button type="submit">Send</Button>
+					<Button primary type="submit">
+						Send
+					</Button>
 				</Form>
 				<br />
 				<button onClick={this.props.closeChat}>Close</button>

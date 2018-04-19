@@ -1,22 +1,21 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { logOut } from '../actions/authActions';
 import { connect } from 'react-redux';
-import { Menu, Button, Dropdown, Icon } from 'semantic-ui-react';
+import { Menu, Dropdown } from 'semantic-ui-react';
 
 const Navbar = props => (
 	<Menu className="secondary">
+		<Menu.Item as={Link} to="/home" id="logo">
+			WANDR
+		</Menu.Item>
 		<Menu.Menu position="right">
-			<Dropdown text={props.currentUser.firstname}>
+			<Dropdown icon={'user circle'}>
 				<Dropdown.Menu>
-					<Dropdown.Item as={NavLink} to="/home">
-						Home
-					</Dropdown.Item>
-					<Dropdown.Divider />
-					<Dropdown.Item as={NavLink} to="/mytrips">
+					<Dropdown.Item as={Link} to="/mytrips">
 						My Trips
 					</Dropdown.Item>
-					<Dropdown.Item as={NavLink} to="/friends">
+					<Dropdown.Item as={Link} to="/friends">
 						Friends
 					</Dropdown.Item>
 					<Dropdown.Divider />

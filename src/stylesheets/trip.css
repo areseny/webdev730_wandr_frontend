@@ -1,3 +1,11 @@
+.float-right-btn {
+	float: right;
+}
+
+#trip-card {
+	background-color: #fcfaf2;
+}
+
 #loading-element {
 	height: 100%;
 }
@@ -8,13 +16,12 @@
 }
 
 .trip-info-container {
-	height: 80vh;
+	height: 70vh;
 	width: 90%;
 	margin: auto;
-	margin-top: 2rem;
+	margin-top: 1.8rem;
 	border: 7px solid #fcfaf2;
+	background-color: #c7cdd1;
 	border-radius: 5px;
 	box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5);
 }
-
-/*  CHANGE BORDER COLOR!!!!!! */

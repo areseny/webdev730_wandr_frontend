@@ -9,6 +9,7 @@ import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 import { ActionCableProvider } from 'react-actioncable-provider';
 import 'semantic-ui-css/semantic.min.css';
+import './stylesheets/index.css';
 
 const store = createStore(
 	rootReducer,

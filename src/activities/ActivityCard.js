@@ -13,17 +13,17 @@ export default class ActivityCard extends Component {
 		return (
 			<div>
 				{this.state.editing ? (
-					<div>
-						<EditActivityForm
-							activity={this.props.activity}
-							tripId={this.props.tripId}
-							toggleEdit={this.toggleEdit}
-						/>
-					</div>
+					<EditActivityForm
+						activity={this.props.activity}
+						tripId={this.props.tripId}
+						toggleEdit={this.toggleEdit}
+					/>
 				) : (
 					<div>
 						<ActivitySpec activity={this.props.activity} />
-						<button onClick={this.toggleEdit}>Edit Activity</button>
+						<a role="button" onClick={this.toggleEdit}>
+							Edit Activity
+						</a>
 					</div>
 				)}
 			</div>

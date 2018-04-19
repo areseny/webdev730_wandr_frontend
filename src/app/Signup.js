@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { signUp } from '../actions/authActions';
 import { connect } from 'react-redux';
+import { Form, Button } from 'semantic-ui-react';
 
 class Signup extends Component {
 	state = {
@@ -29,47 +30,53 @@ class Signup extends Component {
 
 	render() {
 		return (
-			<div>
-				<h1>Sign Up</h1>
-				<form onSubmit={this.handleSubmit}>
-					<input
-						type="text"
-						name="firstname"
+			<Form onSubmit={this.handleSubmit}>
+				<Form.Group>
+					<Form.Input
+						label="First Name"
 						placeholder="First Name"
+						name="firstname"
 						value={this.state.firstname}
 						onChange={this.handleChange}
+						width={8}
 					/>
-					<input
-						type="text"
-						name="lastname"
+					<Form.Input
+						label="Last Name"
 						placeholder="Last Name"
+						name="lastname"
 						value={this.state.lastname}
 						onChange={this.handleChange}
+						width={8}
 					/>
-					<input
-						type="text"
-						name="username"
-						placeholder="Username"
-						value={this.state.username}
-						onChange={this.handleChange}
-					/>
-					<input
-						type="password"
-						name="password"
-						placeholder="Password"
-						value={this.state.password}
-						onChange={this.handleChange}
-					/>
-					<input
-						type="password"
-						name="confirmation"
-						placeholder="Confirm Password"
-						value={this.state.confirmation}
-						onChange={this.handleChange}
-					/>
-					<input type="submit" />
-				</form>
-			</div>
+				</Form.Group>
+
+				<Form.Input
+					label="Username"
+					placeholder="Username"
+					name="username"
+					value={this.state.username}
+					onChange={this.handleChange}
+				/>
+				<Form.Input
+					label="Password"
+					placeholder="Password"
+					type="password"
+					name="password"
+					value={this.state.password}
+					onChange={this.handleChange}
+				/>
+				<Form.Input
+					label="Confirm Password"
+					placeholder="Confirm Password"
+					type="password"
+					name="confirmation"
+					value={this.state.confirmation}
+					onChange={this.handleChange}
+				/>
+				<Button primary type="submit">
+					Sign Up
+				</Button>
+			</Form>
 		);
 	}
 }

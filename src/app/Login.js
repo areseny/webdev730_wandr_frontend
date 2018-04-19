@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { logIn } from '../actions/authActions';
 import { connect } from 'react-redux';
+import { Form, Button } from 'semantic-ui-react';
 
 class Login extends Component {
 	state = { username: '', password: '' };
@@ -22,24 +23,27 @@ class Login extends Component {
 
 	render() {
 		return (
-			<div>
+			<Form onSubmit={this.handleSubmit}>
 				<h1>Log In</h1>
-				<form onSubmit={this.handleSubmit}>
-					<input
-						type="text"
-						name="username"
-						value={this.state.username}
-						onChange={this.handleChange}
-					/>
-					<input
-						type="password"
-						name="password"
-						value={this.state.password}
-						onChange={this.handleChange}
-					/>
-					<input type="submit" />
-				</form>
-			</div>
+				<Form.Input
+					label="Username"
+					placeholder="Username"
+					name="username"
+					value={this.state.username}
+					onChange={this.handleChange}
+				/>
+				<Form.Input
+					label="Password"
+					placeholder="Password"
+					type="password"
+					name="password"
+					value={this.state.password}
+					onChange={this.handleChange}
+				/>
+				<Button primary type="submit">
+					Login
+				</Button>
+			</Form>
 		);
 	}
 }

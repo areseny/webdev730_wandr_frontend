@@ -8,6 +8,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
+import '../stylesheets/trip.css';
 
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 const DragAndDropCalendar = withDragAndDrop(BigCalendar);
@@ -87,10 +88,10 @@ class Dnd extends Component {
 			display: 'block'
 		};
 		if (event.type === 'destination') {
-			customStyle.backgroundColor = 'red';
+			customStyle.backgroundColor = 'pink';
 		} else if (event.type === 'activity') {
 			customStyle.backgroundColor = 'transparent';
-			customStyle.color = 'pink';
+			customStyle.color = 'black';
 		}
 		return { style: customStyle };
 	};

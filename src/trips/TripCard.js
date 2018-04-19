@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 import { Card } from 'semantic-ui-react';
+import '../stylesheets/trip.css';
 
 const TripCard = props => {
 	const startDate = () => moment(props.trip.startDate).format('LL');
@@ -20,9 +21,11 @@ const TripCard = props => {
 
 	return (
 		<Card
+			id="trip-card"
 			fluid
 			color="teal"
-			href={`/mytrips/${props.trip.id}`}
+			as={Link}
+			to={`/mytrips/${props.trip.id}`}
 			header={props.trip.name}
 			meta={`Visits ${destinations()}`}
 			description={props.trip.description}
@@ -32,4 +35,5 @@ const TripCard = props => {
 		/>
 	);
 };
+
 export default TripCard;

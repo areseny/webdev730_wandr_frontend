@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Landing from './app/Landing';
 import Login from './app/Login';
-import Signup from './app/Signup';
 import Home from './app/Home';
 import TripsList from './trips/TripsList';
 import TripPage from './trips/TripPage';
@@ -51,10 +50,6 @@ class App extends Component {
 					<Route
 						path="/login"
 						render={renderProps => <Login history={renderProps.history} />}
-					/>
-					<Route
-						path="/signup"
-						render={renderProps => <Signup history={renderProps.history} />}
 					/>
 					<Route
 						path="/home"

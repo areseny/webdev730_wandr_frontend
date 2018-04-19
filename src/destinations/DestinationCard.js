@@ -1,17 +1,20 @@
 import React from 'react';
 import ActivitiesContainer from '../activities/ActivitiesContainer';
+import '../stylesheets/destinations.css';
+import { Card } from 'semantic-ui-react';
 
 const DestinationCard = props => (
 	<div>
-		{props.destination.name}
-		<br />
-		{props.destination.description}
-		<br />
-		<ActivitiesContainer
-			activities={props.destination.activities}
-			destinationId={props.destination.id}
-		/>
-		<br />
+		<Card
+			fluid
+			color="pink"
+			header={props.destination.name}
+			meta={props.destination.description}>
+			<ActivitiesContainer
+				activities={props.destination.activities}
+				destinationId={props.destination.id}
+			/>
+		</Card>
 	</div>
 );
 

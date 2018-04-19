@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { deleteTrip } from '../actions/tripActions';
 import TripContent from './TripContent';
 import EditTripForm from './EditTripForm';
-
 import DestinationsContainer from '../destinations/DestinationsContainer';
+import { Button } from 'semantic-ui-react';
 
 class TripDashboard extends Component {
 	state = { editing: false };
@@ -45,7 +45,14 @@ class TripDashboard extends Component {
 				<DestinationsContainer
 					destinations={this.props.targetTrip.destinations}
 				/>
-				<button onClick={this.handleDelete}>Delete Trip</button>
+				<br />
+				<Button
+					basic
+					color="red"
+					onClick={this.handleDelete}
+					className="float-right-btn">
+					Delete Trip
+				</Button>
 			</div>
 		);
 	}

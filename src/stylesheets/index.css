@@ -1,6 +1,33 @@
 body {
-	background: black;
-	color: #fcfaf2;
-	font-family: 'Open Sans', sans-serif;
 	font-size: 1rem;
+	padding: 3rem;
+	background-image: url('../media/beach.jpg');
+	background-size: cover;
+	font-family: 'Open Sans', sans-serif;
+	color: #20292f;
 }
+
+h1 {
+	font-family: 'Handlee', cursive;
+}
+
+/* navbar logo and user icon */
+#logo {
+	font-family: 'Cabin Sketch', cursive;
+	font-size: 4rem;
+	font-weight: bold;
+	padding: 0;
+}
+
+i.icon.user.circle {
+	font-size: 2rem;
+	margin-top: 1rem;
+}
+
+.main {
+	padding: 3rem;
+}
+
+/* font-family: 'Cabin Sketch', cursive;
+font-family: 'Handlee', cursive;
+font-family: 'Open Sans', sans-serif; */

@@ -8,7 +8,7 @@ import { GM_JS_KEY } from '../config.js';
 import TripMap from './TripMap';
 import TripDashboard from './TripDashboard';
 import TripCalendar from './TripCalendar';
-import '../stylesheets/tripPage.css';
+import '../stylesheets/trip.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { Grid, Message, Icon } from 'semantic-ui-react';
@@ -45,8 +45,8 @@ class TripPage extends Component {
 			<div>
 				<Navbar history={this.props.history} />
 				{this.state.loaded ? (
-					<Grid columns={2} divided>
-						<Grid.Column width={11}>
+					<Grid columns={2}>
+						<Grid.Column width={12}>
 							<Tabs>
 								<TabList>
 									<Tab>Calendar</Tab>
@@ -69,10 +69,9 @@ class TripPage extends Component {
 								</TabPanel>
 							</Tabs>
 							<br />
-							<br />
 							<Link to="/mytrips">Back to Trips</Link>
 						</Grid.Column>
-						<Grid.Column width={5}>
+						<Grid.Column width={4}>
 							<TripDashboard
 								targetTrip={this.props.targetTrip}
 								history={this.props.history}
@@ -94,7 +93,8 @@ class TripPage extends Component {
 }
 
 const mapStateToProps = state => ({
-	targetTrip: state.trip.targetTrip
+	targetTrip: state.trip.targetTrip,
+	userTrips: state.trip.userTrips
 });
 
 export default withRouter(

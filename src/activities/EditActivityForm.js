@@ -4,7 +4,7 @@ import { editActivity, deleteActivity } from '../actions/actActions';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import '../stylesheets/activityForms.css';
+import '../stylesheets/activities.css';
 import { GM_GEO_KEY } from '../config.js';
 
 let debounceFetch;

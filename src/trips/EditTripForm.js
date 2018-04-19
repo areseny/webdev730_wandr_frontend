@@ -5,6 +5,7 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { GM_GEO_KEY } from '../config.js';
+import { Form } from 'semantic-ui-react';
 
 let debounceFetch;
 
