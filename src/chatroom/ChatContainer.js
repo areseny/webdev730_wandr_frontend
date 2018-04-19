@@ -67,7 +67,11 @@ class ChatContainer extends Component {
 					</Button>
 				</Form>
 				<br />
-				<a role="button" onClick={this.props.closeChat} id="close-chat-link">
+				<a
+					role="button"
+					onClick={this.props.closeChat}
+					style={{ cursor: 'pointer' }}
+					id="close-chat-link">
 					Close
 				</a>
 			</Menu>

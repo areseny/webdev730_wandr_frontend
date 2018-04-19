@@ -75,7 +75,7 @@ class EditActivityForm extends Component {
 	render() {
 		return (
 			<div>
-				<form onSubmit={this.handleSubmit}>
+				<form onSubmit={this.handleSubmit} className="ui form">
 					<input
 						type="text"
 						name="name"
@@ -122,9 +122,11 @@ class EditActivityForm extends Component {
 						minDate={this.state.startTimeMoment}
 						maxDate={moment(this.props.endDate)}
 					/>
-					<input type="submit" value="Update" />
+					<input type="submit" value="Update" className="ui button" />
 				</form>
-				<button onClick={this.handleDelete}>Delete Activity</button>
+				<a role="button" onClick={this.handleDelete}>
+					Delete Activity
+				</a>
 			</div>
 		);
 	}

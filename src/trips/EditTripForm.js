@@ -5,7 +5,6 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { GM_GEO_KEY } from '../config.js';
-import { Form } from 'semantic-ui-react';
 
 let debounceFetch;
 
@@ -151,7 +150,7 @@ class EditTripForm extends Component {
 		return (
 			<div>
 				<h3>Edit Trip</h3>
-				<form onSubmit={this.handleSubmit}>
+				<form onSubmit={this.handleSubmit} className="ui form">
 					<input
 						type="text"
 						name="name"
@@ -176,6 +175,7 @@ class EditTripForm extends Component {
 					/>
 					{this.destinationInputs()}
 					<input
+						className="ui button"
 						type="button"
 						value="Add Another Destination"
 						onClick={this.addDestinationField}
@@ -194,7 +194,12 @@ class EditTripForm extends Component {
 					<br />
 					<input type="submit" value="Update" />
 				</form>
-				<button onClick={this.props.toggleEdit}>Back</button>
+				<a
+					role="button"
+					onClick={this.props.toggleEdit}
+					style={{ cursor: 'pointer' }}>
+					Back
+				</a>
 			</div>
 		);
 	}

@@ -32,7 +32,6 @@ export default class ActivitySpec extends Component {
 	);
 
 	render() {
-		console.log(this.props.activity.description);
 		return (
 			<Card
 				id="activity-spec"

@@ -73,7 +73,7 @@ class AddActivityForm extends Component {
 		return (
 			<div>
 				<h5>Add Activity</h5>
-				<form onSubmit={this.handleSubmit}>
+				<form onSubmit={this.handleSubmit} className="ui form">
 					<input
 						type="text"
 						name="name"
@@ -127,9 +127,11 @@ class AddActivityForm extends Component {
 						maxDate={moment(this.props.departure)}
 					/>
 
-					<input type="submit" value="Add Activity" />
+					<input className="ui button" type="submit" value="Add Activity" />
 				</form>
-				<button onClick={this.props.toggleAdd}>Collapse</button>
+				<button className="ui button" onClick={this.props.toggleAdd}>
+					Collapse
+				</button>
 			</div>
 		);
 	}

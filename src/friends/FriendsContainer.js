@@ -7,7 +7,7 @@ import NonFriendCard from './NonFriendCard';
 import { withRouter } from 'react-router-dom';
 import { fetchUsers } from '../actions/friendActions';
 import ChatContainer from '../chatroom/ChatContainer';
-import { Grid, Message, Icon, Card } from 'semantic-ui-react';
+import { Message, Icon, Card } from 'semantic-ui-react';
 import '../stylesheets/friends.css';
 
 class FriendsContainer extends Component {
@@ -36,47 +36,46 @@ class FriendsContainer extends Component {
 			<div>
 				<Navbar history={this.props.history} />
 				{this.state.loaded ? (
-					<Grid columns={2}>
-						<Grid.Column width={12}>
-							<div className="main">
-								<h1>Friends</h1>
-								<Card.Group itemsPerRow={5} className="friend-card">
-									{this.props.friends.map((u, i) => (
-										<FriendCard
-											key={i}
-											user={u}
-											status={'friends'}
-											switchChat={this.switchChat}
-										/>
-									))}
-								</Card.Group>
-								<h3>Pending Requests</h3>
-								<Card.Group itemsPerRow={4} className="friend-card">
-									{this.props.requestedFriends.map((u, i) => (
-										<NonFriendCard
-											key={i}
-											user={u}
-											status={'requested'}
-											friendshipId={u.friendshipId}
-										/>
-									))}
-								</Card.Group>
-								<h3>New Requests</h3>
-								<Card.Group itemsPerRow={4} className="friend-card">
-									{this.props.pendingFriends.map((u, i) => (
-										<NonFriendCard key={i} user={u} status={'pending'} />
-									))}
-								</Card.Group>
-								<h3>Other wanderers</h3>
-								<Card.Group itemsPerRow={4} className="friend-card">
-									{this.props.strangers.map((u, i) => (
-										<NonFriendCard key={i} user={u} status={'strangers'} />
-									))}
-								</Card.Group>
-							</div>
-						</Grid.Column>
-						<Grid.Column width={3}>
-							{this.state.chatFriendId ? (
+					<div className="main all">
+						<div className="stuff">
+							<h1>Friends</h1>
+							<Card.Group itemsPerRow={5} className="friend-card">
+								{this.props.friends.map((u, i) => (
+									<FriendCard
+										key={i}
+										user={u}
+										status={'friends'}
+										switchChat={this.switchChat}
+									/>
+								))}
+							</Card.Group>
+							<h3>Pending Requests</h3>
+							<Card.Group itemsPerRow={4} className="friend-card">
+								{this.props.requestedFriends.map((u, i) => (
+									<NonFriendCard
+										key={i}
+										user={u}
+										status={'requested'}
+										friendshipId={u.friendshipId}
+									/>
+								))}
+							</Card.Group>
+							<h3>New Requests</h3>
+							<Card.Group itemsPerRow={4} className="friend-card">
+								{this.props.pendingFriends.map((u, i) => (
+									<NonFriendCard key={i} user={u} status={'pending'} />
+								))}
+							</Card.Group>
+							<h3>Other wanderers</h3>
+							<Card.Group itemsPerRow={4} className="friend-card">
+								{this.props.strangers.map((u, i) => (
+									<NonFriendCard key={i} user={u} status={'strangers'} />
+								))}
+							</Card.Group>
+						</div>
+
+						{this.state.chatFriendId ? (
+							<div className="sidebar">
 								<ChatContainer
 									id="chatbox-container"
 									closeChat={this.closeChat}
@@ -84,9 +83,9 @@ class FriendsContainer extends Component {
 										f => f.id === this.state.chatFriendId
 									)}
 								/>
-							) : null}
-						</Grid.Column>
-					</Grid>
+							</div>
+						) : null}
+					</div>
 				) : (
 					<Message icon>
 						<Icon name="circle notched" color="teal" loading />

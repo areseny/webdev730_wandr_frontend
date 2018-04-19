@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Menu, Dropdown } from 'semantic-ui-react';
 
 const Navbar = props => (
-	<Menu className="secondary">
+	<Menu className="secondary" id="navbar">
 		<Menu.Item as={Link} to="/home" id="logo">
 			WANDR
 		</Menu.Item>

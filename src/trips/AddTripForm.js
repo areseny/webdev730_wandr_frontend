@@ -5,6 +5,7 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { GM_GEO_KEY } from '../config.js';
+import '../stylesheets/trip.css';
 
 let debounceFetch;
 
@@ -63,7 +64,12 @@ class AddTripForm extends Component {
 						minDate={moment(this.state.destinations[i].arrival)}
 						maxDate={moment(this.state.endDate)}
 					/>
-					<input type="button" onClick={this.removeDestination(i)} value="X" />
+					<input
+						type="button"
+						onClick={this.removeDestination(i)}
+						value="X"
+						className="ui button"
+					/>
 				</div>
 			);
 		});
@@ -159,9 +165,9 @@ class AddTripForm extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="float-right-btn">
 				<h3>Add New Trip</h3>
-				<form onSubmit={this.handleSubmit}>
+				<form onSubmit={this.handleSubmit} className="ui form">
 					<input
 						type="text"
 						name="name"
@@ -191,6 +197,7 @@ class AddTripForm extends Component {
 					/>
 					{this.destinationInputs()}
 					<input
+						className="ui button"
 						type="button"
 						value="Enter Another Destination"
 						onClick={this.addDestinationField}
@@ -209,9 +216,14 @@ class AddTripForm extends Component {
 						<option value="5">5</option>
 					</select>
 					<br />
-					<input type="submit" value="Add" />
+					<input type="submit" value="Add" className="ui button" />
 				</form>
-				<button onClick={this.props.toggleAdd}>Collapse</button>
+				<a
+					role="button"
+					onClick={this.props.toggleAdd}
+					style={{ cursor: 'pointer' }}>
+					Collapse
+				</a>
 			</div>
 		);
 	}

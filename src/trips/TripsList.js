@@ -24,9 +24,11 @@ class TripsList extends Component {
 					{this.state.adding ? (
 						<AddTripForm toggleAdd={this.toggleAdd} />
 					) : (
-						<Button onClick={this.toggleAdd}>Add New Trip</Button>
+						<Button className="float-right-btn" onClick={this.toggleAdd}>
+							Add New Trip
+						</Button>
 					)}
-					<Card.Group>
+					<Card.Group id="trips-list-cards">
 						{this.props.userTrips.map((t, i) => <TripCard key={i} trip={t} />)}
 					</Card.Group>
 				</div>

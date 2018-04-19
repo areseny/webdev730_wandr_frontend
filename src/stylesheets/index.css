@@ -1,10 +1,16 @@
 body {
 	font-size: 1rem;
-	padding: 3rem;
+
 	background-image: url('../media/beach.jpg');
 	background-size: cover;
 	font-family: 'Open Sans', sans-serif;
 	color: #20292f;
+}
+
+#navbar {
+	padding-top: 3rem;
+	padding-left: 3rem;
+	padding-right: 2rem;
 }
 
 h1 {
@@ -31,6 +37,15 @@ i.icon.user.circle {
 
 .main {
 	padding: 3rem;
+}
+
+.welcome {
+	padding-left: 10rem;
+}
+
+.App {
+	overflow: auto;
+	height: 100vh;
 }
 
 /* font-family: 'Cabin Sketch', cursive;
