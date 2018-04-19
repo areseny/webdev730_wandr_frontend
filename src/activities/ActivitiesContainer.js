@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ActivityCard from './ActivityCard';
 import AddActivityForm from './AddActivityForm';
-import { Button, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import '../stylesheets/activities.css';
 
 export default class ActivitiesContainer extends Component {

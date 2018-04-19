@@ -25,6 +25,7 @@ const DestinationsContainer = props => (
 								meta={`${moment(d.arrival).format('MMM DD')} - ${moment(
 									d.departure
 								).format('MMM Do')}`}
+								description={d.description}
 							/>
 						)}
 					</Card.Group>

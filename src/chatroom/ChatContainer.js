@@ -37,7 +37,6 @@ class ChatContainer extends Component {
 	};
 
 	render() {
-		console.log(this.sortedMessages());
 		return (
 			<Menu vertical id="chatbox">
 				<h3>Chat with {this.props.friend.firstname}</h3>

@@ -1,7 +1,6 @@
 import React from 'react';
 import withAuth from './withAuth';
 import Navbar from './Navbar';
-import TripCard from '../trips/TripCard';
 import { Card, Grid } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
