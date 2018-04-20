@@ -1,4 +1,20 @@
-/* .trips-container-home {
-	overflow: auto;
-	height: 100vh;
-} */
+.static-form {
+	padding: 2rem;
+	margin: 1rem;
+	text-align: left;
+	background: rgba(199, 205, 209, 0.7);
+}
+
+.static-form .ui.primary.button {
+	margin: 8px 0;
+}
+
+#landing-container {
+	padding: 5rem;
+	text-align: center;
+}
+
+#landing-container h1 {
+	padding: 0;
+	margin: 0;
+}

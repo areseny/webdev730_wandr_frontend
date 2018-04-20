@@ -36,8 +36,8 @@ class FriendsContainer extends Component {
 			<div>
 				<Navbar history={this.props.history} />
 				{this.state.loaded ? (
-					<div className="main all">
-						<div className="stuff">
+					<div className="main">
+						<div className="content">
 							<h1>Friends</h1>
 							<Card.Group itemsPerRow={5} className="friend-card">
 								{this.props.friends.map((u, i) => (

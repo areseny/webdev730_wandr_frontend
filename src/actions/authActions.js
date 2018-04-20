@@ -1,5 +1,5 @@
 export const signUp = (
-	{ firstname, lastname, hometown, username, password },
+	{ firstname, lastname, hometown, dob, email, username, password },
 	history
 ) => dispatch => {
 	const options = {
@@ -8,7 +8,9 @@ export const signUp = (
 			'Content-Type': 'application/json',
 			Accept: 'application/json'
 		},
-		body: JSON.stringify({ user: { firstname, lastname, username, password } })
+		body: JSON.stringify({
+			user: { firstname, lastname, hometown, dob, email, username, password }
+		})
 	};
 	fetch('http://localhost:3000/signup', options)
 		.then(res => res.json())

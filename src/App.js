@@ -46,7 +46,12 @@ class App extends Component {
 			<div className="App">
 				{this.props.loggedIn ? this.connectActionCable() : null}
 				<Switch>
-					<Route exact path="/" component={Landing} />
+					<Route
+						exact
+						path="/"
+						render={renderProps => <Landing history={renderProps.history} />}
+					/>
+
 					<Route
 						path="/login"
 						render={renderProps => <Login history={renderProps.history} />}

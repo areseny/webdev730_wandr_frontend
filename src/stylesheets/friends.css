@@ -13,15 +13,7 @@
 	margin-top: 0.5rem;
 }
 
-.all {
+.friends-container {
 	display: grid;
 	grid-template-columns: auto 20.5rem;
-}
-
-.stuff {
-	min-height: 200px;
-}
-
-.sidebar {
-	min-height: 200px;
 }

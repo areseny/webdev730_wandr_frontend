@@ -2,10 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { unfriend } from '../actions/friendActions';
 import { Card, Image, Button } from 'semantic-ui-react';
-import michael from '../media/michael.jpg';
-import jim from '../media/jim.png';
-import bob from '../media/bob.jpg';
-import ron from '../media/ron.jpg';
 import '../stylesheets/friends.css';
 
 const FriendCard = props => {
@@ -19,23 +15,9 @@ const FriendCard = props => {
 		}
 	};
 
-	const image = () => {
-		if (props.user.firstname === 'Michael') {
-			return michael;
-		} else if (props.user.firstname === 'Jim') {
-			return jim;
-		} else if (props.user.firstname === 'Michael') {
-			return michael;
-		} else if (props.user.firstname === 'Bob') {
-			return bob;
-		} else if (props.user.firstname === 'Ron') {
-			return ron;
-		}
-	};
-
 	return (
 		<Card>
-			<Image src={image()} />
+			<Image src={props.user.photo} />
 			<Card.Content>
 				<Card.Header>
 					{props.user.firstname} {props.user.lastname}

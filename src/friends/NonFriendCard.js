@@ -7,7 +7,6 @@ import {
 	rejectRequest
 } from '../actions/friendActions';
 import { Card, Image, Button } from 'semantic-ui-react';
-import elliotPic from '../media/elliot.jpg';
 
 const FriendCard = props => {
 	const button = () => {
@@ -61,7 +60,7 @@ const FriendCard = props => {
 	return (
 		<Card>
 			<Card.Content>
-				<Image floated="right" size="mini" src={elliotPic} />
+				<Image floated="right" size="mini" src={props.user.photo} />
 				<Card.Header>
 					{props.user.firstname} {props.user.lastname}
 				</Card.Header>

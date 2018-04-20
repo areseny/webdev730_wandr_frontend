@@ -35,10 +35,6 @@ i.icon.user.circle {
 	margin-top: 1rem;
 }
 
-.main {
-	padding: 3rem;
-}
-
 .welcome {
 	padding-left: 10rem;
 }
@@ -46,6 +42,28 @@ i.icon.user.circle {
 .App {
 	overflow: auto;
 	height: 100vh;
+}
+
+.main-container {
+	padding: 0 5rem;
+}
+
+#title {
+	padding: 0 5rem;
+}
+
+.main {
+	padding: 3rem;
+	display: grid;
+	grid-template-columns: auto 20.5rem;
+}
+
+.content {
+	min-height: 200px;
+}
+
+.sidebar {
+	min-height: 200px;
 }
 
 /* font-family: 'Cabin Sketch', cursive;
