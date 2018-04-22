@@ -4,6 +4,7 @@ import Login from './app/Login';
 import Home from './app/Home';
 import TripsList from './trips/TripsList';
 import TripPage from './trips/TripPage';
+import AddTripForm from './trips/AddTripForm';
 import FriendsContainer from './friends/FriendsContainer';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -51,7 +52,6 @@ class App extends Component {
 						path="/"
 						render={renderProps => <Landing history={renderProps.history} />}
 					/>
-
 					<Route
 						path="/login"
 						render={renderProps => <Login history={renderProps.history} />}
@@ -63,6 +63,12 @@ class App extends Component {
 					<Route
 						path="/mytrips/:id"
 						render={renderProps => <TripPage history={renderProps.history} />}
+					/>
+					<Route
+						path="/addtrip"
+						render={renderProps => (
+							<AddTripForm history={renderProps.history} />
+						)}
 					/>
 					<Route
 						path="/mytrips"

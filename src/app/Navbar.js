@@ -13,7 +13,7 @@ const Navbar = props => (
 			<Dropdown icon={'user circle'}>
 				<Dropdown.Menu>
 					<Dropdown.Item as={Link} to="/mytrips">
-						My Trips
+						Trips
 					</Dropdown.Item>
 					<Dropdown.Item as={Link} to="/friends">
 						Friends

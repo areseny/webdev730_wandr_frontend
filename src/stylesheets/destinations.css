@@ -1,12 +1,24 @@
 #dest-cards {
 	font-size: 0.8rem;
+	width: 102%;
 }
 
-#side-pane {
+/* #side-pane {
 	position: absolute;
 	bottom: 1rem;
 	padding: 0.5rem;
 	overflow: auto;
 	height: 53vh;
 	border-radius: 0.5rem;
+} */
+
+#destinations-container {
+	overflow-y: auto;
+	width: 105%;
+	height: 55vh;
+	border-radius: 0.5rem;
+}
+
+#destinations-container .content {
+	min-height: 0;
 }

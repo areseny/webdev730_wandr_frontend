@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { Rating } from 'semantic-ui-react';
+import { Rating, Icon } from 'semantic-ui-react';
 
 export default class TripContent extends Component {
 	render() {
@@ -21,6 +21,13 @@ export default class TripContent extends Component {
 					defaultRating={this.props.targetTrip.ratings}
 					maxRating={5}
 				/>
+				<a
+					className="float-right-btn"
+					role="button"
+					onClick={this.props.toggleEdit}
+					style={{ cursor: 'pointer', color: '#fe8181' }}>
+					<Icon name="edit" />
+				</a>
 			</div>
 		);
 	}

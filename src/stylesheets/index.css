@@ -53,9 +53,9 @@ i.icon.user.circle {
 }
 
 .main {
-	padding: 3rem;
+	padding: 2rem;
 	display: grid;
-	grid-template-columns: auto 20.5rem;
+	grid-template-columns: auto 22rem;
 }
 
 .content {
@@ -64,6 +64,8 @@ i.icon.user.circle {
 
 .sidebar {
 	min-height: 200px;
+	text-align: justify;
+	padding-left: 2rem;
 }
 
 /* font-family: 'Cabin Sketch', cursive;

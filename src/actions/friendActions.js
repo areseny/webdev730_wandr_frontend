@@ -3,6 +3,7 @@ export const fetchUsers = () => dispatch => {
 	fetch(`http://localhost:3000/users`, options)
 		.then(res => res.json())
 		.then(json => {
+			console.log(json.friends);
 			dispatch({
 				type: 'FETCH_USERS',
 				payload: {
@@ -110,5 +111,7 @@ const parseFriendJson = json => ({
 	firstname: json.friend.firstname,
 	lastname: json.friend.lastname,
 	hometown: json.friend.hometown,
+	email: json.friend.email,
+	photo: json.friend.photo,
 	dob: json.friend.dob
 });

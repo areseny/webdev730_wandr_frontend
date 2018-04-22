@@ -8,10 +8,8 @@ import { GM_JS_KEY } from '../config.js';
 import TripMap from './TripMap';
 import TripDashboard from './TripDashboard';
 import TripCalendar from './TripCalendar';
+import { Message, Icon, Tab } from 'semantic-ui-react';
 import '../stylesheets/trip.css';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
-import { Grid, Message, Icon } from 'semantic-ui-react';
 
 class TripPage extends Component {
 	state = { loaded: false };
@@ -41,43 +39,51 @@ class TripPage extends Component {
 	};
 
 	render() {
+		const panes = [
+			{
+				menuItem: 'Map',
+				render: () => (
+					<Tab.Pane>
+						<TripMap
+							destinations={this.props.targetTrip.destinations}
+							activities={this.targetTripActivities()}
+							googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GM_JS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
+							loadingElement={<div id="loading-element" />}
+							containerElement={<div className="trip-info-container" />}
+							mapElement={<div id="map-element" />}
+						/>
+					</Tab.Pane>
+				)
+			},
+			{
+				menuItem: 'Calendar',
+				render: () => (
+					<Tab.Pane>
+						<div className="trip-info-container">
+							<TripCalendar trip={this.props.targetTrip} />
+						</div>
+					</Tab.Pane>
+				)
+			}
+		];
+
 		return (
 			<div>
 				<Navbar history={this.props.history} />
 				{this.state.loaded ? (
-					<Grid columns={2}>
-						<Grid.Column width={12}>
-							<Tabs>
-								<TabList>
-									<Tab>Calendar</Tab>
-									<Tab>Map</Tab>
-								</TabList>
-								<TabPanel>
-									<div className="trip-info-container">
-										<TripCalendar trip={this.props.targetTrip} />
-									</div>
-								</TabPanel>
-								<TabPanel>
-									<TripMap
-										destinations={this.props.targetTrip.destinations}
-										activities={this.targetTripActivities()}
-										googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GM_JS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
-										loadingElement={<div id="loading-element" />}
-										containerElement={<div className="trip-info-container" />}
-										mapElement={<div id="map-element" />}
-									/>
-								</TabPanel>
-							</Tabs>
+					<div className="main">
+						<div className="content">
+							<Tab panes={panes} id="tab-panes" />
 							<br />
 							<Link to="/mytrips">Back to Trips</Link>
-						</Grid.Column>
-						<Grid.Column width={4}>
+						</div>
+						<div className="sidebar">
 							<TripDashboard
 								targetTrip={this.props.targetTrip}
 								history={this.props.history}
 							/>
-						</Grid.Column>
-					</Grid>
+						</div>
+					</div>
 				) : (
 					<Message icon>
 						<Icon name="circle notched" color="teal" loading />

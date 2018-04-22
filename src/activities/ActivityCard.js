@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import EditActivityForm from './EditActivityForm';
 import ActivitySpec from './ActivitySpec';
 import '../stylesheets/activities.css';
+import { List } from 'semantic-ui-react';
 
 export default class ActivityCard extends Component {
 	state = { editing: false };
@@ -20,12 +21,12 @@ export default class ActivityCard extends Component {
 						toggleEdit={this.toggleEdit}
 					/>
 				) : (
-					<div>
-						<ActivitySpec activity={this.props.activity} />
-						<a role="button" onClick={this.toggleEdit}>
-							Edit Activity
-						</a>
-					</div>
+					<List>
+						<ActivitySpec
+							activity={this.props.activity}
+							toggleEdit={this.toggleEdit}
+						/>
+					</List>
 				)}
 			</div>
 		);

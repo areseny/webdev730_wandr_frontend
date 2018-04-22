@@ -4,7 +4,8 @@ import { deleteTrip } from '../actions/tripActions';
 import TripContent from './TripContent';
 import EditTripForm from './EditTripForm';
 import DestinationsContainer from '../destinations/DestinationsContainer';
-import { Button, Icon, Container } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
+import '../stylesheets/trip.css';
 
 class TripDashboard extends Component {
 	state = { editing: false };
@@ -23,42 +24,35 @@ class TripDashboard extends Component {
 
 	render() {
 		return (
-			<Container>
+			<div>
 				<h1>{this.props.targetTrip.name}</h1>
-				<div>
-					{this.state.editing ? (
-						<div>
-							<EditTripForm
-								targetTrip={this.props.targetTrip}
-								toggleEdit={this.toggleEdit}
-							/>
-							<Button
-								basic
-								color="red"
-								onClick={this.handleDelete}
-								className="float-right-btn">
-								Delete Trip
-							</Button>
-						</div>
-					) : (
-						<div>
-							<TripContent
-								targetTrip={this.props.targetTrip}
-								toggleEdit={this.toggleEdit}
-							/>
-							<a
-								role="button"
-								onClick={this.toggleEdit}
-								style={{ cursor: 'pointer', color: '#fe8181' }}>
-								<Icon name="edit" />
-							</a>
-							<DestinationsContainer
-								destinations={this.props.targetTrip.destinations}
-							/>
-						</div>
-					)}
-				</div>
-			</Container>
+				{this.state.editing ? (
+					<div>
+						<EditTripForm
+							targetTrip={this.props.targetTrip}
+							toggleEdit={this.toggleEdit}
+						/>
+						<Button
+							basic
+							color="red"
+							onClick={this.handleDelete}
+							className="float-right-btn">
+							Delete Trip
+						</Button>
+					</div>
+				) : (
+					<div>
+						<TripContent
+							targetTrip={this.props.targetTrip}
+							toggleEdit={this.toggleEdit}
+						/>
+						<h3>Destinations</h3>
+						<DestinationsContainer
+							destinations={this.props.targetTrip.destinations}
+						/>
+					</div>
+				)}
+			</div>
 		);
 	}
 }

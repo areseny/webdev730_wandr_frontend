@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { Card } from 'semantic-ui-react';
+import { List, Icon } from 'semantic-ui-react';
 import '../stylesheets/activities.css';
 
 export default class ActivitySpec extends Component {
@@ -13,34 +13,32 @@ export default class ActivitySpec extends Component {
 		return { date, startTime, endTime };
 	};
 
-	constructDetails = () => (
-		<div>
-			{this.props.activity.description}
-			<br />
-			<strong>Date:</strong> {this.parseDateTime().date}
-			<br />
-			<strong>Address:</strong> {this.props.activity.address}
-		</div>
-	);
-
-	constructTime = () => (
-		<div>
-			From {this.parseDateTime().startTime} to {this.parseDateTime().endTime}
-			<br />
-			${this.props.activity.cost}
-		</div>
-	);
-
 	render() {
 		return (
-			<Card
-				id="activity-spec"
-				fluid
-				color="grey"
-				header={this.props.activity.name}
-				meta={this.constructTime()}
-				description={this.constructDetails()}
-			/>
+			<List.Item>
+				<List.Icon name="marker" />
+				<List.Content>
+					<List.Header>{this.props.activity.name}</List.Header>
+					<List.Description>
+						<a
+							className="float-right-btn"
+							role="button"
+							onClick={this.props.toggleEdit}
+							style={{ cursor: 'pointer', color: '#fe8181' }}>
+							<Icon name="edit" />
+						</a>
+						From {this.parseDateTime().startTime} to{' '}
+						{this.parseDateTime().endTime}
+						<br />
+						{this.props.activity.description}
+						<br />
+						<strong>Date:</strong> {this.parseDateTime().date}
+						<br />
+						<strong>Address:</strong> {this.props.activity.address}
+						${this.props.activity.cost}
+					</List.Description>
+				</List.Content>
+			</List.Item>
 		);
 	}
 }

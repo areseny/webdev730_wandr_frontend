@@ -23,9 +23,7 @@ const FriendCard = props => {
 					{props.user.firstname} {props.user.lastname}
 				</Card.Header>
 				<Card.Meta>{props.user.hometown}</Card.Meta>
-				<Card.Description>
-					Matthew is a musician living in Nashville.
-				</Card.Description>
+				<Card.Description>{props.user.email}</Card.Description>
 			</Card.Content>
 			<Card.Content extra>
 				<Button

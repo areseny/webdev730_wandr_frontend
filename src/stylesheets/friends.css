@@ -5,6 +5,11 @@
 
 .friend-card {
 	font-size: 0.85rem;
+	height: 28rem;
+}
+
+.friend-card .content {
+	min-height: 0;
 }
 
 .card-link {

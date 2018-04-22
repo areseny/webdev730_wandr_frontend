@@ -7,7 +7,7 @@ import NonFriendCard from './NonFriendCard';
 import { withRouter } from 'react-router-dom';
 import { fetchUsers } from '../actions/friendActions';
 import ChatContainer from '../chatroom/ChatContainer';
-import { Message, Icon, Card } from 'semantic-ui-react';
+import { Message, Icon, Card, Tab } from 'semantic-ui-react';
 import '../stylesheets/friends.css';
 
 class FriendsContainer extends Component {
@@ -32,14 +32,13 @@ class FriendsContainer extends Component {
 	};
 
 	render() {
-		return (
-			<div>
-				<Navbar history={this.props.history} />
-				{this.state.loaded ? (
-					<div className="main">
-						<div className="content">
-							<h1>Friends</h1>
-							<Card.Group itemsPerRow={5} className="friend-card">
+		const panes = [
+			{
+				menuItem: 'Friends',
+				render: () => (
+					<Tab.Pane>
+						{this.props.friends.length ? (
+							<Card.Group itemsPerRow={4} className="friend-card">
 								{this.props.friends.map((u, i) => (
 									<FriendCard
 										key={i}
@@ -49,7 +48,17 @@ class FriendsContainer extends Component {
 									/>
 								))}
 							</Card.Group>
-							<h3>Pending Requests</h3>
+						) : (
+							"You don't have any friends yet..."
+						)}
+					</Tab.Pane>
+				)
+			},
+			{
+				menuItem: 'Pending Requests',
+				render: () => (
+					<Tab.Pane>
+						{this.props.requestedFriends.length ? (
 							<Card.Group itemsPerRow={4} className="friend-card">
 								{this.props.requestedFriends.map((u, i) => (
 									<NonFriendCard
@@ -60,18 +69,57 @@ class FriendsContainer extends Component {
 									/>
 								))}
 							</Card.Group>
-							<h3>New Requests</h3>
+						) : (
+							"You don't have any pending requests currently."
+						)}
+					</Tab.Pane>
+				)
+			},
+			{
+				menuItem: 'New Requests',
+				render: () => (
+					<Tab.Pane>
+						{this.props.pendingFriends.length ? (
 							<Card.Group itemsPerRow={4} className="friend-card">
 								{this.props.pendingFriends.map((u, i) => (
 									<NonFriendCard key={i} user={u} status={'pending'} />
 								))}
 							</Card.Group>
-							<h3>Other wanderers</h3>
+						) : (
+							'Currently no new requests.'
+						)}
+					</Tab.Pane>
+				)
+			},
+			{
+				menuItem: 'Other Wandrers',
+				render: () => (
+					<Tab.Pane>
+						{this.props.strangers.length ? (
 							<Card.Group itemsPerRow={4} className="friend-card">
 								{this.props.strangers.map((u, i) => (
 									<NonFriendCard key={i} user={u} status={'strangers'} />
 								))}
 							</Card.Group>
+						) : (
+							"You're friends with everyone on here!"
+						)}
+					</Tab.Pane>
+				)
+			}
+		];
+
+		return (
+			<div>
+				<Navbar history={this.props.history} />
+				{this.state.loaded ? (
+					<div className="main">
+						<div className="content">
+							<h1>Friends</h1>
+							<Tab
+								menu={{ fluid: true, vertical: true, tabular: 'right' }}
+								panes={panes}
+							/>
 						</div>
 
 						{this.state.chatFriendId ? (

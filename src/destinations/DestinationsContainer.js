@@ -2,13 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import DestinationCard from './DestinationCard';
-import { Card, Container } from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react';
 import { setTargetDestination } from '../actions/destActions';
 import '../stylesheets/destinations.css';
 
 const DestinationsContainer = props => (
-	<Container id="side-pane">
-		<h3>Destinations</h3>
+	<div id="destinations-container">
 		{props.destinations
 			? props.destinations.map((d, i) => (
 					<Card.Group id="dest-cards" key={i}>
@@ -31,7 +30,7 @@ const DestinationsContainer = props => (
 					</Card.Group>
 			  ))
 			: 'No destination has been added (yet...)'}
-	</Container>
+	</div>
 );
 
 const mapStateToProps = state => ({

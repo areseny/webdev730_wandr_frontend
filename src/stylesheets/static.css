@@ -18,3 +18,10 @@
 	padding: 0;
 	margin: 0;
 }
+
+.ui.cards > .teal.card,
+.ui.teal.card,
+.ui.teal.cards > .card #homepage-trips-cards {
+	height: 20rem;
+	overflow: auto;
+}

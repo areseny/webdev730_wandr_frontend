@@ -17,15 +17,20 @@
 
 .trip-info-container {
 	height: 70vh;
-	width: 90%;
-	margin: auto;
-	margin-top: 1.8rem;
-	border: 7px solid #fcfaf2;
+	width: 100%;
 	border-radius: 5px;
 	background: rgba(199, 205, 209, 0.6);
 	box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5);
 }
 
-#trips-list-cards {
+/* #trips-list-cards {
 	clear: both;
+} */
+
+.ui.attached:not(.message) + .ui.attached.segment:not(.top) {
+	background: rgba(242, 244, 252, 0.7);
+}
+
+.ui.tabular.menu a.active.item {
+	background: rgba(242, 244, 252, 0.7);
 }

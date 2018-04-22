@@ -10,15 +10,10 @@ export const fetchUserTrips = () => dispatch => {
 
 export const setTargetTrip = id => ({ type: 'SET_TARGET_TRIP', id });
 
-export const addTrip = ({
-	name,
-	description,
-	duration,
-	startDate,
-	endDate,
-	ratings,
-	destinations
-}) => dispatch => {
+export const addTrip = (
+	{ name, description, duration, startDate, endDate, ratings, destinations },
+	history
+) => dispatch => {
 	const start_date = startDate._d;
 	const end_date = endDate._d;
 	const options = {
@@ -42,6 +37,9 @@ export const addTrip = ({
 				type: 'ADD_TRIP',
 				newTrip: parseTripJson(json)
 			});
+		})
+		.then(() => {
+			history.push('/mytrips');
 		});
 };
 
