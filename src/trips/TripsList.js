@@ -23,6 +23,7 @@ class TripsList extends Component {
 					(ut, i) =>
 						new Date(ut.startDate) > new Date() ? (
 							<Card
+								id="trip-list-card"
 								fluid
 								key={i}
 								color="teal"

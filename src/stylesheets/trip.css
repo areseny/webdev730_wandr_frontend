@@ -23,9 +23,14 @@
 	box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5);
 }
 
-/* #trips-list-cards {
-	clear: both;
-} */
+#trip-list-card {
+	height: 10rem;
+	overflow: auto;
+}
+
+#trip-list-card .content {
+	min-height: 0;
+}
 
 .ui.attached:not(.message) + .ui.attached.segment:not(.top) {
 	background: rgba(242, 244, 252, 0.7);
