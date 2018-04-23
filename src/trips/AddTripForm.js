@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { addTrip } from '../actions/tripActions';
-import moment from 'moment';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import Navbar from '../app/Navbar';
+import { Form, Button, Rating } from 'semantic-ui-react';
 import { GM_GEO_KEY } from '../config.js';
 import '../stylesheets/trip.css';
 
@@ -12,8 +12,8 @@ let debounceFetch;
 const defaultDestinationObj = {
 	name: '',
 	description: '',
-	arrival: null,
-	departure: null,
+	arrival: '',
+	departure: '',
 	lat: 0,
 	lng: 0
 };
@@ -21,8 +21,8 @@ const defaultDestinationObj = {
 const defaultState = {
 	name: '',
 	description: '',
-	startDate: null,
-	endDate: null,
+	startDate: '',
+	endDate: '',
 	duration: '',
 	ratings: 0,
 	destinations: [defaultDestinationObj]
@@ -31,75 +31,8 @@ const defaultState = {
 class AddTripForm extends Component {
 	state = defaultState;
 
-	destinationInputs = () =>
-		this.state.destinations.map((d, i) => {
-			return (
-				<div key={`destination ${i + 1}`}>
-					<input
-						type="text"
-						name="name"
-						value={d.name}
-						placeholder={`Destination ${i + 1}`}
-						onChange={this.handleDestinationChange(i)}
-					/>
-					<br />
-					<input
-						type="text"
-						name="description"
-						value={d.description}
-						placeholder={`Description for destination ${i + 1}`}
-						onChange={this.handleDestinationChange(i)}
-					/>
-					<DatePicker
-						placeholderText="Arriving on..."
-						selected={this.state.destinations[i].arrival}
-						onChange={this.handleArrivalInput}
-						minDate={moment(this.state.startDate)}
-						maxDate={moment(this.state.endDate)}
-					/>
-					<DatePicker
-						placeholderText="Leaving on..."
-						selected={this.state.destinations[i].departure}
-						onChange={this.handleDepartureInput}
-						minDate={moment(this.state.destinations[i].arrival)}
-						maxDate={moment(this.state.endDate)}
-					/>
-					<input
-						type="button"
-						onClick={this.removeDestination(i)}
-						value="X"
-						className="ui button"
-					/>
-				</div>
-			);
-		});
-
 	handleTripChange = e => {
 		this.setState({ [e.target.name]: e.target.value });
-	};
-
-	handleArrivalInput = day => {
-		this.setState({
-			destinations: [
-				...this.state.destinations.slice(0, -1),
-				{
-					...this.state.destinations[this.state.destinations.length - 1],
-					arrival: day
-				}
-			]
-		});
-	};
-
-	handleDepartureInput = day => {
-		this.setState({
-			destinations: [
-				...this.state.destinations.slice(0, -1),
-				{
-					...this.state.destinations[this.state.destinations.length - 1],
-					departure: day
-				}
-			]
-		});
 	};
 
 	addDestinationField = e => {
@@ -110,7 +43,7 @@ class AddTripForm extends Component {
 		}
 	};
 
-	removeDestination = index => () => {
+	removeDestinationField = index => () => {
 		this.setState({
 			destinations: [...this.state.destinations].filter((d, i) => i !== index)
 		});
@@ -122,6 +55,9 @@ class AddTripForm extends Component {
 		const newDestinations = this.state.destinations.map(
 			(d, i) => (i !== index ? d : { ...d, [e.target.name]: e.target.value })
 		);
+
+		console.log(newDestinations);
+
 		this.setState({ destinations: newDestinations });
 	};
 
@@ -147,15 +83,7 @@ class AddTripForm extends Component {
 			});
 	};
 
-	handleStartDateInput = day => {
-		this.setState({ startDate: day });
-	};
-
-	handleEndDateInput = day => {
-		// convert duration from seconds to days
-		const duration = (day._d - this.state.startDate._d) / 86400000 + 1;
-		this.setState({ endDate: day, duration: duration });
-	};
+	handleRatings = (e, { rating }) => this.setState({ ratings: rating });
 
 	handleSubmit = e => {
 		e.preventDefault();
@@ -165,68 +93,121 @@ class AddTripForm extends Component {
 
 	render() {
 		return (
-			<div className="float-right-btn">
-				<h3>Add New Trip</h3>
-				<form onSubmit={this.handleSubmit} className="ui form">
-					<input
-						type="text"
-						name="name"
-						placeholder="Name"
-						value={this.state.name}
-						onChange={this.handleTripChange}
-					/>
-					<br />
-					<input
-						type="text"
-						name="description"
-						placeholder="Description"
-						value={this.state.description}
-						onChange={this.handleTripChange}
-					/>
-					<DatePicker
-						placeholderText="Start Date"
-						selected={this.state.startDate}
-						onChange={this.handleStartDateInput}
-						minDate={moment(new Date())}
-					/>
-					<DatePicker
-						placeholderText="End Date"
-						selected={this.state.endDate}
-						onChange={this.handleEndDateInput}
-						minDate={moment(this.state.startDate)}
-					/>
-					{this.destinationInputs()}
-					<input
-						className="ui button"
-						type="button"
-						value="Enter Another Destination"
+			<div>
+				<Navbar history={this.props.history} />
+				<h1 id="title">Add New Trip</h1>
+				<Form onSubmit={this.handleSubmit} className="static-form">
+					<Form.Group>
+						<Form.Input
+							name="name"
+							placeholder="Trip Name"
+							value={this.state.name}
+							onChange={this.handleTripChange}
+							width={16}
+						/>
+					</Form.Group>
+					<Form.Group>
+						<Form.TextArea
+							name="description"
+							placeholder="Trip Description"
+							value={this.state.description}
+							onChange={this.handleTripChange}
+							width={16}
+						/>
+					</Form.Group>
+					<Form.Group inline unstackable widths="equal">
+						<Form.Input
+							type="date"
+							name="startDate"
+							label="Start Date"
+							value={this.state.startDate}
+							selected={this.state.startDate}
+							onChange={this.handleTripChange}
+						/>
+						<Form.Input
+							type="date"
+							name="endDate"
+							label="End Date"
+							value={this.state.endDate}
+							onChange={this.handleTripChange}
+						/>
+						Ratings:
+						<Rating
+							icon="star"
+							maxRating={5}
+							onRate={this.handleRatings}
+							value={this.state.ratings}
+						/>
+					</Form.Group>
+					<h3>Destinations</h3>
+					{this.state.destinations.map((d, i) => (
+						<Form.Group key={`destination ${i + 1}`}>
+							<Form.Input
+								name="name"
+								value={d.name}
+								placeholder={`Destination ${i + 1}`}
+								onChange={this.handleDestinationChange(i)}
+							/>
+							<Form.Input
+								name="description"
+								value={d.description}
+								placeholder="Description"
+								onChange={this.handleDestinationChange(i)}
+							/>
+							<Form.Input
+								type="date"
+								name="arrival"
+								value={this.state.destinations[i].arrival}
+								selected={this.state.startDate}
+								onChange={this.handleDestinationChange(i)}
+							/>
+							<Form.Input
+								type="date"
+								name="departure"
+								value={this.state.destinations[i].departure}
+								selected={this.state.endDate}
+								onChange={this.handleDestinationChange(i)}
+							/>
+							<input
+								type="button"
+								onClick={this.removeDestinationField(i)}
+								value="X"
+								className="ui button"
+							/>
+						</Form.Group>
+					))}
+					<a
+						className="float-right-btn"
+						role="button"
 						onClick={this.addDestinationField}
-					/>
-					<br />
-					Ratings:
-					<select
-						value={this.state.ratings}
-						name="ratings"
-						onChange={this.handleTripChange}>
-						<option value="0">0</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-					<br />
-					<input type="submit" value="Add" className="ui button" />
-				</form>
-				<a
-					role="button"
-					onClick={this.props.toggleAdd}
-					style={{ cursor: 'pointer' }}>
-					Collapse
-				</a>
+						style={{ cursor: 'pointer', color: '#fe8181' }}>
+						Add another Destination
+					</a>
+
+					<Button primary type="submit">
+						Add
+					</Button>
+				</Form>
+				<Link to="/mytrips">Back</Link>
 			</div>
 		);
 	}
 }
 
 export default connect(null, { addTrip })(AddTripForm);
+
+// <div key={`destination ${i + 1}`}>
+// 	<input
+// 		type="text"
+// 		name="name"
+// 		value={d.name}
+// 		placeholder={`Destination ${i + 1}`}
+// 		onChange={this.handleDestinationChange(i)}
+// 	/>
+//
+// 	<Form.TextArea
+// 		name="description"
+// 		value={d.description}
+// 		placeholder={`Description for destination ${i + 1}`}
+// 		onChange={this.handleDestinationChange(i)}
+// 	/>

@@ -14,8 +14,8 @@ export const addTrip = (
 	{ name, description, duration, startDate, endDate, ratings, destinations },
 	history
 ) => dispatch => {
-	const start_date = startDate._d;
-	const end_date = endDate._d;
+	const start_date = new Date(startDate);
+	const end_date = endDate;
 	const options = {
 		method: 'POST',
 		headers: {
@@ -26,7 +26,7 @@ export const addTrip = (
 		body: JSON.stringify({
 			trip: { name, description, duration },
 			user_trip: { start_date, end_date, ratings },
-			destinations: parseDestinationsTimes(destinations)
+			destinations
 		})
 	};
 
@@ -96,7 +96,7 @@ export const deleteTrip = (id, history) => dispatch => {
 
 const parseTripJson = json => ({
 	id: json.id,
-	tripId: json.trip.id,
+	tripId: json.trip_id,
 	name: json.trip.name,
 	description: json.trip.description,
 	duration: json.trip.duration,
@@ -138,10 +138,10 @@ const parseActivitiesJson = activities =>
 const parseDestinationsTimes = destinations =>
 	destinations.map(d => ({
 		...d,
-		arrival: d.arrival._d
+		arrival: d.arrival
 			? d.arrival._d.toISOString()
 			: new Date(d.arrival).toISOString(),
-		departure: d.departure._d
+		departure: d.departure
 			? d.departure._d.toISOString()
 			: new Date(d.departure).toISOString()
 	}));

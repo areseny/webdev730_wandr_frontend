@@ -106,7 +106,7 @@ class Signup extends Component {
 						onChange={this.handleChange}
 					/>
 				</Form.Group>
-				<Button primary type="submit" className="submit-btn">
+				<Button primary type="submit">
 					Sign Up
 				</Button>
 			</Form>
