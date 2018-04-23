@@ -4,6 +4,7 @@ import { logIn } from '../actions/authActions';
 import { connect } from 'react-redux';
 import { Form, Button } from 'semantic-ui-react';
 import '../stylesheets/static.css';
+import bgVid from '../media/bgVid.mp4';
 
 class Login extends Component {
 	state = { username: '', password: '' };
@@ -26,6 +27,9 @@ class Login extends Component {
 	render() {
 		return (
 			<div id="landing-container">
+				<video className="bgVid" autoPlay loop muted>
+					<source src={bgVid} type="video/mp4" />
+				</video>
 				<h1 id="title">Welcome to</h1>
 				<h1 id="logo">WANDR</h1>
 				<div className="static-form">
