@@ -65,6 +65,10 @@ class App extends Component {
 						render={renderProps => <TripPage history={renderProps.history} />}
 					/>
 					<Route
+						path="/trips/:id"
+						render={renderProps => <TripPage history={renderProps.history} />}
+					/>
+					<Route
 						path="/addtrip"
 						render={renderProps => (
 							<AddTripForm history={renderProps.history} />

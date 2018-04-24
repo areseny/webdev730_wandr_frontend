@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Form, Button } from 'semantic-ui-react';
 import '../stylesheets/static.css';
 import bgVid from '../media/bgVid.mp4';
+import { Redirect } from 'react-router-dom';
 
 class Login extends Component {
 	state = { username: '', password: '' };
@@ -25,7 +26,9 @@ class Login extends Component {
 	};
 
 	render() {
-		return (
+		return localStorage.getItem('jwt') ? (
+			<Redirect to="/home" />
+		) : (
 			<div id="landing-container">
 				<video className="bgVid" autoPlay loop muted>
 					<source src={bgVid} type="video/mp4" />

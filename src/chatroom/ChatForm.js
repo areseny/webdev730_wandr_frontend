@@ -18,7 +18,7 @@
 // 			},
 // 			body: JSON.stringify(this.state)
 // 		};
-// 		fetch(`http://localhost:3000/users/add_message`, options)
+// 		fetch(`https://wandr-backend.herokuapp.com/users/add_message`, options)
 // 			.then(res => res.json())
 // 			.then(json => {
 // 				this.props.updateChatHistory(json.content);

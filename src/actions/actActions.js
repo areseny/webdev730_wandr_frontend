@@ -45,7 +45,7 @@ export const addActivity = ({
 			destination: { destinationId }
 		})
 	};
-	fetch(`http://localhost:3000/activities`, options)
+	fetch(`https://wandr-backend.herokuapp.com/activities`, options)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({ type: 'ADD_ACTIVITY', newActivity: parseActivityJson(json) });
@@ -85,7 +85,7 @@ export const editActivity = ({
 			}
 		})
 	};
-	fetch(`http://localhost:3000/activities/${id}`, options)
+	fetch(`https://wandr-backend.herokuapp.com/activities/${id}`, options)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({
@@ -103,7 +103,7 @@ export const deleteActivity = (id, destinationId) => dispatch => {
 			Accept: 'application/json'
 		}
 	};
-	fetch(`http://localhost:3000/activities/${id}`, options)
+	fetch(`https://wandr-backend.herokuapp.com/activities/${id}`, options)
 		.then(res => res.json())
 		.then(msg => {
 			dispatch({ type: 'DELETE_ACTIVITY', payload: { id, destinationId } });

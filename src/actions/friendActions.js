@@ -1,6 +1,6 @@
 export const fetchUsers = () => dispatch => {
 	const options = { headers: { Authorization: localStorage.getItem('jwt') } };
-	fetch(`http://localhost:3000/users`, options)
+	fetch(`https://wandr-backend.herokuapp.com/users`, options)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({
@@ -25,7 +25,7 @@ export const addFriend = friendId => dispatch => {
 		},
 		body: JSON.stringify({ friend_id: friendId })
 	};
-	fetch(`http://localhost:3000/friendships`, options)
+	fetch(`https://wandr-backend.herokuapp.com/friendships`, options)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({
@@ -46,7 +46,7 @@ export const cancelRequest = friendId => dispatch => {
 		body: JSON.stringify({ friend_id: friendId })
 	};
 
-	return fetch(`http://localhost:3000/friendships/cancel`, options)
+	return fetch(`https://wandr-backend.herokuapp.com/friendships/cancel`, options)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({ type: 'CANCEL_REQUEST', friendId });
@@ -63,7 +63,7 @@ export const acceptRequest = friendId => dispatch => {
 		},
 		body: JSON.stringify({ friend_id: friendId, accept: true })
 	};
-	return fetch(`http://localhost:3000/friendships/update`, options)
+	return fetch(`https://wandr-backend.herokuapp.com/friendships/update`, options)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({ type: 'ACCEPT_REQUEST', friend: parseFriendJson(json) });
@@ -80,7 +80,7 @@ export const rejectRequest = friendId => dispatch => {
 		},
 		body: JSON.stringify({ friend_id: friendId, accept: false })
 	};
-	return fetch(`http://localhost:3000/friendships/update`, options)
+	return fetch(`https://wandr-backend.herokuapp.com/friendships/update`, options)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({ type: 'REJECT_REQUEST' });
@@ -97,7 +97,7 @@ export const unfriend = friendId => dispatch => {
 		},
 		body: JSON.stringify({ friend_id: friendId })
 	};
-	return fetch(`http://localhost:3000/friendships/destroy`, options)
+	return fetch(`https://wandr-backend.herokuapp.com/friendships/destroy`, options)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({ type: 'UNFRIEND', friendId });

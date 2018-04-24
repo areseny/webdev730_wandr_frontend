@@ -3,10 +3,13 @@ import { Link } from 'react-router-dom';
 import Signup from './Signup';
 import '../stylesheets/static.css';
 import bgVid from '../media/bgVid.mp4';
+import { Redirect } from 'react-router-dom';
 
 export default class Landing extends Component {
 	render() {
-		return (
+		return localStorage.getItem('jwt') ? (
+			<Redirect to="/home" />
+		) : (
 			<div id="landing-container">
 				<video className="bgVid" autoPlay loop muted>
 					<source src={bgVid} type="video/mp4" />

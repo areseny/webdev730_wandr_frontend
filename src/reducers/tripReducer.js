@@ -1,4 +1,9 @@
-const defaultState = { userTrips: [], targetTrip: {}, targetDestination: {} };
+const defaultState = {
+	userTrips: [],
+	targetTrip: {},
+	targetDestination: {},
+	friendsTrips: []
+};
 
 let nextActivities;
 let nextDestinations;
@@ -16,6 +21,13 @@ const activityIndex = (state, activityId) =>
 
 export default function(state = defaultState, action) {
 	switch (action.type) {
+		case 'FETCH_USERS':
+			let friendsTripsRaw = action.payload.friends.map(f => f.trips);
+			let friendsTrips = friendsTripsRaw.reduce((acc, f) => acc.concat(f), []);
+			return {
+				...state,
+				friendsTrips
+			};
 		case 'FETCH_USER_TRIPS':
 			return { ...state, userTrips: action.userTrips };
 		case 'SET_TARGET_TRIP':
@@ -23,6 +35,11 @@ export default function(state = defaultState, action) {
 				ut => ut.id === Number(action.id)
 			);
 			return { ...state, targetTrip };
+		case 'SET_FRIEND_TARGET_TRIP':
+			const friendTargetTrip = state.friendsTrips.find(
+				ft => ft.id === Number(action.id)
+			);
+			return { ...state, targetTrip: friendTargetTrip };
 		case 'ADD_TRIP':
 			return { ...state, userTrips: [...state.userTrips, action.newTrip] };
 		case 'EDIT_TRIP':

@@ -19,7 +19,7 @@ const store = createStore(
 	)
 );
 
-const API_WS_ROOT = `ws://localhost:3000/cable`;
+const API_WS_ROOT = 'wss://wandr-backend.herokuapp.com/cable';
 
 ReactDOM.render(
 	<Router>

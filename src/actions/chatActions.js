@@ -8,7 +8,7 @@ export const sendMessage = (friendId, content) => dispatch => {
 		},
 		body: JSON.stringify({ id: friendId, content })
 	};
-	fetch(`http://localhost:3000/users/add_message`, options)
+	fetch(`https://wandr-backend.herokuapp.com/users/add_message`, options)
 		.then(res => res.json())
 		.then(message => {
 			dispatch({ type: 'SEND_MESSAGE', message });

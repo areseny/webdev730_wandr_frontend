@@ -1,6 +1,6 @@
 export const fetchUserTrips = () => dispatch => {
 	const options = { headers: { Authorization: localStorage.getItem('jwt') } };
-	fetch(`http://localhost:3000/user_trips`, options)
+	fetch(`https://wandr-backend.herokuapp.com/user_trips`, options)
 		.then(res => res.json())
 		.then(json => {
 			const userTrips = json.map(ut => parseTripJson(ut));
@@ -9,6 +9,11 @@ export const fetchUserTrips = () => dispatch => {
 };
 
 export const setTargetTrip = id => ({ type: 'SET_TARGET_TRIP', id });
+
+export const setFriendTargetTrip = id => ({
+	type: 'SET_FRIEND_TARGET_TRIP',
+	id
+});
 
 export const addTrip = (
 	{ name, description, duration, startDate, endDate, ratings, destinations },
@@ -30,7 +35,7 @@ export const addTrip = (
 		})
 	};
 
-	fetch('http://localhost:3000/user_trips', options)
+	fetch('https://wandr-backend.herokuapp.com/user_trips', options)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({
@@ -68,7 +73,7 @@ export const editTrip = ({
 			destinations
 		})
 	};
-	fetch(`http://localhost:3000/user_trips/${id}`, options)
+	fetch(`https://wandr-backend.herokuapp.com/user_trips/${id}`, options)
 		.then(res => res.json())
 		.then(json => {
 			console.log(json);
@@ -87,7 +92,7 @@ export const deleteTrip = (id, history) => dispatch => {
 			Accept: 'application/json'
 		}
 	};
-	fetch(`http://localhost:3000/user_trips/${id}`, options)
+	fetch(`https://wandr-backend.herokuapp.com/user_trips/${id}`, options)
 		.then(res => res.json())
 		.then(msg => {
 			history.push('/mytrips');

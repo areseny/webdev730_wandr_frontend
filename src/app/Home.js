@@ -76,7 +76,7 @@ class Home extends Component {
 				{this.state.loaded ? (
 					<div className="main-container">
 						<Grid divided="vertically" columns="equal">
-							<h3>Trips Coming Up Soon</h3>
+							<h3>Upcoming Trips</h3>
 							<Grid.Row columns={this.props.userTrips.length || 1}>
 								{this.upcomingTrips()}
 							</Grid.Row>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import withAuth from '../app/withAuth';
 import Navbar from '../app/Navbar';
-import { setTargetTrip } from '../actions/tripActions';
+import { setTargetTrip, setFriendTargetTrip } from '../actions/tripActions';
 import { GM_JS_KEY } from '../config.js';
 import TripMap from './TripMap';
 import TripDashboard from './TripDashboard';
@@ -15,7 +15,12 @@ class TripPage extends Component {
 	state = { loaded: false };
 
 	componentDidMount() {
-		this.props.setTargetTrip(this.props.match.params.id);
+		const url = this.props.match.url.slice(1).split(['/'])[0];
+		if (url === 'mytrips') {
+			this.props.setTargetTrip(this.props.match.params.id);
+		} else if (url === 'trips') {
+			this.props.setFriendTargetTrip(this.props.match.params.id);
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -45,8 +50,8 @@ class TripPage extends Component {
 				render: () => (
 					<Tab.Pane>
 						<TripMap
-							destinations={this.props.targetTrip.destinations}
-							activities={this.targetTripActivities()}
+							destinations={this.props.targetTrip.destinations || []}
+							activities={this.targetTripActivities() || []}
 							googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GM_JS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
 							loadingElement={<div id="loading-element" />}
 							containerElement={<div className="trip-info-container" />}
@@ -104,5 +109,7 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(
-	connect(mapStateToProps, { setTargetTrip })(withAuth(TripPage))
+	connect(mapStateToProps, { setTargetTrip, setFriendTargetTrip })(
+		withAuth(TripPage)
+	)
 );

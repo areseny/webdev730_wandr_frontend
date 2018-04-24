@@ -12,7 +12,7 @@ export const signUp = (
 			user: { firstname, lastname, hometown, dob, email, username, password }
 		})
 	};
-	fetch('http://localhost:3000/signup', options)
+	fetch('https://wandr-backend.herokuapp.com/signup', options)
 		.then(res => res.json())
 		.then(json => {
 			localStorage.setItem('jwt', json.jwt);
@@ -32,7 +32,7 @@ export const logIn = (username, password, history) => dispatch => {
 		},
 		body: JSON.stringify({ user: { username, password } })
 	};
-	fetch('http://localhost:3000/login', options)
+	fetch('https://wandr-backend.herokuapp.com/login', options)
 		.then(res => res.json())
 		.then(json => {
 			if (json.error) {
@@ -49,7 +49,7 @@ export const logIn = (username, password, history) => dispatch => {
 
 export const fetchUser = (jwt, history) => dispatch => {
 	const options = { headers: { Authorization: jwt } };
-	fetch('http://localhost:3000/current_user', options)
+	fetch('https://wandr-backend.herokuapp.com/current_user', options)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({ type: 'FETCH_USER', payload: json });

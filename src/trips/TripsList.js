@@ -78,7 +78,7 @@ class TripsList extends Component {
 					key={i}
 					color="teal"
 					as={Link}
-					to={`/mytrips/${ft.id}`}
+					to={`/trips/${ft.id}`}
 					header={ft.name}
 					meta={`From ${moment(ft.startDate).format('LL')} to ${moment(
 						ft.endDate
@@ -90,7 +90,6 @@ class TripsList extends Component {
 	};
 
 	render() {
-		console.log(this.props);
 		return (
 			<div id="trip-list">
 				<Navbar history={this.props.history} />
@@ -130,7 +129,7 @@ class TripsList extends Component {
 
 const mapStateToProps = state => ({
 	userTrips: state.trip.userTrips,
-	friendsTrips: state.friend.friends.map(f => f.trips)
+	friendsTrips: state.trip.friendsTrips
 });
 
 export default withRouter(
