@@ -44,7 +44,6 @@ class TripPage extends Component {
 	};
 
 	render() {
-		console.log(process.env.REACT_APP_GM_JS_KEY);
 		const panes = [
 			{
 				menuItem: 'Map',
