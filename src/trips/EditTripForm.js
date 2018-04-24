@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { editTrip } from '../actions/tripActions';
 import { Form, Button, Rating } from 'semantic-ui-react';
-import { GM_GEO_KEY } from '../config.js';
+// import { GM_GEO_KEY } from '../config.js';
 import '../stylesheets/trip.css';
 
 let debounceFetch;
@@ -57,7 +57,9 @@ class EditTripForm extends Component {
 
 	fetchLatLng = (address, index) => {
 		fetch(
-			`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GM_GEO_KEY}`
+			`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${
+				process.env.REACT_APP_GM_GEO_KEY
+			}`
 		)
 			.then(res => res.json())
 			.then(json => {

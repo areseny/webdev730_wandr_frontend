@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addActivity } from '../actions/actActions';
-import { GM_GEO_KEY } from '../config.js';
+// import { GM_GEO_KEY } from '../config.js';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -36,7 +36,9 @@ class AddActivityForm extends Component {
 
 	fetchLatLng = address => {
 		fetch(
-			`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GM_GEO_KEY}`
+			`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${
+				process.env.REACT_APP_GM_GEO_KEY
+			}`
 		)
 			.then(res => res.json())
 			.then(json => {

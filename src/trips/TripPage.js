@@ -4,7 +4,7 @@ import { withRouter, Link } from 'react-router-dom';
 import withAuth from '../app/withAuth';
 import Navbar from '../app/Navbar';
 import { setTargetTrip, setFriendTargetTrip } from '../actions/tripActions';
-import { GM_JS_KEY } from '../config.js';
+// import { GM_JS_KEY } from '../config.js';
 import TripMap from './TripMap';
 import TripDashboard from './TripDashboard';
 import TripCalendar from './TripCalendar';
@@ -52,7 +52,9 @@ class TripPage extends Component {
 						<TripMap
 							destinations={this.props.targetTrip.destinations || []}
 							activities={this.targetTripActivities() || []}
-							googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GM_JS_KEY}&v=3.exp&libraries=geometry,drawing,places`}
+							googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${
+								process.env.REACT_APP_GM_JS_KEY
+							}&v=3.exp&libraries=geometry,drawing,places`}
 							loadingElement={<div id="loading-element" />}
 							containerElement={<div className="trip-info-container" />}
 							mapElement={<div id="map-element" />}
@@ -71,7 +73,6 @@ class TripPage extends Component {
 				)
 			}
 		];
-
 		return (
 			<div>
 				<Navbar history={this.props.history} />

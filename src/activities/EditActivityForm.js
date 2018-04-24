@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../stylesheets/activities.css';
 import { Form, Button } from 'semantic-ui-react';
-import { GM_GEO_KEY } from '../config.js';
+// import { GM_GEO_KEY } from '../config.js';
 
 let debounceFetch;
 
@@ -35,7 +35,9 @@ class EditActivityForm extends Component {
 
 	fetchLatLng = address => {
 		fetch(
-			`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GM_GEO_KEY}`
+			`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${
+				process.env.REACT_APP_GM_GEO_KEY
+			}`
 		)
 			.then(res => res.json())
 			.then(
