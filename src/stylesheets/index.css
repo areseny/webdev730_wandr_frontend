@@ -21,6 +21,10 @@ h3 {
 	font-size: 1.3rem;
 }
 
+a {
+	color: #008080;
+}
+
 /* navbar logo and user icon */
 #logo {
 	font-family: 'Cabin Sketch', cursive;
@@ -54,7 +58,7 @@ i.icon.user.circle {
 .main {
 	padding: 2rem;
 	display: grid;
-	grid-template-columns: auto 22rem;
+	grid-template-columns: auto 30rem;
 }
 
 .content {

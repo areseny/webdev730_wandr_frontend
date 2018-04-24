@@ -24,18 +24,17 @@ export default class ActivitySpec extends Component {
 							className="float-right-btn"
 							role="button"
 							onClick={this.props.toggleEdit}
-							style={{ cursor: 'pointer', color: '#fe8181' }}>
+							style={{ cursor: 'pointer' }}>
 							<Icon name="edit" />
 						</a>
-						From {this.parseDateTime().startTime} to{' '}
-						{this.parseDateTime().endTime}
+						{this.parseDateTime().date} ({this.parseDateTime().startTime} -{' '}
+						{this.parseDateTime().endTime})
+						<br />
+						{this.props.activity.address}
+						<br />
+						${this.props.activity.cost}
 						<br />
 						{this.props.activity.description}
-						<br />
-						<strong>Date:</strong> {this.parseDateTime().date}
-						<br />
-						<strong>Address:</strong> {this.props.activity.address}
-						${this.props.activity.cost}
 					</List.Description>
 				</List.Content>
 			</List.Item>

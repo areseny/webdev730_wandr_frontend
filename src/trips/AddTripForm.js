@@ -55,9 +55,6 @@ class AddTripForm extends Component {
 		const newDestinations = this.state.destinations.map(
 			(d, i) => (i !== index ? d : { ...d, [e.target.name]: e.target.value })
 		);
-
-		console.log(newDestinations);
-
 		this.setState({ destinations: newDestinations });
 	};
 
@@ -121,7 +118,6 @@ class AddTripForm extends Component {
 							name="startDate"
 							label="Start Date"
 							value={this.state.startDate}
-							selected={this.state.startDate}
 							onChange={this.handleTripChange}
 						/>
 						<Form.Input
@@ -168,22 +164,16 @@ class AddTripForm extends Component {
 								selected={this.state.endDate}
 								onChange={this.handleDestinationChange(i)}
 							/>
-							<input
-								type="button"
-								onClick={this.removeDestinationField(i)}
-								value="X"
-								className="ui button"
-							/>
+							<Button onClick={this.removeDestinationField(i)}>X</Button>
 						</Form.Group>
 					))}
 					<a
 						className="float-right-btn"
 						role="button"
 						onClick={this.addDestinationField}
-						style={{ cursor: 'pointer', color: '#fe8181' }}>
+						style={{ cursor: 'pointer' }}>
 						Add another Destination
 					</a>
-
 					<Button primary type="submit">
 						Add
 					</Button>
@@ -195,19 +185,3 @@ class AddTripForm extends Component {
 }
 
 export default connect(null, { addTrip })(AddTripForm);
-
-// <div key={`destination ${i + 1}`}>
-// 	<input
-// 		type="text"
-// 		name="name"
-// 		value={d.name}
-// 		placeholder={`Destination ${i + 1}`}
-// 		onChange={this.handleDestinationChange(i)}
-// 	/>
-//
-// 	<Form.TextArea
-// 		name="description"
-// 		value={d.description}
-// 		placeholder={`Description for destination ${i + 1}`}
-// 		onChange={this.handleDestinationChange(i)}
-// 	/>

@@ -13,14 +13,10 @@
 
 #activities-container {
 	border-radius: 0.5rem;
-	width: 20rem;
+	width: 100%;
+	padding: 0.2rem 0.5rem;
 }
 
-/* #activity-spec {
-	background-color: #f2f4fc;
-} */
-
-/* #dest-cards .ui.card,
-.ui.cards > .card {
-	background: 0;
-} */
+#destinations-container .content {
+	width: 100%;
+}

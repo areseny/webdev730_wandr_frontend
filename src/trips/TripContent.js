@@ -25,7 +25,7 @@ export default class TripContent extends Component {
 					className="float-right-btn"
 					role="button"
 					onClick={this.props.toggleEdit}
-					style={{ cursor: 'pointer', color: '#fe8181' }}>
+					style={{ cursor: 'pointer' }}>
 					<Icon name="edit" />
 				</a>
 			</div>

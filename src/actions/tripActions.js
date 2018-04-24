@@ -65,12 +65,13 @@ export const editTrip = ({
 		body: JSON.stringify({
 			trip: { name, description, duration },
 			user_trip: { start_date, end_date, ratings },
-			destinations: parseDestinationsTimes(destinations)
+			destinations
 		})
 	};
 	fetch(`http://localhost:3000/user_trips/${id}`, options)
 		.then(res => res.json())
 		.then(json => {
+			console.log(json);
 			dispatch({
 				type: 'EDIT_TRIP',
 				editedTrip: parseTripJson(json)
@@ -135,13 +136,13 @@ const parseActivitiesJson = activities =>
 		lng: a.lng
 	}));
 
-const parseDestinationsTimes = destinations =>
-	destinations.map(d => ({
-		...d,
-		arrival: d.arrival
-			? d.arrival._d.toISOString()
-			: new Date(d.arrival).toISOString(),
-		departure: d.departure
-			? d.departure._d.toISOString()
-			: new Date(d.departure).toISOString()
-	}));
+// const parseDestinationsTimes = destinations =>
+// 	destinations.map(d => ({
+// 		...d,
+// 		arrival: d.arrival
+// 			? d.arrival._d.toISOString()
+// 			: new Date(d.arrival).toISOString(),
+// 		departure: d.departure
+// 			? d.departure._d.toISOString()
+// 			: new Date(d.departure).toISOString()
+// 	}));
