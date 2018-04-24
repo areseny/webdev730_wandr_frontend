@@ -23,7 +23,7 @@
 	box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5);
 }
 
-#trip-list-card {
+#trip-list .main-container .trip-list-card {
 	height: 10rem;
 	overflow: auto;
 }

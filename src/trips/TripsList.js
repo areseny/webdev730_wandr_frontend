@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
+import { fetchUsers } from '../actions/friendActions';
 import withAuth from '../app/withAuth';
 import Navbar from '../app/Navbar';
 import moment from 'moment';
-import { Card, Grid } from 'semantic-ui-react';
+import { Card, Grid, Message, Icon } from 'semantic-ui-react';
 import '../stylesheets/trip.css';
 
 class TripsList extends Component {
-	// constructDestinations = destinations => {
-	// 	const front = destinations
-	// 		.slice(0, -1)
-	// 		.map(d => d.name)
-	// 		.join(', ');
-	// 	const back = `, and ${destinations[destinations.length - 1].name}`;
-	// 	return front + back;
-	// };
+	state = { loaded: false };
+
+	componentDidMount() {
+		this.props.fetchUsers();
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (Object.keys(nextProps.currentUser || {}).length) {
+			this.setState({ loaded: true });
+		}
+	}
 
 	upcomingTrips = () =>
 		this.props.userTrips.length
@@ -23,7 +27,7 @@ class TripsList extends Component {
 					(ut, i) =>
 						new Date(ut.startDate) > new Date() ? (
 							<Card
-								id="trip-list-card"
+								className="trip-list-card"
 								fluid
 								key={i}
 								color="teal"
@@ -45,6 +49,7 @@ class TripsList extends Component {
 					(ut, i) =>
 						new Date(ut.startDate) < new Date() ? (
 							<Card
+								className="trip-list-card"
 								fluid
 								key={i}
 								color="teal"
@@ -60,36 +65,74 @@ class TripsList extends Component {
 			  )
 			: null;
 
+	friendsTrips = () => {
+		if (this.props.friendsTrips.length) {
+			let friendsTrips = this.props.friendsTrips.reduce(
+				(acc, f) => acc.concat(f),
+				[]
+			);
+			return friendsTrips.map((ft, i) => (
+				<Card
+					className="trip-list-card"
+					fluid
+					key={i}
+					color="teal"
+					as={Link}
+					to={`/mytrips/${ft.id}`}
+					header={ft.name}
+					meta={`From ${moment(ft.startDate).format('LL')} to ${moment(
+						ft.endDate
+					).format('LL')}`}
+					description={ft.description}
+				/>
+			));
+		}
+	};
+
 	render() {
+		console.log(this.props);
 		return (
-			<div>
+			<div id="trip-list">
 				<Navbar history={this.props.history} />
-				<div className="main-container">
-					<h1>Trips</h1>
-					<Grid columns={3}>
-						<Grid.Column>
-							<h3>Upcoming Trips</h3>
-							{this.upcomingTrips()}
-						</Grid.Column>
-						<Grid.Column>
-							<h3>Past Trips</h3>
-							{this.pastTrips()}
-						</Grid.Column>
-						<Grid.Column>
-							<h3>{"Friends' Trips"}</h3>
-							{this.pastTrips()}
-						</Grid.Column>
-					</Grid>
-					<br />
-					<Link to="/addTrip">Add New Trip</Link>
-				</div>
+				{this.state.loaded ? (
+					<div className="main-container">
+						<h1>Trips</h1>
+						<Grid columns={3}>
+							<Grid.Column>
+								<h3>Upcoming Trips</h3>
+								{this.upcomingTrips()}
+							</Grid.Column>
+							<Grid.Column>
+								<h3>Past Trips</h3>
+								{this.pastTrips()}
+							</Grid.Column>
+							<Grid.Column>
+								<h3>{"Friends' Trips"}</h3>
+								{this.friendsTrips()}
+							</Grid.Column>
+						</Grid>
+						<br />
+						<Link to="/addTrip">Add New Trip</Link>
+					</div>
+				) : (
+					<Message icon>
+						<Icon name="circle notched" color="teal" loading />
+						<Message.Content>
+							<Message.Header>Just one second</Message.Header>
+							"We are loading your friends' info for you."
+						</Message.Content>
+					</Message>
+				)}
 			</div>
 		);
 	}
 }
 
 const mapStateToProps = state => ({
-	userTrips: state.trip.userTrips
+	userTrips: state.trip.userTrips,
+	friendsTrips: state.friend.friends.map(f => f.trips)
 });
 
-export default withRouter(connect(mapStateToProps)(withAuth(TripsList)));
+export default withRouter(
+	connect(mapStateToProps, { fetchUsers })(withAuth(TripsList))
+);
