@@ -71,7 +71,10 @@ class Home extends Component {
 		return (
 			<div>
 				<Navbar history={this.props.history} />
-				<h1 id="title">Welcome, {this.props.currentUser.firstname}</h1>
+				<h1 id="title">
+					Welcome, {this.props.currentUser.firstname}{' '}
+					{this.props.currentUser.lastname}
+				</h1>
 				<br />
 				{this.state.loaded ? (
 					<div className="main-container">
@@ -102,7 +105,7 @@ class Home extends Component {
 						<Icon name="circle notched" color="teal" loading />
 						<Message.Content>
 							<Message.Header>Just one second</Message.Header>
-							"We are loading your info for you."
+							We are loading your info for you.
 						</Message.Content>
 					</Message>
 				)}

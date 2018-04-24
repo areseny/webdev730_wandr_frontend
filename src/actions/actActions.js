@@ -22,8 +22,8 @@ export const addActivity = ({
 	lng,
 	destinationId
 }) => dispatch => {
-	const start_time = startTime.toISOString();
-	const end_time = endTime.toISOString();
+	const start_time = startTime ? startTime.toISOString() : new Date();
+	const end_time = endTime ? endTime.toISOString() : new Date();
 	const options = {
 		method: 'POST',
 		headers: {

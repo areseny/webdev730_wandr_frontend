@@ -15,21 +15,6 @@ const TripMap = withScriptjs(
 			lng: Number(d.lng)
 		}));
 
-		// const activitiesPaths = props.destinations.map(d =>
-		// 	d.activities.map(a => ({
-		// 		lat: Number(a.lat),
-		// 		lng: Number(a.lng)
-		// 	}))
-		// );
-		//
-		// const activitiesPolylines = activitiesPaths =>
-		// 	activitiesPaths.map(ap => (
-		// 		<Polyline
-		// 			path={ap}
-		// 			options={{ strokeColor: 'black', strokeWeight: 3 }}
-		// 		/>
-		// 	));
-
 		const center = () => {
 			const latSum = props.destinations.map(d => Number(d.lat))[0];
 			const lngSum = props.destinations.map(d => Number(d.lng))[0];

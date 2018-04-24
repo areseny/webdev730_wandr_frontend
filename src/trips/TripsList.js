@@ -118,7 +118,7 @@ class TripsList extends Component {
 						<Icon name="circle notched" color="teal" loading />
 						<Message.Content>
 							<Message.Header>Just one second</Message.Header>
-							"We are loading your friends' info for you."
+							We are loading your friends info for you.
 						</Message.Content>
 					</Message>
 				)}
