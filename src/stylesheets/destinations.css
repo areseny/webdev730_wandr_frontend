@@ -13,3 +13,7 @@
 #destinations-container .content {
 	min-height: 0;
 }
+
+.float-right-btn {
+	float: right;
+}

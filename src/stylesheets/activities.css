@@ -20,3 +20,7 @@
 #destinations-container .content {
 	width: 100%;
 }
+
+.date-picker-input {
+	width: 50%;
+}

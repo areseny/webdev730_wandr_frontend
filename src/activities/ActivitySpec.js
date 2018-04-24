@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import moment from 'moment';
 import { List, Icon } from 'semantic-ui-react';
 import '../stylesheets/activities.css';

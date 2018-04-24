@@ -5,6 +5,7 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../stylesheets/activities.css';
+import { Form, Button } from 'semantic-ui-react';
 import { GM_GEO_KEY } from '../config.js';
 
 let debounceFetch;
@@ -14,8 +15,6 @@ class EditActivityForm extends Component {
 		id: this.props.activity.id,
 		name: this.props.activity.name,
 		description: this.props.activity.description,
-		startTimeMoment: moment(this.props.activity.startTime),
-		endTimeMoment: moment(this.props.activity.endTime),
 		startTime: this.props.activity.startTime,
 		endTime: this.props.activity.endTime,
 		cost: this.props.activity.cost,
@@ -54,11 +53,11 @@ class EditActivityForm extends Component {
 	};
 
 	handleStartTimeChange = e => {
-		this.setState({ startTime: e._d.toISOString(), startTimeMoment: e });
+		this.setState({ startTime: e._d.toISOString() });
 	};
 
 	handleEndTimeChange = e => {
-		this.setState({ endTime: e._d.toISOString(), endTimeMoment: e });
+		this.setState({ endTime: e._d.toISOString() });
 	};
 
 	handleSubmit = e => {
@@ -75,56 +74,75 @@ class EditActivityForm extends Component {
 	render() {
 		return (
 			<div>
-				<form onSubmit={this.handleSubmit} className="ui form">
-					<input
-						type="text"
-						name="name"
-						value={this.state.name}
-						onChange={this.handleChange}
-					/>
-					<input
-						type="text"
-						name="description"
-						value={this.state.description}
-						onChange={this.handleChange}
-					/>
-					<input
-						type="text"
-						name="address"
-						value={this.state.address}
-						onChange={this.handleAddressChange}
-					/>
-					<input
-						type="number"
-						name="cost"
-						value={this.state.cost}
-						onChange={this.handleChange}
-					/>
-					<DatePicker
-						selected={this.state.startTimeMoment}
-						onChange={this.handleStartTimeChange}
-						showTimeSelect
-						timeFormat="HH:mm"
-						timeIntervals={15}
-						dateFormat="LLL"
-						timeCaption="time"
-						minDate={moment(this.props.startDate)}
-						maxDate={moment(this.props.endDate)}
-					/>
-					<DatePicker
-						selected={this.state.endTimeMoment}
-						onChange={this.handleEndTimeChange}
-						showTimeSelect
-						timeFormat="HH:mm"
-						timeIntervals={15}
-						dateFormat="LLL"
-						timeCaption="time"
-						minDate={this.state.startTimeMoment}
-						maxDate={moment(this.props.endDate)}
-					/>
-					<input type="submit" value="Update" className="ui button" />
-				</form>
-				<a role="button" onClick={this.handleDelete}>
+				<Form onSubmit={this.handleSubmit}>
+					<Form.Group>
+						<Form.Input
+							name="name"
+							value={this.state.name}
+							onChange={this.handleChange}
+							width={16}
+						/>
+					</Form.Group>
+					<Form.Group>
+						<Form.TextArea
+							name="description"
+							value={this.state.description}
+							onChange={this.handleChange}
+							width={16}
+						/>
+					</Form.Group>
+					<Form.Group>
+						<Form.Input
+							name="address"
+							value={this.state.address}
+							onChange={this.handleAddressChange}
+							width={16}
+						/>
+						<Form.Input
+							name="cost"
+							value={this.state.cost}
+							onChange={this.handleChange}
+							width={16}
+						/>
+					</Form.Group>
+					<Form.Group inline unstackable widths="equal">
+						<div className="date-picker-input">
+							<DatePicker
+								selected={moment(this.state.startTime)}
+								onChange={this.handleStartTimeChange}
+								showTimeSelect
+								timeFormat="HH:mm"
+								timeIntervals={15}
+								dateFormat="LLL"
+								timeCaption="time"
+								minDate={moment(this.props.startDate)}
+								maxDate={moment(this.props.endDate)}
+							/>
+						</div>
+						<div className="date-picker-input">
+							<DatePicker
+								selected={moment(this.state.endTime)}
+								onChange={this.handleEndTimeChange}
+								showTimeSelect
+								timeFormat="HH:mm"
+								timeIntervals={15}
+								dateFormat="LLL"
+								timeCaption="time"
+								minDate={this.state.startTimeMoment}
+								maxDate={moment(this.props.endDate)}
+							/>
+						</div>
+					</Form.Group>
+
+					<Button primary type="submit" className="float-left-button">
+						Update
+					</Button>
+				</Form>
+				<a
+					className="float-right-btn"
+					role="button"
+					onClick={this.handleDelete}
+					style={{ cursor: 'pointer' }}>
 					Delete Activity
 				</a>
 			</div>
@@ -140,3 +158,15 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, { editActivity, deleteActivity })(
 	EditActivityForm
 );
+
+// <DatePicker
+// 	selected={moment(this.state.endTime)}
+// 	onChange={this.handleEndTimeChange}
+// 	showTimeSelect
+// 	timeFormat="HH:mm"
+// 	timeIntervals={15}
+// 	dateFormat="LLL"
+// 	timeCaption="time"
+// 	minDate={this.state.startTimeMoment}
+// 	maxDate={moment(this.props.endDate)}
+// />

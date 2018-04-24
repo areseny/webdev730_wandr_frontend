@@ -18,7 +18,12 @@ h1 {
 
 h3 {
 	font-family: 'Handlee', cursive;
-	font-size: 1.3rem;
+	font-size: 1.5rem;
+}
+
+h5 {
+	font-family: 'Handlee', cursive;
+	font-size: 1.2rem;
 }
 
 a {

@@ -1,7 +1,9 @@
 import React from 'react';
 import ActivitiesContainer from '../activities/ActivitiesContainer';
-import '../stylesheets/destinations.css';
+import { connect } from 'react-redux';
+import { clearTargetDestination } from '../actions/destActions';
 import { Card } from 'semantic-ui-react';
+import '../stylesheets/destinations.css';
 
 const DestinationCard = props => (
 	<Card
@@ -13,9 +15,14 @@ const DestinationCard = props => (
 			activities={props.destination.activities}
 			destinationId={props.destination.id}
 		/>
+		<a
+			className="float-right-btn"
+			role="button"
+			onClick={props.clearTargetDestination}
+			style={{ cursor: 'pointer' }}>
+			Back
+		</a>
 	</Card>
 );
 
-export default DestinationCard;
-
-// "map marker icon"
+export default connect(null, { clearTargetDestination })(DestinationCard);

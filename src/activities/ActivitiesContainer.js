@@ -21,7 +21,7 @@ export default class ActivitiesContainer extends Component {
 					/>
 				) : (
 					<a role="button" onClick={this.toggleAdd} className="float-right-btn">
-						<Icon name="calendar plus icon" /> Add Activity
+						<Icon name="calendar plus" /> Add Activity
 					</a>
 				)}
 				<br />

@@ -17,6 +17,7 @@ export default class TripContent extends Component {
 				<br />
 				<strong>Ratings:</strong>{' '}
 				<Rating
+					disabled
 					icon="star"
 					defaultRating={this.props.targetTrip.ratings}
 					maxRating={5}

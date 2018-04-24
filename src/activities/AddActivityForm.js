@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addActivity } from '../actions/actActions';
+import { GM_GEO_KEY } from '../config.js';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { Form, Button } from 'semantic-ui-react';
 import '../stylesheets/activities.css';
-import { GM_GEO_KEY } from '../config.js';
 
 let debounceFetch;
 
@@ -73,65 +74,84 @@ class AddActivityForm extends Component {
 		return (
 			<div>
 				<h5>Add Activity</h5>
-				<form onSubmit={this.handleSubmit} className="ui form">
-					<input
-						type="text"
-						name="name"
-						placeholder="Name"
-						value={this.state.name}
-						onChange={this.handleChange}
-					/>
-					<input
-						type="text"
-						name="description"
-						placeholder="Description"
-						value={this.state.description}
-						onChange={this.handleChange}
-					/>
-					<input
-						type="text"
-						name="address"
-						placeholder="Address"
-						value={this.state.address}
-						onChange={this.handleAddressChange}
-					/>
-					<input
-						type="number"
-						name="cost"
-						placeholder="Cost"
-						value={this.state.cost}
-						onChange={this.handleChange}
-					/>
-					<DatePicker
-						placeholderText="Start Time"
-						selected={this.state.startTime}
-						onChange={this.handleStartTimeChange}
-						showTimeSelect
-						timeFormat="HH:mm"
-						timeIntervals={15}
-						dateFormat="LLL"
-						timeCaption="time"
-						minDate={moment(this.props.arrival)}
-						maxDate={moment(this.props.departure)}
-					/>
-					<DatePicker
-						placeholderText="End Time"
-						selected={this.state.endTime}
-						onChange={this.handleEndTimeChange}
-						showTimeSelect
-						timeFormat="HH:mm"
-						timeIntervals={15}
-						dateFormat="LLL"
-						timeCaption="time"
-						minDate={moment(this.state.startTime)}
-						maxDate={moment(this.props.departure)}
-					/>
+				<Form onSubmit={this.handleSubmit}>
+					<Form.Group>
+						<Form.Input
+							name="name"
+							placeholder="Activity Name"
+							value={this.state.name}
+							onChange={this.handleChange}
+							width={16}
+						/>
+					</Form.Group>
+					<Form.Group>
+						<Form.TextArea
+							name="description"
+							placeholder="Description"
+							value={this.state.description}
+							onChange={this.handleChange}
+							width={16}
+						/>
+					</Form.Group>
+					<Form.Group>
+						<Form.Input
+							name="address"
+							placeholder="Address"
+							value={this.state.address}
+							onChange={this.handleAddressChange}
+							width={16}
+						/>
+						<Form.Input
+							name="cost"
+							placeholder="Cost"
+							value={this.state.cost}
+							onChange={this.handleChange}
+							width={16}
+						/>
+					</Form.Group>
+					<Form.Group inline unstackable widths="equal">
+						<div className="date-picker-input">
+							<DatePicker
+								placeholderText="Start Time"
+								selected={this.state.startTime}
+								onChange={this.handleStartTimeChange}
+								showTimeSelect
+								timeFormat="HH:mm"
+								timeIntervals={15}
+								dateFormat="LLL"
+								timeCaption="time"
+								minDate={moment(this.props.arrival)}
+								maxDate={moment(this.props.departure)}
+							/>
+						</div>
+						<div className="date-picker-input">
+							<DatePicker
+								placeholderText="End Time"
+								selected={this.state.endTime}
+								onChange={this.handleEndTimeChange}
+								showTimeSelect
+								showTimeSelectOnly
+								timeFormat="HH:mm"
+								timeIntervals={15}
+								dateFormat="LLL"
+								timeCaption="time"
+								minDate={moment(this.state.startTime)}
+								maxDate={moment(this.props.departure)}
+							/>
+						</div>
+					</Form.Group>
 
-					<input className="ui button" type="submit" value="Add Activity" />
-				</form>
-				<button className="ui button" onClick={this.props.toggleAdd}>
+					<Button primary type="submit" className="float-left-button">
+						Add Activity
+					</Button>
+				</Form>
+				<a
+					className="float-right-btn"
+					role="button"
+					onClick={this.props.toggleAdd}
+					style={{ cursor: 'pointer' }}>
 					Collapse
-				</button>
+				</a>
 			</div>
 		);
 	}

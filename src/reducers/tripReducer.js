@@ -45,6 +45,9 @@ export default function(state = defaultState, action) {
 			);
 			return { ...state, targetDestination };
 
+		case 'CLEAR_TARGET_DESTINATION':
+			return { ...state, targetDestination: {} };
+
 		case 'ADD_ACTIVITY':
 			nextActivities = [
 				...state.targetDestination.activities,
