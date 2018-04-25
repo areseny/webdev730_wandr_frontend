@@ -3,13 +3,11 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import withAuth from '../app/withAuth';
 import Navbar from '../app/Navbar';
-import DestinationsContainer from '../destinations/DestinationsContainer';
 import { setFriendTargetTrip } from '../actions/tripActions';
 import moment from 'moment';
 // import { GM_JS_KEY } from '../config.js';
 import TripMap from './TripMap';
-import TripDashboard from './TripDashboard';
-import { Message, Icon, Rating } from 'semantic-ui-react';
+import { Message, Icon, Rating, Card } from 'semantic-ui-react';
 import '../stylesheets/trip.css';
 
 class TripPage extends Component {
@@ -66,9 +64,20 @@ class TripPage extends Component {
 								maxRating={5}
 							/>
 							<h3>Destinations</h3>
-							<DestinationsContainer
-								destinations={this.props.targetTrip.destinations}
-							/>
+							<Card.Group id="dest-cards">
+								{this.props.targetTrip.destinations.map((d, i) => (
+									<Card
+										key={i}
+										fluid
+										color="pink"
+										header={d.name}
+										meta={`${moment(d.arrival).format('MMM DD')} - ${moment(
+											d.departure
+										).format('MMM Do')}`}
+										description={d.description}
+									/>
+								))}
+							</Card.Group>
 						</div>
 					</div>
 				) : (
