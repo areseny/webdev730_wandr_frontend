@@ -35,12 +35,8 @@ export const logIn = (username, password, history) => dispatch => {
 	fetch('https://wandr-backend.herokuapp.com/login', options)
 		.then(res => res.json())
 		.then(json => {
-			if (json.error) {
-				alert(json.error);
-			} else {
-				localStorage.setItem('jwt', json.jwt);
-				dispatch({ type: 'FETCH_USER', payload: json.user });
-			}
+			localStorage.setItem('jwt', json.jwt);
+			dispatch({ type: 'FETCH_USER', user: json.user });
 		})
 		.then(() => {
 			history.push('/home');
