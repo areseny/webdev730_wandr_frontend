@@ -140,14 +140,3 @@ const parseActivitiesJson = activities =>
 		lat: a.lat,
 		lng: a.lng
 	}));
-
-// const parseDestinationsTimes = destinations =>
-// 	destinations.map(d => ({
-// 		...d,
-// 		arrival: d.arrival
-// 			? d.arrival._d.toISOString()
-// 			: new Date(d.arrival).toISOString(),
-// 		departure: d.departure
-// 			? d.departure._d.toISOString()
-// 			: new Date(d.departure).toISOString()
-// 	}));

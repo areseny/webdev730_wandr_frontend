@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import withAuth from '../app/withAuth';
 import Navbar from '../app/Navbar';
-import { setTargetTrip, setFriendTargetTrip } from '../actions/tripActions';
+import { setTargetTrip } from '../actions/tripActions';
 // import { GM_JS_KEY } from '../config.js';
 import TripMap from './TripMap';
 import TripDashboard from './TripDashboard';
@@ -15,12 +15,7 @@ class TripPage extends Component {
 	state = { loaded: false };
 
 	componentDidMount() {
-		const url = this.props.match.url.slice(1).split(['/'])[0];
-		if (url === 'mytrips') {
-			this.props.setTargetTrip(this.props.match.params.id);
-		} else if (url === 'trips') {
-			this.props.setFriendTargetTrip(this.props.match.params.id);
-		}
+		this.props.setTargetTrip(this.props.match.params.id);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -110,7 +105,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(
-	connect(mapStateToProps, { setTargetTrip, setFriendTargetTrip })(
-		withAuth(TripPage)
-	)
+	connect(mapStateToProps, { setTargetTrip })(withAuth(TripPage))
 );

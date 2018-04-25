@@ -6,7 +6,7 @@ export const fetchUsers = () => dispatch => {
 			dispatch({
 				type: 'FETCH_USERS',
 				payload: {
-					friends: json.friends,
+					friends: [...json.friends],
 					pendingFriends: json.pending_friends,
 					requestedFriends: json.requested_friends,
 					strangers: json.strangers
@@ -46,7 +46,10 @@ export const cancelRequest = friendId => dispatch => {
 		body: JSON.stringify({ friend_id: friendId })
 	};
 
-	return fetch(`https://wandr-backend.herokuapp.com/friendships/cancel`, options)
+	return fetch(
+		`https://wandr-backend.herokuapp.com/friendships/cancel`,
+		options
+	)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({ type: 'CANCEL_REQUEST', friendId });
@@ -63,7 +66,10 @@ export const acceptRequest = friendId => dispatch => {
 		},
 		body: JSON.stringify({ friend_id: friendId, accept: true })
 	};
-	return fetch(`https://wandr-backend.herokuapp.com/friendships/update`, options)
+	return fetch(
+		`https://wandr-backend.herokuapp.com/friendships/update`,
+		options
+	)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({ type: 'ACCEPT_REQUEST', friend: parseFriendJson(json) });
@@ -80,7 +86,10 @@ export const rejectRequest = friendId => dispatch => {
 		},
 		body: JSON.stringify({ friend_id: friendId, accept: false })
 	};
-	return fetch(`https://wandr-backend.herokuapp.com/friendships/update`, options)
+	return fetch(
+		`https://wandr-backend.herokuapp.com/friendships/update`,
+		options
+	)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({ type: 'REJECT_REQUEST' });
@@ -97,7 +106,10 @@ export const unfriend = friendId => dispatch => {
 		},
 		body: JSON.stringify({ friend_id: friendId })
 	};
-	return fetch(`https://wandr-backend.herokuapp.com/friendships/destroy`, options)
+	return fetch(
+		`https://wandr-backend.herokuapp.com/friendships/destroy`,
+		options
+	)
 		.then(res => res.json())
 		.then(json => {
 			dispatch({ type: 'UNFRIEND', friendId });

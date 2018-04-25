@@ -107,6 +107,7 @@ class TripsList extends Component {
 							</Grid.Column>
 							<Grid.Column>
 								<h3>{"Friends' Trips"}</h3>
+								{this.friendsTrips()}
 							</Grid.Column>
 						</Grid>
 						<br />

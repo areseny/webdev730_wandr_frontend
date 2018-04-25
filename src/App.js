@@ -4,6 +4,7 @@ import Login from './app/Login';
 import Home from './app/Home';
 import TripsList from './trips/TripsList';
 import TripPage from './trips/TripPage';
+import FriendTripPage from './trips/FriendTripPage';
 import AddTripForm from './trips/AddTripForm';
 import FriendsContainer from './friends/FriendsContainer';
 import { Route, withRouter, Switch } from 'react-router-dom';
@@ -25,6 +26,7 @@ class App extends Component {
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.loggedIn) {
 			this.props.fetchUserTrips();
+			this.props.fetchUsers();
 		}
 	}
 
@@ -66,7 +68,9 @@ class App extends Component {
 					/>
 					<Route
 						path="/trips/:id"
-						render={renderProps => <TripPage history={renderProps.history} />}
+						render={renderProps => (
+							<FriendTripPage history={renderProps.history} />
+						)}
 					/>
 					<Route
 						path="/addtrip"

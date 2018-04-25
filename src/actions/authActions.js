@@ -51,8 +51,8 @@ export const fetchUser = (jwt, history) => dispatch => {
 	const options = { headers: { Authorization: jwt } };
 	fetch('https://wandr-backend.herokuapp.com/current_user', options)
 		.then(res => res.json())
-		.then(json => {
-			dispatch({ type: 'FETCH_USER', payload: json });
+		.then(user => {
+			dispatch({ type: 'FETCH_USER', user });
 		});
 };
 
