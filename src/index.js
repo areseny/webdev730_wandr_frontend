@@ -12,15 +12,15 @@ import 'semantic-ui-css/semantic.min.css';
 import './stylesheets/index.css';
 require('dotenv').config();
 
-const store = createStore(
-	rootReducer,
-	compose(
-		applyMiddleware(thunk),
-		window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-	)
-);
+// const store = createStore(
+// 	rootReducer,
+// 	compose(
+// 		applyMiddleware(thunk),
+// 		window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+// 	)
+// );
 
-// const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
+const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
 
 const API_WS_ROOT = 'wss://wandr-backend.herokuapp.com/cable';
 
