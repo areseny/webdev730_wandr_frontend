@@ -7,7 +7,9 @@ const defaultState = {
 
 let nextActivities;
 let nextDestinations;
+let nextDestination;
 let nextUserTrips;
+let nextTargetTrip;
 
 const tripIndex = state => state.userTrips.indexOf(state.targetTrip);
 
@@ -61,29 +63,27 @@ export default function(state = defaultState, action) {
 				d => d.id === Number(action.id)
 			);
 			return { ...state, targetDestination };
-
 		case 'CLEAR_TARGET_DESTINATION':
 			return { ...state, targetDestination: {} };
-
 		case 'ADD_ACTIVITY':
 			nextActivities = [
 				...state.targetDestination.activities,
 				action.newActivity
 			];
-			const destNewAct = {
-				...targetDestination,
+			nextDestination = {
+				...state.targetDestination,
 				activities: nextActivities
 			};
 			nextDestinations = [...state.targetTrip.destinations];
-			nextDestinations.splice(destinationIndex(state), 1, destNewAct);
-			const ttNewAct = { ...state.targetTrip, destinations: nextDestinations };
+			nextDestinations.splice(destinationIndex(state), 1, nextDestination);
+			nextTargetTrip = { ...state.targetTrip, destinations: nextDestinations };
 			nextUserTrips = [...state.userTrips];
-			nextUserTrips.splice(tripIndex(state), 1, ttNewAct);
+			nextUserTrips.splice(tripIndex(state), 1, nextTargetTrip);
 			return {
 				...state,
 				userTrips: nextUserTrips,
-				targetTrip: ttNewAct,
-				targetDestination: destNewAct
+				targetTrip: nextTargetTrip,
+				targetDestination: nextDestination
 			};
 		case 'EDIT_ACTIVITY':
 			nextActivities = [...state.targetDestination.activities];
@@ -92,46 +92,45 @@ export default function(state = defaultState, action) {
 				1,
 				action.editedActivity
 			);
-			const destEditedAct = {
+			nextDestination = {
 				...state.targetDestination,
 				activities: nextActivities
 			};
 			nextDestinations = [...state.targetTrip.destinations];
-			nextDestinations.splice(destinationIndex(state), 1, destEditedAct);
-			const ttEditedAct = {
+			nextDestinations.splice(destinationIndex(state), 1, nextDestination);
+			nextTargetTrip = {
 				...state.targetTrip,
 				destinations: nextDestinations
 			};
 			nextUserTrips = [...state.userTrips];
-			nextUserTrips.splice(tripIndex(state), 1, ttEditedAct);
+			nextUserTrips.splice(tripIndex(state), 1, nextTargetTrip);
 			return {
 				...state,
 				userTrips: nextUserTrips,
-				targetTrip: ttEditedAct,
-				targetDestination: destEditedAct
+				targetTrip: nextTargetTrip,
+				targetDestination: nextDestination
 			};
 		case 'DELETE_ACTIVITY':
 			nextActivities = state.targetDestination.activities.filter(
 				a => a.id !== Number(action.payload.id)
 			);
-			const destDeletedAct = {
+			nextDestination = {
 				...state.targetDestination,
 				activities: nextActivities
 			};
 			nextDestinations = [...state.targetTrip.destinations];
-			nextDestinations.splice(destinationIndex(state), 1, destDeletedAct);
-			const ttDeletedAct = {
+			nextDestinations.splice(destinationIndex(state), 1, nextDestination);
+			nextTargetTrip = {
 				...state.targetTrip,
 				destinations: nextDestinations
 			};
 			nextUserTrips = [...state.userTrips];
-			nextUserTrips.splice(tripIndex(state), 1, ttDeletedAct);
-
+			nextUserTrips.splice(tripIndex(state), 1, nextTargetTrip);
 			return {
 				...state,
 				userTrips: nextUserTrips,
-				targetTrip: ttDeletedAct,
-				targetDestination: destDeletedAct
+				targetTrip: nextTargetTrip,
+				targetDestination: nextDestination
 			};
 		default:
 			return state;

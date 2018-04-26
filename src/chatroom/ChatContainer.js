@@ -21,6 +21,7 @@ class ChatContainer extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		this.setState({
+			friendId: nextProps.friend.id,
 			sentMessages: nextProps.friend.received_messages,
 			receivedMessages: nextProps.friend.sent_messages
 		});

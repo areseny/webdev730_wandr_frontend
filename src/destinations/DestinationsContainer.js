@@ -12,17 +12,21 @@ class DestinationsContainer extends Component {
 		this.setState({ targetDestination: nextProps.targetDestination });
 	}
 
+	returnCards = (d, i) => {
+		return d.id === this.state.targetDestination.id ? (
+			<DestinationCard destination={d} />
+		) : (
+			<DestinationCardLite destination={d} />
+		);
+	};
+
 	render() {
 		return (
 			<div id="destinations-container">
 				{this.props.destinations
 					? this.props.destinations.map((d, i) => (
 							<Card.Group id="dest-cards" key={i}>
-								{d.id === this.state.targetDestination.id ? (
-									<DestinationCard destination={d} />
-								) : (
-									<DestinationCardLite destination={d} />
-								)}
+								{this.returnCards(d, i)}
 							</Card.Group>
 					  ))
 					: 'No destination has been added (yet...)'}
@@ -32,7 +36,8 @@ class DestinationsContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-	targetDestination: state.trip.targetDestination
+	targetDestination: state.trip.targetDestination,
+	destinations: state.trip.targetTrip.destinations
 });
 
 export default connect(mapStateToProps)(DestinationsContainer);

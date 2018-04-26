@@ -126,6 +126,7 @@ class EditActivityForm extends Component {
 								selected={moment(this.state.endTime)}
 								onChange={this.handleEndTimeChange}
 								showTimeSelect
+								showTimeSelectOnly
 								timeFormat="HH:mm"
 								timeIntervals={15}
 								dateFormat="LLL"

@@ -76,7 +76,6 @@ export const editTrip = ({
 	fetch(`https://wandr-backend.herokuapp.com/user_trips/${id}`, options)
 		.then(res => res.json())
 		.then(json => {
-			console.log(json);
 			dispatch({
 				type: 'EDIT_TRIP',
 				editedTrip: parseTripJson(json)
